@@ -1,1 +1,4 @@
 # Add Python runtime dependencies here as project modules are implemented.
+pandas
+scikit-learn
+joblib
