@@ -50,6 +50,9 @@ class EmergencyReport(BaseModel):
     status: Optional[str] = "pending"
     dispatch_status: Optional[str] = "pending"
     dispatched_unit: Optional[str] = None
+    affected_count: Optional[int] = None
+    injured_count: Optional[int] = None
+    credibility_factors: Optional[dict] = None
 
     @field_validator("credibility", "priority")
     @classmethod

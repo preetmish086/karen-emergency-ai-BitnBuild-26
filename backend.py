@@ -25,6 +25,13 @@ from src.schema import (
 )
 from src.priority.engine import calculate_priority
 
+# Initialize Role 2 NLP & Credibility Pipeline
+try:
+    from role2.src.pipeline.process_report import EmergencyReportPipeline
+    nlp_pipeline = EmergencyReportPipeline()
+except Exception:
+    nlp_pipeline = None
+
 app = FastAPI(
     title="SpidyCAD Emergency AI API",
     description="Emergency dispatch ingestion and prioritization backend.",
@@ -185,16 +192,6 @@ def ingest_report(payload: IngestReportPayload):
     # Auto-generate ID if not provided
     report_id = payload.report_id or f"R{len(REPORTS_DB) + 1:03d}"
 
-    # Auto-infer incident type if unknown or omitted
-    inferred = infer_metadata_fallback(payload.text)
-    incident_type = payload.incident_type
-    if not incident_type or incident_type == IncidentType.UNKNOWN:
-        incident_type = inferred["incident_type"]
-
-    severity = payload.severity or inferred["severity"]
-    actionability = payload.actionability or ActionabilityLevel.MEDIUM
-    credibility = payload.credibility if payload.credibility is not None else 0.75
-
     # Derive coordinates from gps_xy or landmark fallback
     lat = payload.latitude
     lon = payload.longitude
@@ -211,6 +208,58 @@ def ingest_report(payload: IngestReportPayload):
             if landmark.lower() in location.lower():
                 lat, lon = l_lat, l_lon
                 break
+
+    # Run Role 2 NLP pipeline for automated incident classification, entity extraction & credibility
+    role2_result = None
+    if nlp_pipeline is not None:
+        try:
+            role2_result = nlp_pipeline.process({
+                "report_id": report_id,
+                "text": payload.text,
+                "latitude": lat,
+                "longitude": lon,
+            })
+        except Exception:
+            role2_result = None
+
+    # Auto-infer incident type if unknown or omitted
+    inferred = infer_metadata_fallback(payload.text)
+    incident_type = payload.incident_type
+    if not incident_type or incident_type == IncidentType.UNKNOWN:
+        if role2_result and role2_result.incident and role2_result.incident.type:
+            try:
+                incident_type = IncidentType(role2_result.incident.type.value)
+            except (ValueError, AttributeError):
+                incident_type = inferred["incident_type"]
+        else:
+            incident_type = inferred["incident_type"]
+
+    severity = payload.severity or inferred["severity"]
+    actionability = payload.actionability or ActionabilityLevel.MEDIUM
+
+    # Credibility assessment
+    if payload.credibility is not None and payload.credibility != 0.75:
+        credibility = payload.credibility
+    elif role2_result and role2_result.credibility:
+        credibility = round(float(role2_result.credibility.score), 4)
+    else:
+        credibility = payload.credibility if payload.credibility is not None else 0.75
+
+    # Extract casualty counts from Role 2 if detected
+    affected_count = None
+    injured_count = None
+    cred_factors = None
+    if role2_result:
+        if role2_result.people:
+            affected_count = role2_result.people.total_affected
+            injured_count = role2_result.people.injured
+            if (injured_count and injured_count > 0) or (affected_count and affected_count > 0):
+                if not payload.actionability:
+                    actionability = ActionabilityLevel.HIGH
+                if not payload.severity:
+                    severity = SeverityLevel.CRITICAL
+        if role2_result.credibility and hasattr(role2_result.credibility, "factors"):
+            cred_factors = role2_result.credibility.factors.model_dump() if hasattr(role2_result.credibility.factors, "model_dump") else dict(role2_result.credibility.factors)
 
     # Calculate priority score via Priority Engine
     priority = calculate_priority(
@@ -233,6 +282,9 @@ def ingest_report(payload: IngestReportPayload):
         gps_xy=gps_xy if gps_xy != "None" else None,
         status="pending",
         dispatch_status="pending",
+        affected_count=affected_count,
+        injured_count=injured_count,
+        credibility_factors=cred_factors,
     )
 
     REPORTS_DB[report_id] = report
