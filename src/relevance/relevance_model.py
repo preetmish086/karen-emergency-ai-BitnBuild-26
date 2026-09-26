@@ -125,7 +125,12 @@ class RelevanceModel:
             [text]
         )
 
-        ml_level = str(prediction[0])
+        ml_label = int(prediction[0])
+
+        if ml_label == 1:
+            ml_level = "high"
+        else:
+            ml_level = "low"
 
         classes = list(
             self.model.classes_
@@ -175,30 +180,12 @@ class RelevanceModel:
         }
 
     def _calculate_score(self, probability_map):
-        """
-        Convert the three class probabilities into
-        a continuous 0-1 relevance score.
-
-        HIGH      -> 0.9
-        UNCERTAIN -> 0.5
-        LOW       -> 0.1
-        """
+        high_probability = probability_map.get("1", 0.0)
+        low_probability = probability_map.get("0", 0.0)
 
         return (
-            0.9 * probability_map.get(
-                "high",
-                0.0
-            )
-            +
-            0.5 * probability_map.get(
-                "uncertain",
-                0.0
-            )
-            +
-            0.1 * probability_map.get(
-                "low",
-                0.0
-            )
+            0.9 * high_probability
+            + 0.1 * low_probability
         )
 
     def _apply_safety_net(
