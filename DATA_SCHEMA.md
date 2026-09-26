@@ -44,6 +44,7 @@ crime
 missing_person
 unknown
 other
+garbage
 
 ### Allowed Severity  
 low

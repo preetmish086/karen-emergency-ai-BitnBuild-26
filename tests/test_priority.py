@@ -1,8 +1,17 @@
-"""Unit tests for PriorityEngine."""
+"""Unit tests for PriorityEngine and emergency priority pipeline."""
 
 import pytest
 from src.priority.engine import PriorityEngine, calculate_priority
 from src.schema import SeverityLevel, ActionabilityLevel
+from src.priority.emergency_priority import (
+    calculate_priority as calc_emergency_priority,
+    calculate_severity,
+    calculate_corroboration,
+    location_specificity,
+    calculate_actionability,
+    process_report,
+    rank_reports,
+)
 
 
 def test_priority_critical_highest():
@@ -65,3 +74,62 @@ def test_explainability_structure():
     assert "components" in explanation
     assert "recommendation" in explanation
     assert explanation["recommendation"] == "IMMEDIATE_DISPATCH"
+
+
+def test_emergency_priority_pipeline_calculation():
+    """Tests the emergency priority calculation formulas."""
+    sev = calculate_severity("fire")
+    assert sev == 1.00
+
+    corrob = calculate_corroboration(4)
+    assert corrob == 0.85
+
+    loc_score = location_specificity("Sector 5 Market Road floor 2")
+    assert loc_score > 0.0
+
+    act = calculate_actionability(
+        severity=sev,
+        credibility=0.9,
+        corroboration_score=corrob,
+        location_score=loc_score,
+        people={"total_affected": 3}
+    )
+    assert 0.0 <= act <= 1.0
+
+    prio = calc_emergency_priority(
+        severity=sev,
+        actionability=act,
+        credibility=0.9,
+        corroboration_score=corrob,
+        location_score=loc_score,
+        incident_confidence=0.95
+    )
+    assert 0.0 <= prio <= 1.0
+
+
+def test_emergency_ranking_reports():
+    """Tests ranking a batch of emergency reports."""
+    sample_reports = [
+        {
+            "report_id": "R001",
+            "text": "Explosion near railway station, people injured",
+            "incident": {"type": "explosion", "confidence": 0.95},
+            "credibility": {"score": 0.85},
+            "location": {"text_location": "Railway Station Road", "location_report_count": 4},
+            "people": {"injured": 3}
+        },
+        {
+            "report_id": "R002",
+            "text": "Minor water leakage reported",
+            "incident": {"type": "flood", "confidence": 0.50},
+            "credibility": {"score": 0.40},
+            "location": {"text_location": "Market Road", "location_report_count": 1},
+            "people": {}
+        }
+    ]
+    ranked = rank_reports(sample_reports)
+    assert len(ranked) == 2
+    assert ranked[0]["report_id"] == "R001"
+    assert ranked[0]["rank"] == 1
+    assert ranked[1]["rank"] == 2
+    assert ranked[0]["priority"] >= ranked[1]["priority"]
