@@ -91,3 +91,27 @@ def test_raw_csv_logging():
         assert last_row[1] == "40.7128, -74.0060"
         assert last_row[2] == "Auto-resolved via GPS"
         assert last_row[3] == "Test emergency distress call for CSV verification!"
+
+
+def test_raw_csv_newline_sanitization():
+    from src.api.main import CSV_PATH
+    import csv
+
+    raw_text = "Smoke alarm!\nMultiple people running.\r\nPlease send help!\r\n"
+    expected_text = raw_text.replace("\n", " ").replace("\r", " ").strip()
+
+    payload = {
+        "gps_xy": "40.7580, -73.9855",
+        "location": "Times Square",
+        "text": raw_text,
+    }
+    response = client.post("/ingest", json=payload)
+    assert response.status_code == 201
+    assert CSV_PATH.exists()
+
+    with open(CSV_PATH, "r", encoding="utf-8") as f:
+        reader = list(csv.reader(f))
+        last_row = reader[-1]
+        assert "\n" not in last_row[3]
+        assert "\r" not in last_row[3]
+        assert last_row[3] == expected_text

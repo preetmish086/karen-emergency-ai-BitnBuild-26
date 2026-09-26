@@ -77,11 +77,13 @@ def log_raw_emergency(time_str: str, gps_xy: str, location: str, text: str) -> N
     file_exists = CSV_PATH.exists()
     is_empty = file_exists and CSV_PATH.stat().st_size == 0
 
+    sanitized_text = text.replace('\n', ' ').replace('\r', ' ').strip()
+
     with open(CSV_PATH, mode="a", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         if not file_exists or is_empty:
             writer.writerow(["time", "gps_xy", "location", "text"])
-        writer.writerow([time_str, gps_xy, location, text])
+        writer.writerow([time_str, gps_xy, location, sanitized_text])
 
 
 def infer_metadata_fallback(text: str) -> dict:
@@ -175,8 +177,10 @@ def ingest_report(payload: IngestReportPayload):
     location = payload.location if payload.location is not None else "None"
     text = payload.text
 
+    sanitized_text = text.replace('\n', ' ').replace('\r', ' ').strip()
+
     # 3. Append to raw_emergencies.csv
-    log_raw_emergency(report_time, gps_xy, location, text)
+    log_raw_emergency(report_time, gps_xy, location, sanitized_text)
 
     # Auto-generate ID if not provided
     report_id = payload.report_id or f"R{len(REPORTS_DB) + 1:03d}"
