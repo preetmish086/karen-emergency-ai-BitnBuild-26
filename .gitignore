@@ -26,6 +26,10 @@ env/
 
 # Raw datasets
 data/raw/
+temp_crisislex/
+temp_humaid/
+*.zip
+/models/
 
 # Logs
 *.log
@@ -33,3 +37,4 @@ data/raw/
 # OS
 .DS_Store
 Thumbs.db
+.commandcode/
