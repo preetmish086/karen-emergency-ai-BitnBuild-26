@@ -127,8 +127,8 @@ def process_report(report):
     location = report.get("location", {})
     people = report.get("people", {})
     information = report.get("information", {})
-    relevance = report.get("relevance", {})
 
+    relevance = report.get("relevance", {})
     relevance_score = float(
         relevance.get("relevance_score", 0.0)
     )
@@ -184,25 +184,99 @@ def process_report(report):
         relevance_score=relevance_score
     )
 
+    # Priority band
+    if priority >= 0.85:
+        priority_band = "CRITICAL"
+    elif priority >= 0.70:
+        priority_band = "HIGH"
+    elif priority >= 0.50:
+        priority_band = "MEDIUM"
+    else:
+        priority_band = "LOW"
+
+    # Explainable priority reasons
+    priority_reason = []
+
+    if severity >= 0.85:
+        priority_reason.append(
+            f"High severity incident: {incident_type}"
+        )
+
+    if report_count >= 5:
+        priority_reason.append(
+            f"Strong corroboration: {report_count} reports"
+        )
+    elif report_count > 1:
+        priority_reason.append(
+            f"Corroborated by {report_count} reports"
+        )
+
+    if credibility >= 0.80:
+        priority_reason.append(
+            f"High credibility: {credibility:.2f}"
+        )
+
+    if location_score >= 0.70:
+        priority_reason.append(
+            "Specific location identified"
+        )
+
+    if people:
+        if any(
+            people.get(field) not in [None, 0]
+            for field in [
+                "injured",
+                "dead",
+                "trapped",
+                "missing"
+            ]
+        ):
+            priority_reason.append(
+                "People reported affected or in danger"
+            )
+
     return {
         "report_id": report.get("report_id"),
         "text": report.get("text"),
 
         "relevance": report.get("relevance"),
-        "relevance_score": round(relevance_score, 3),
+        "relevance_score": round(
+            relevance_score,
+            3
+        ),
 
         "incident_type": incident_type,
-        "incident_confidence": round(incident_confidence, 3),
+        "incident_confidence": round(
+            incident_confidence,
+            3
+        ),
 
         "location": location_text,
         "location_report_count": report_count,
 
-        "credibility": round(credibility, 3),
-        "corroboration_score": round(corroboration_score, 3),
-        "severity": round(severity, 3),
-        "location_score": round(location_score, 3),
-        "actionability": round(actionability, 3),
-        "priority": priority
+        "credibility": round(
+            credibility,
+            3
+        ),
+        "corroboration_score": round(
+            corroboration_score,
+            3
+        ),
+        "severity": round(
+            severity,
+            3
+        ),
+        "location_score": round(
+            location_score,
+            3
+        ),
+        "actionability": round(
+            actionability,
+            3
+        ),
+        "priority": priority,
+        "priority_band": priority_band,
+        "priority_reason": priority_reason
     }
 
 
@@ -214,7 +288,14 @@ def rank_reports(reports):
     ]
 
     processed.sort(
-        key=lambda x: x["priority"],
+        key=lambda x: (
+            x["priority"],
+            x["severity"],
+            x["corroboration_score"],
+            x["credibility"],
+            x["relevance_score"],
+            x["incident_confidence"]
+        ),
         reverse=True
     )
 
