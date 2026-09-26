@@ -1859,6 +1859,14 @@ def render_dispatcher_dashboard() -> None:
                         safe_display_text = html.escape(text)
                         safe_display_loc = html.escape(location)
 
+                        injured_cnt = rep.get("injured_count")
+                        affected_cnt = rep.get("affected_count")
+                        casualty_badge = ""
+                        if injured_cnt:
+                            casualty_badge = f'<span class="meta-dot">•</span><span style="color: #FF4D4D; font-weight: 800; font-size: 11px;">⚠️ {injured_cnt} INJURED</span>'
+                        elif affected_cnt:
+                            casualty_badge = f'<span class="meta-dot">•</span><span style="color: #F59E0B; font-weight: 800; font-size: 11px;">👥 {affected_cnt} AFFECTED</span>'
+
                         card_html = f"""
                         <div class="karen-card {pulse_class}">
                             <div class="card-header-bar">
@@ -1887,6 +1895,7 @@ def render_dispatcher_dashboard() -> None:
                                     <span class="meta-dot">•</span>
                                     <span class="cred-meta">Cred:</span>
                                     <span class="cred-val">{cred_pct}</span>
+                                    {casualty_badge}
                                 </div>
                                 <div>
                                     <span class="{status_badge_style} mono-font">{status_val}</span>
