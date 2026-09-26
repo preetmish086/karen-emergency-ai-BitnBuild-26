@@ -6,7 +6,9 @@ from src.priority.emergency_priority import rank_reports
 
 RELEVANCE_MODEL_PATH = "models/relevance_model.pkl"
 
-INPUT_PATH = "data/sample/test_classification.json"
+import os
+
+INPUT_PATH = "data/sample/test_classification.json" if os.path.exists("data/sample/test_classification.json") else "data/sample/sample_reports.json"
 OUTPUT_PATH = "data/sample/final_output.json"
 
 

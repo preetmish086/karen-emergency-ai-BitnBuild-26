@@ -115,30 +115,32 @@ def calculate_priority(
 def process_report(report):
 
     incident = report.get("incident", {})
-    credibility_data = report.get("credibility", {})
-    location = report.get("location", {})
+    credibility_data = report.get("credibility", 0.75)
+    location = report.get("location", "")
     people = report.get("people", {})
     information = report.get("information", {})
 
-    incident_type = incident.get("type", "other")
+    if isinstance(incident, dict):
+        incident_type = incident.get("type", report.get("incident_type", "other"))
+        incident_confidence = float(incident.get("confidence", 0.85))
+    else:
+        incident_type = str(incident or report.get("incident_type", "other"))
+        incident_confidence = 0.85
 
-    incident_confidence = float(
-        incident.get("confidence", 0.0)
-    )
+    if isinstance(credibility_data, dict):
+        credibility = float(credibility_data.get("score", 0.75))
+    else:
+        try:
+            credibility = float(credibility_data)
+        except (ValueError, TypeError):
+            credibility = 0.75
 
-    credibility = float(
-        credibility_data.get("score", 0.0)
-    )
-
-    location_text = location.get(
-        "text_location",
-        ""
-    )
-
-    report_count = location.get(
-        "location_report_count",
-        1
-    )
+    if isinstance(location, dict):
+        location_text = str(location.get("text_location", location.get("address", "")))
+        report_count = location.get("location_report_count", 1)
+    else:
+        location_text = str(location)
+        report_count = report.get("location_report_count", report.get("corroboration_count", 1))
 
     corroboration_score = calculate_corroboration(
         report_count

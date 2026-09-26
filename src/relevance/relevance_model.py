@@ -125,10 +125,11 @@ class RelevanceModel:
             [text]
         )
 
-        ml_label = int(prediction[0])
-
-        if ml_label == 1:
+        pred_val = str(prediction[0]).lower().strip()
+        if pred_val in ["1", "high"]:
             ml_level = "high"
+        elif pred_val in ["medium"]:
+            ml_level = "medium"
         else:
             ml_level = "low"
 
