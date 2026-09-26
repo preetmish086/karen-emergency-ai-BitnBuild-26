@@ -26,6 +26,10 @@ env/
 
 # Raw datasets
 data/raw/
+temp_crisislex/
+temp_humaid/
+*.zip
+/models/
 
 # Logs
 *.log
@@ -39,3 +43,5 @@ frontend/node_modules/
 frontend/dist/
 node_modules/
 dist/
+
+.commandcode/

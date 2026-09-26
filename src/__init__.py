@@ -1,1 +1,3 @@
-"""Karen's Ear source package."""
+"""
+Karen's Ear source package.
+"""
