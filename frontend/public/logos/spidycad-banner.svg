@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="100%" height="100%">
   <defs>
     
     <linearGradient id="starkBg" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -46,22 +46,47 @@
 
   </defs>
 
-  <!-- Dark tile background with subtle rounded corners -->
-  <rect width="128" height="128" rx="28" fill="#080c16" />
-  <rect width="128" height="128" rx="28" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-opacity="0.4" />
+  <rect width="1200" height="630" fill="url(#starkBg)" />
+  <rect width="1200" height="630" fill="url(#radarGrid)" />
 
-  <!-- Radar circle accent in background -->
-  <circle cx="64" cy="64" r="54" fill="none" stroke="#0284c7" stroke-width="1" stroke-dasharray="3,3" opacity="0.35" />
+  <!-- Ambient Glows -->
+  <radialGradient id="bannerGlowRed" cx="30%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#ef4444" stop-opacity="0.18" />
+    <stop offset="100%" stop-color="#ef4444" stop-opacity="0" />
+  </radialGradient>
+  <radialGradient id="bannerGlowBlue" cx="70%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.15" />
+    <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+  </radialGradient>
+  <rect width="1200" height="630" fill="url(#bannerGlowRed)" />
+  <rect width="1200" height="630" fill="url(#bannerGlowBlue)" />
 
-  <!-- Spider-Sense Warning Arcs in Favicon -->
-  <g stroke="#ff334b" stroke-width="2.2" fill="none" stroke-linecap="round" opacity="0.9">
-    <path d="M 32,28 A 45 45 0 0 0 20,52" />
-    <path d="M 96,28 A 45 45 0 0 1 108,52" />
-  </g>
+  <!-- LEFT SIDE: RADAR & SPIDER MASK -->
+  <g transform="translate(320, 315)">
+    <!-- Radar Rings -->
+    <circle cx="0" cy="0" r="140" fill="none" stroke="#0284c7" stroke-width="1.2" stroke-dasharray="4,4" opacity="0.5" />
+    <circle cx="0" cy="0" r="210" fill="none" stroke="#0284c7" stroke-width="1.4" opacity="0.6" />
+    <circle cx="0" cy="0" r="275" fill="none" stroke="#0284c7" stroke-width="1" stroke-dasharray="6,6" opacity="0.4" />
+    <line x1="0" y1="-280" x2="0" y2="280" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="8,6" opacity="0.4" />
+    <line x1="-280" y1="0" x2="280" y2="0" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="8,6" opacity="0.4" />
+    <path d="M 0,0 L 210,-185 A 275 275 0 0 1 275,0 Z" fill="url(#radarSweepGrad)" />
 
-  <!-- Scaled Mask (centered at 64, 64) -->
-  <g transform="translate(64, 66) scale(0.20) translate(-400, -320)">
-    
+    <!-- Spider-Sense Warning Arcs -->
+    <g stroke="#ff334b" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.85" filter="url(#radarRedGlow)">
+      <path d="M -170,-135 A 220 220 0 0 0 -230,-35" stroke-width="2" />
+      <path d="M -200,-165 A 260 260 0 0 0 -265,-35" stroke-width="2.5" />
+      <path d="M 170,-135 A 220 220 0 0 1 230,-35" stroke-width="2" />
+      <path d="M 200,-165 A 260 260 0 0 1 265,-35" stroke-width="2.5" />
+    </g>
+
+    <!-- Beacons -->
+    <circle cx="160" cy="-105" r="4.5" fill="#ef4444" filter="url(#radarRedGlow)" />
+    <circle cx="-190" cy="-85" r="4" fill="#f59e0b" />
+    <circle cx="140" cy="115" r="3.5" fill="#00f2fe" filter="url(#dispatchGlow)" />
+
+    <!-- Mask -->
+    <g transform="scale(0.85) translate(-400, -305)">
+      
   <g id="spideyMask" filter="url(#maskShadow)">
     <!-- Mask Outer Silhouette -->
     <path d="M 400,90 
@@ -159,9 +184,49 @@
     </g>
   </g>
 
+    </g>
   </g>
 
-  <!-- Live Status Green Ping Beacon in bottom right -->
-  <circle cx="106" cy="106" r="6" fill="#22c55e" filter="url(#dispatchGlow)" />
-  <circle cx="106" cy="106" r="3.5" fill="#ffffff" />
+  <!-- RIGHT SIDE: BRAND HEADLINE & SPECIFICATIONS -->
+  <g transform="translate(680, 160)">
+    <!-- Protocol Badge -->
+    <g transform="translate(0, 0)">
+      <rect width="210" height="28" rx="6" fill="#141a29" stroke="#ef4444" stroke-width="1.2" />
+      <circle cx="14" cy="14" r="4" fill="#ef4444" filter="url(#radarRedGlow)" />
+      <text x="26" y="18" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold" fill="#fca5a5" letter-spacing="1">STARK SUIT PROTOCOL 2.4</text>
+    </g>
+
+    <!-- Big Title -->
+    <text x="0" y="90" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="76" letter-spacing="-1.5">
+      <tspan fill="#ffffff">Spidy</tspan><tspan fill="#ff334b">CAD</tspan>
+    </text>
+
+    <!-- Core Definition -->
+    <text x="2" y="130" font-family="'JetBrains Mono', monospace" font-size="18" font-weight="700" fill="#38bdf8" letter-spacing="4">
+      COMPUTER-AIDED DISPATCH
+    </text>
+
+    <text x="2" y="175" font-family="'Inter', sans-serif" font-size="15" fill="#94a3b8" font-weight="400">
+      Next-generation AI emergency dispatch, NLP incident triage,
+    </text>
+    <text x="2" y="200" font-family="'Inter', sans-serif" font-size="15" fill="#94a3b8" font-weight="400">
+      and Manhattan crisis coordination powered by Karen AI.
+    </text>
+
+    <!-- Feature Pillars -->
+    <g transform="translate(0, 240)">
+      <rect width="145" height="34" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1" />
+      <text x="14" y="21" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold" fill="#7dd3fc">911 INTERCEPT</text>
+
+      <g transform="translate(160, 0)">
+        <rect width="145" height="34" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="1" />
+        <text x="14" y="21" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold" fill="#fca5a5">RADAR TRIAGE</text>
+      </g>
+
+      <g transform="translate(320, 0)">
+        <rect width="145" height="34" rx="8" fill="#1e293b" stroke="#22c55e" stroke-width="1" />
+        <text x="14" y="21" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold" fill="#86efac">KAREN AI VOICE</text>
+      </g>
+    </g>
+  </g>
 </svg>

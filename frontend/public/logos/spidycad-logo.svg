@@ -1,0 +1,249 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient matching the app's Stark OS -->
+    <linearGradient id="starkBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050811" />
+      <stop offset="50%" stop-color="#0a0f1e" />
+      <stop offset="100%" stop-color="#04060d" />
+    </linearGradient>
+
+    <!-- Emergency Scarlet Gradient -->
+    <linearGradient id="emergencyRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff334b" />
+      <stop offset="40%" stop-color="#e61937" />
+      <stop offset="100%" stop-color="#800a18" />
+    </linearGradient>
+
+    <!-- Radar Sweep Gradient -->
+    <linearGradient id="radarSweepGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.35" />
+      <stop offset="50%" stop-color="#38bdf8" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Eye Lens Glow -->
+    <linearGradient id="hudEyeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="50%" stop-color="#e0f7fa" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+
+    <!-- Cyan Dispatch Glow -->
+    <filter id="dispatchGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <filter id="radarRedGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <filter id="maskShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#000000" flood-opacity="0.9" />
+    </filter>
+
+    <!-- Tactical Radar Grid Pattern -->
+    <pattern id="radarGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.75" opacity="0.45" />
+      <circle cx="40" cy="40" r="1" fill="#38bdf8" opacity="0.25" />
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="800" rx="36" fill="url(#starkBg)" />
+  <rect width="800" height="800" rx="36" fill="url(#radarGrid)" />
+
+  <!-- EMERGENCY DISPATCH RADAR SWEEP & RANGE RINGS -->
+  <g opacity="0.6">
+    <!-- Range Rings (5km, 10km, 15km) -->
+    <circle cx="400" cy="305" r="140" fill="none" stroke="#0284c7" stroke-width="1.2" stroke-dasharray="4,4" opacity="0.5" />
+    <circle cx="400" cy="305" r="210" fill="none" stroke="#0284c7" stroke-width="1.4" opacity="0.6" />
+    <circle cx="400" cy="305" r="275" fill="none" stroke="#0284c7" stroke-width="1" stroke-dasharray="6,6" opacity="0.4" />
+    <circle cx="400" cy="305" r="325" fill="none" stroke="#0284c7" stroke-width="1.2" stroke-dasharray="2,8" opacity="0.3" />
+
+    <!-- Radar Crosshairs (Dispatch Axes) -->
+    <line x1="400" y1="30" x2="400" y2="580" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="8,6" opacity="0.5" />
+    <line x1="75" y1="305" x2="725" y2="305" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="8,6" opacity="0.5" />
+
+    <!-- 45-degree angle lines -->
+    <line x1="170" y1="75" x2="630" y2="535" stroke="#0284c7" stroke-width="0.8" stroke-dasharray="3,6" opacity="0.35" />
+    <line x1="170" y1="535" x2="630" y2="75" stroke="#0284c7" stroke-width="0.8" stroke-dasharray="3,6" opacity="0.35" />
+
+    <!-- Radar Sweep Sector Cone -->
+    <path d="M 400,305 L 610,120 A 275 275 0 0 1 675,305 Z" fill="url(#radarSweepGrad)" />
+  </g>
+
+  <!-- SPIDER-SENSE WARNING WAVES (Radiating from Crown / Brow) -->
+  <g stroke="#ff334b" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.85" filter="url(#radarRedGlow)">
+    <!-- Left Spider-Sense Arcs -->
+    <path d="M 230,170 A 220 220 0 0 0 170,270" stroke-width="2" />
+    <path d="M 200,140 A 260 260 0 0 0 135,270" stroke-width="2.5" />
+    <path d="M 170,110 A 300 300 0 0 0 100,270" stroke-width="3" stroke-dasharray="8,4" />
+
+    <!-- Right Spider-Sense Arcs -->
+    <path d="M 570,170 A 220 220 0 0 1 630,270" stroke-width="2" />
+    <path d="M 600,140 A 260 260 0 0 1 665,270" stroke-width="2.5" />
+    <path d="M 630,110 A 300 300 0 0 1 700,270" stroke-width="3" stroke-dasharray="8,4" />
+  </g>
+
+  <!-- EMERGENCY DISPATCH INCIDENT BEACONS ON RADAR -->
+  <!-- Priority 1: Midtown Explosion (Red) -->
+  <g transform="translate(560, 200)">
+    <circle cx="0" cy="0" r="10" fill="none" stroke="#ef4444" stroke-width="1.5" opacity="0.8" />
+    <circle cx="0" cy="0" r="4.5" fill="#ef4444" filter="url(#radarRedGlow)" />
+    <text x="14" y="4" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="bold" fill="#f87171">INCIDENT #01 [CRITICAL]</text>
+  </g>
+
+  <!-- Priority 2: 8th Ave Lizard Threat (Amber) -->
+  <g transform="translate(210, 220)">
+    <circle cx="0" cy="0" r="9" fill="none" stroke="#f59e0b" stroke-width="1.5" opacity="0.8" />
+    <circle cx="0" cy="0" r="4" fill="#f59e0b" />
+    <text x="-120" y="4" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="bold" fill="#fbbf24">DISPATCH: SECTOR 4</text>
+  </g>
+
+  <!-- Priority 3: Unit Dispatched (Cyan) -->
+  <g transform="translate(540, 420)">
+    <circle cx="0" cy="0" r="8" fill="none" stroke="#00f2fe" stroke-width="1.5" opacity="0.8" />
+    <circle cx="0" cy="0" r="3.5" fill="#00f2fe" filter="url(#dispatchGlow)" />
+    <text x="14" y="4" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="bold" fill="#38bdf8">UNIT: WEB-STRIKE 1</text>
+  </g>
+
+  <!-- RADAR HUD READOUTS -->
+  <g font-family="'JetBrains Mono', monospace" font-size="10.5" fill="#38bdf8" opacity="0.85">
+    <text x="75" y="65">SYS: CAD_911_ACTIVE</text>
+    <text x="75" y="82">GRID: MANHATTAN-TRIAGE</text>
+    <text x="610" y="65">FREQ: 462.575 MHz</text>
+    <text x="610" y="82">STATUS: AUTO-DISPATCH</text>
+  </g>
+
+  <!-- MAIN SPIDER-MAN TACTICAL MASK -->
+  <g filter="url(#maskShadow)">
+    <!-- Mask Outer Silhouette -->
+    <path d="M 400,90 
+             C 495,90 575,160 575,275 
+             C 575,375 538,460 465,518 
+             C 435,542 415,558 400,564 
+             C 385,558 365,542 335,518 
+             C 262,460 225,375 225,275 
+             C 225,160 305,90 400,90 Z" 
+          fill="url(#emergencyRed)" 
+          stroke="#ff5e73" 
+          stroke-width="2.5" />
+
+    <!-- Spider-Man Webbing Lines -->
+    <g stroke="#140205" stroke-width="2.6" opacity="0.88" fill="none" stroke-linecap="round">
+      <line x1="400" y1="305" x2="400" y2="90" />
+      <line x1="400" y1="305" x2="445" y2="97" />
+      <line x1="400" y1="305" x2="355" y2="97" />
+      <line x1="400" y1="305" x2="495" y2="116" />
+      <line x1="400" y1="305" x2="305" y2="116" />
+      <line x1="400" y1="305" x2="542" y2="160" />
+      <line x1="400" y1="305" x2="258" y2="160" />
+      <line x1="400" y1="305" x2="569" y2="220" />
+      <line x1="400" y1="305" x2="231" y2="220" />
+      <line x1="400" y1="305" x2="573" y2="295" />
+      <line x1="400" y1="305" x2="227" y2="295" />
+      <line x1="400" y1="305" x2="555" y2="380" />
+      <line x1="400" y1="305" x2="245" y2="380" />
+      <line x1="400" y1="305" x2="512" y2="465" />
+      <line x1="400" y1="305" x2="288" y2="465" />
+      <line x1="400" y1="305" x2="455" y2="525" />
+      <line x1="400" y1="305" x2="345" y2="525" />
+      <line x1="400" y1="305" x2="400" y2="564" />
+
+      <!-- Concentric Web Rings -->
+      <path d="M 330,265 Q 365,280 400,282 Q 435,280 470,265" />
+      <path d="M 285,215 Q 342,240 400,243 Q 458,240 515,215" />
+      <path d="M 252,165 Q 325,192 400,196 Q 475,192 548,165" />
+      <path d="M 295,124 Q 348,144 400,147 Q 452,144 505,124" />
+      <path d="M 248,405 Q 320,405 400,430 Q 480,405 552,405" />
+      <path d="M 288,470 Q 340,470 400,486 Q 460,470 512,470" />
+      <path d="M 345,528 Q 370,524 400,536 Q 430,524 455,528" />
+    </g>
+
+    <!-- Tactical CAD Dispatch Coordinates Crosshair on Center Brow -->
+    <g stroke="#00f2fe" stroke-width="1.2" opacity="0.8" fill="none">
+      <circle cx="400" cy="305" r="14" stroke-dasharray="3,3" />
+      <line x1="400" y1="285" x2="400" y2="325" />
+      <line x1="380" y1="305" x2="420" y2="305" />
+      <circle cx="400" cy="305" r="3" fill="#00f2fe" filter="url(#dispatchGlow)" />
+    </g>
+
+    <!-- LEFT EYE (Heroic Angular Spider-Man Eye with HUD Target Grid) -->
+    <!-- Black Frame -->
+    <path d="M 250,240 
+             C 285,247 350,290 385,342 
+             C 388,347 385,352 380,354 
+             C 335,372 280,386 243,344 
+             C 228,326 230,290 238,260 
+             C 241,248 245,241 250,240 Z" 
+          fill="#0a0c16" 
+          stroke="#1e293b" 
+          stroke-width="3.5" />
+    <!-- White / Cyan Glow Lens -->
+    <path d="M 260,254 
+             C 290,262 345,298 372,339 
+             C 332,359 288,369 256,336 
+             C 244,322 246,293 253,270 
+             C 255,263 257,257 260,254 Z" 
+          fill="url(#hudEyeGrad)" />
+    <!-- HUD Tactical Crosshair inside Left Lens -->
+    <g stroke="#0284c7" stroke-width="1" opacity="0.75" fill="none">
+      <circle cx="305" cy="315" r="12" stroke-dasharray="2,2" />
+      <line x1="305" y1="298" x2="305" y2="332" />
+      <line x1="288" y1="315" x2="322" y2="315" />
+    </g>
+
+    <!-- RIGHT EYE (Symmetrical Mirror) -->
+    <!-- Black Frame -->
+    <path d="M 550,240 
+             C 515,247 450,290 415,342 
+             C 412,347 415,352 420,354 
+             C 465,372 520,386 557,344 
+             C 572,326 570,290 562,260 
+             C 559,248 555,241 550,240 Z" 
+          fill="#0a0c16" 
+          stroke="#1e293b" 
+          stroke-width="3.5" />
+    <!-- White / Cyan Glow Lens -->
+    <path d="M 540,254 
+             C 510,262 455,298 428,339 
+             C 468,359 512,369 544,336 
+             C 556,322 554,293 547,270 
+             C 545,263 543,257 540,254 Z" 
+          fill="url(#hudEyeGrad)" />
+    <!-- HUD Tactical Crosshair inside Right Lens -->
+    <g stroke="#0284c7" stroke-width="1" opacity="0.75" fill="none">
+      <circle cx="495" cy="315" r="12" stroke-dasharray="2,2" />
+      <line x1="495" y1="298" x2="495" y2="332" />
+      <line x1="478" y1="315" x2="512" y2="315" />
+    </g>
+  </g>
+
+  <!-- BRAND TYPOGRAPHY: SpidyCAD (Computer-Aided Dispatch) -->
+  <g text-anchor="middle">
+    <!-- Main SpidyCAD Title -->
+    <text x="400" y="655" font-family="'Inter', 'Montserrat', -apple-system, sans-serif" font-weight="900" font-size="62" letter-spacing="-1">
+      <tspan fill="#ffffff">Spidy</tspan><tspan fill="#ff334b">CAD</tspan>
+    </text>
+
+    <!-- The Exact Meaning of CAD in the Subtitle -->
+    <text x="400" y="695" font-family="'JetBrains Mono', 'Segoe UI', monospace" font-size="13" font-weight="700" fill="#38bdf8" letter-spacing="6">
+      COMPUTER-AIDED DISPATCH SYSTEM
+    </text>
+
+    <!-- Emergency Triage Protocol Badges -->
+    <g transform="translate(225, 720)">
+      <rect width="165" height="26" rx="6" fill="#141a29" stroke="#ef4444" stroke-width="1.2" />
+      <circle cx="18" cy="13" r="4" fill="#ef4444" filter="url(#radarRedGlow)" />
+      <text x="32" y="17" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="bold" fill="#fca5a5" text-anchor="start">AI 911 INTERCEPT</text>
+
+      <g transform="translate(185, 0)">
+        <rect width="165" height="26" rx="6" fill="#141a29" stroke="#38bdf8" stroke-width="1.2" />
+        <circle cx="18" cy="13" r="4" fill="#00f2fe" filter="url(#dispatchGlow)" />
+        <text x="32" y="17" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="bold" fill="#7dd3fc" text-anchor="start">STARK SUIT HUD</text>
+      </g>
+    </g>
+  </g>
+</svg>

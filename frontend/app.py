@@ -7,10 +7,12 @@ Multi-Page Architecture with st.session_state Routing:
 - Dispatcher Dashboard: Real-time 3s auto-refresh, Pydeck tactical Manhattan radar, P1 Spider-sense danger pulse, and dispatch controls.
 """
 
+import base64
 import html
 import json
 import random
 import textwrap
+from pathlib import Path
 from typing import Any, Dict, Optional
 
 import pandas as pd
@@ -23,9 +25,35 @@ from streamlit_autorefresh import st_autorefresh
 # -----------------------------------------------------------------------------
 # 1. Page Configuration & Global Constants
 # -----------------------------------------------------------------------------
+WORKSPACE_ROOT = Path(__file__).resolve().parent.parent
+IMAGE_DIR = WORKSPACE_ROOT / "image"
+TAB_ICON_PATH = IMAGE_DIR / "tab-icon.png"
+
+
+@st.cache_data(show_spinner=False)
+def get_image_base64(filename: str) -> str:
+    """Read an image or SVG file from the image/ directory and return a base64 data URI."""
+    p = IMAGE_DIR / filename
+    if not p.exists():
+        return ""
+    suffix = p.suffix.lower()
+    if suffix == ".svg":
+        mime = "image/svg+xml"
+    elif suffix in [".png", ".webp"]:
+        mime = f"image/{suffix.lstrip('.')}"
+    elif suffix in [".jpg", ".jpeg"]:
+        mime = "image/jpeg"
+    elif suffix == ".ico":
+        mime = "image/x-icon"
+    else:
+        mime = "application/octet-stream"
+    encoded = base64.b64encode(p.read_bytes()).decode("utf-8")
+    return f"data:{mime};base64,{encoded}"
+
+
 st.set_page_config(
-    page_title="SpidyCAD",
-    page_icon="🕸️",
+    page_title="SpidyCAD // Team AlgoRhythm",
+    page_icon=str(TAB_ICON_PATH) if TAB_ICON_PATH.exists() else "🕸️",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -168,6 +196,24 @@ if "auth_error" not in st.session_state:
 # -----------------------------------------------------------------------------
 # 3. Global CSS — Stark Suit OS & SpidyCAD Tactical HUD Aesthetic
 # -----------------------------------------------------------------------------
+hex_mesh_bg = get_image_base64("bg-web-hex-mesh.svg")
+render_html(
+    f"""
+    <style>
+    .stApp {{
+        background-color: #07090F !important;
+        background-image: 
+            radial-gradient(circle at 92% 5%, rgba(230, 36, 41, 0.12) 0%, transparent 45%),
+            radial-gradient(circle at 8% 95%, rgba(0, 128, 255, 0.08) 0%, transparent 45%),
+            url('{hex_mesh_bg}') !important;
+        background-repeat: repeat !important;
+        background-size: auto, auto, 240px 240px !important;
+        background-attachment: fixed !important;
+    }}
+    </style>
+    """
+)
+
 render_html(
     """
 <style>
@@ -487,17 +533,17 @@ render_html(
 # 4. Global Sidebar — Stark OS Navigation & Status
 # -----------------------------------------------------------------------------
 with st.sidebar:
+    header_img_b64 = get_image_base64("spidycad-header.svg")
+    icon_img_b64 = get_image_base64("spidycad-icon.svg")
     render_html(
-        """
-        <div style="padding: 10px 0 16px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">
-            <div style="font-family: monospace; font-size: 10px; color: #E62429; letter-spacing: 1.5px; font-weight: 900;">
+        f"""
+        <div style="padding: 6px 0 16px 0; border-bottom: 1px solid rgba(255,255,255,0.08); text-align: center;">
+            <img src="{header_img_b64}" style="width: 100%; max-width: 250px; height: auto; border-radius: 8px; border: 1px solid rgba(230,36,41,0.35); box-shadow: 0 4px 18px rgba(0,0,0,0.6);" alt="SpidyCAD Header" />
+            <div style="font-family: monospace; font-size: 10px; color: #38BDF8; letter-spacing: 1.5px; font-weight: 800; margin-top: 10px;">
                 STARK OS // SPIDYCAD v2.6.9
             </div>
-            <div style="font-size: 18px; font-weight: 800; color: #FFFFFF; margin-top: 2px;">
-                🕸️ SPIDYCAD
-            </div>
-            <div style="font-size: 11px; color: #94A3B8;">
-                AI Emergency Dispatch Assistant
+            <div style="font-family: monospace; font-size: 10px; color: #94A3B8; margin-top: 2px;">
+                🕸️ Engineered by Team AlgoRhythm
             </div>
         </div>
         """
@@ -538,6 +584,20 @@ with st.sidebar:
             st.session_state.authenticated = False
             st.session_state.page = "landing"
             st.rerun()
+
+    render_html(
+        f"""
+        <div style="margin-top: 24px; padding: 12px; background: rgba(18, 22, 31, 0.7); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; text-align: center;">
+            <img src="{icon_img_b64}" style="width: 36px; height: 36px; border-radius: 8px; margin-bottom: 6px; border: 1px solid rgba(0,128,255,0.4);" alt="SpidyCAD" />
+            <div style="font-family: monospace; font-size: 10px; font-weight: bold; color: #E2E8F0; letter-spacing: 1px;">
+                TEAM ALGORHYTHM
+            </div>
+            <div style="font-family: monospace; font-size: 9px; color: #38BDF8; margin-top: 2px;">
+                SPIDYCAD // AI DISPATCH HUD
+            </div>
+        </div>
+        """
+    )
 
 
 # -----------------------------------------------------------------------------
@@ -608,6 +668,15 @@ def render_landing_page() -> None:
             transform: translateY(-2px) !important;
         }
         </style>
+        """
+    )
+
+    banner_b64 = get_image_base64("spidycad-banner.svg")
+    render_html(
+        f"""
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="{banner_b64}" style="width: 100%; max-width: 960px; height: auto; border-radius: 14px; border: 1.5px solid rgba(230, 36, 41, 0.45); box-shadow: 0 0 35px rgba(230, 36, 41, 0.25), 0 10px 40px rgba(0,0,0,0.85);" alt="SpidyCAD Tactical Banner" />
+        </div>
         """
     )
 
@@ -908,10 +977,12 @@ def render_landing_page() -> None:
             """
         )
 
+    icon_b64 = get_image_base64("spidycad-icon.svg")
     st.markdown(
-        """
-        <div style="text-align: center; margin-top: 36px; padding: 18px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); font-family: monospace; font-size: 13px; color: #94A3B8; letter-spacing: 1.2px;">
-            🕸️ Engineered by <strong style="color: #38BDF8;">Team AlgoRhythm</strong>
+        f"""
+        <div style="text-align: center; margin-top: 36px; padding: 18px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); font-family: monospace; font-size: 13px; color: #94A3B8; letter-spacing: 1.2px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <img src="{icon_b64}" style="width: 22px; height: 22px; border-radius: 4px; vertical-align: middle;" alt="SpidyCAD" />
+            <span>🕸️ Engineered by <strong style="color: #38BDF8;">Team AlgoRhythm</strong> &nbsp;|&nbsp; SpidyCAD Computer-Aided Dispatch</span>
         </div>
         """,
         unsafe_allow_html=True,
@@ -923,24 +994,29 @@ def render_landing_page() -> None:
 # -----------------------------------------------------------------------------
 def render_citizen_portal() -> None:
     """Render the citizen emergency portal with instant browser Speech-to-Text and a massive text area."""
-    # Top Status Bar
+    # Top Status Bar with SpidyCAD Icon
+    icon_b64 = get_image_base64("spidycad-icon.svg")
     render_html(
-        """
-        <div class="hud-top-bar">
-            <div class="hud-top-left">
-                <div style="margin-bottom: 6px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                    <span class="badge-tech mono-font">CITIZEN DISTRESS CHANNEL</span>
-                    <span class="badge-critical mono-font">DIRECT LINK TO SPIDYCAD</span>
+        f"""
+        <div style="display: flex; align-items: center; justify-content: space-between; background: #0A0F1E; border: 1px solid rgba(0, 128, 255, 0.35); border-radius: 12px; padding: 16px 22px; margin-bottom: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.6); flex-wrap: wrap; gap: 14px;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <img src="{icon_b64}" style="width: 58px; height: 58px; border-radius: 12px; border: 1.5px solid rgba(230,36,41,0.6); box-shadow: 0 0 20px rgba(230,36,41,0.4);" alt="SpidyCAD Icon" />
+                <div>
+                    <div style="margin-bottom: 4px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <span class="badge-tech mono-font">CITIZEN DISTRESS CHANNEL</span>
+                        <span class="badge-critical mono-font">DIRECT LINK TO SPIDYCAD</span>
+                    </div>
+                    <h1 style="font-size: 24px; font-weight: 900; color: #FFFFFF; margin: 0; line-height: 1.2;">
+                        Spidy<span style="color: #FF334B;">CAD</span> Emergency Assistance
+                    </h1>
+                    <p style="font-size: 13px; color: #94A3B8; margin: 3px 0 0 0;">
+                        Speak or type your emergency below. SpidyCAD extracts incident types and prioritizes rescue units automatically.
+                    </p>
                 </div>
-                <h1 class="hud-main-title">
-                    SpidyCAD Emergency Assistance
-                </h1>
-                <p style="font-size: 13.5px; color: #94A3B8; margin: 4px 0 0 0; line-height: 1.5;">
-                    Speak or type your emergency below. SpidyCAD extracts incident types and prioritizes rescue units automatically.
-                </p>
             </div>
-            <div class="hud-top-right">
-                <span class="badge-tech mono-font">WEB-SHOOTER COMMS: ONLINE</span>
+            <div style="text-align: right;" class="mono-font">
+                <span class="badge-tech">WEB-SHOOTER COMMS: ONLINE</span>
+                <div style="font-size: 11px; color: #34D399; margin-top: 4px; font-weight: bold;">● AI TRIAGE READY</div>
             </div>
         </div>
         """
@@ -1339,6 +1415,17 @@ def render_citizen_portal() -> None:
             except Exception as e:
                 st.error(f"SpidyCAD Comms Offline: Ensure FastAPI backend is running on :8000 ({e})")
 
+    icon_b64 = get_image_base64("spidycad-icon.svg")
+    st.markdown(
+        f"""
+        <div style="text-align: center; margin-top: 36px; padding: 18px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); font-family: monospace; font-size: 13px; color: #94A3B8; letter-spacing: 1.2px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <img src="{icon_b64}" style="width: 22px; height: 22px; border-radius: 4px; vertical-align: middle;" alt="SpidyCAD" />
+            <span>🕸️ Engineered by <strong style="color: #38BDF8;">Team AlgoRhythm</strong> &nbsp;|&nbsp; SpidyCAD Citizen Emergency Dispatch</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
 
 # -----------------------------------------------------------------------------
 # 7. VIEW 3: DISPATCHER LOGIN (Sleek Centered Gatekeeper)
@@ -1348,9 +1435,13 @@ def render_dispatcher_login() -> None:
     col_l, col_center, col_r = st.columns([1, 1.4, 1])
 
     with col_center:
+        icon_b64 = get_image_base64("spidycad-icon.svg")
         render_html(
-            """
-            <div style="background: #12161F; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); position: relative; margin-top: 25px;">
+            f"""
+            <div style="text-align: center; margin-top: 15px; margin-bottom: 12px;">
+                <img src="{icon_b64}" style="width: 95px; height: 95px; border-radius: 20px; border: 2px solid #0080FF; box-shadow: 0 0 35px rgba(0, 128, 255, 0.45), inset 0 0 15px rgba(0, 128, 255, 0.2);" alt="SpidyCAD Security" />
+            </div>
+            <div style="background: #12161F; border: 1px solid rgba(0, 128, 255, 0.3); border-radius: 12px; padding: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.6); position: relative;">
                 <div style="font-family: monospace; font-size: 11px; color: #0080FF; letter-spacing: 1.5px; font-weight: 800;">
                     STARK SECURITY SUBSYSTEM // TERMINAL 42
                 </div>
@@ -1424,21 +1515,29 @@ def render_dispatcher_dashboard() -> None:
     # Auto-refresh Logic (Interval: 3000 ms)
     st_autorefresh(interval=3000, limit=None, key="karen_authority_autorefresh")
 
-    # Header Bar with 'Return to Home' and Logout Actions
+    # Header Bar with SpidyCAD Icon, 'Return to Home' and Logout Actions
+    icon_b64 = get_image_base64("spidycad-icon.svg")
     render_html(
-        """
-        <div class="hud-top-bar">
-            <div class="hud-top-left">
-                <div style="margin-bottom: 6px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                    <span class="badge-critical mono-font">TACTICAL OPTICS ACTIVE</span>
-                    <span class="badge-tech mono-font">3.0s LIVE SYNC</span>
+        f"""
+        <div style="display: flex; align-items: center; justify-content: space-between; background: #0A0F1E; border: 1px solid rgba(230, 36, 41, 0.35); border-radius: 12px; padding: 16px 22px; margin-bottom: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.6); flex-wrap: wrap; gap: 14px;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <img src="{icon_b64}" style="width: 58px; height: 58px; border-radius: 12px; border: 1.5px solid #FF334B; box-shadow: 0 0 20px rgba(255, 51, 75, 0.4);" alt="SpidyCAD Icon" />
+                <div>
+                    <div style="margin-bottom: 4px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <span class="badge-critical mono-font">TACTICAL OPTICS ACTIVE</span>
+                        <span class="badge-tech mono-font">3.0s LIVE SYNC</span>
+                    </div>
+                    <h1 style="font-size: 24px; font-weight: 900; color: #FFFFFF; margin: 0; line-height: 1.2;">
+                        Spidy<span style="color: #FF334B;">CAD</span> Dispatch Feed // Spider-Net Triage
+                    </h1>
+                    <div style="font-size: 12.5px; color: #94A3B8; margin-top: 3px;">
+                        Real-Time Citywide Incident Intercept • Priority-Ranked Response Protocols
+                    </div>
                 </div>
-                <h1 class="hud-main-title">
-                    SpidyCAD Dispatch Feed // Spider-Net Triage
-                </h1>
             </div>
-            <div class="hud-top-right">
-                <span class="badge-tech mono-font">FRIENDLY NEIGHBORHOOD DISPATCH: ONLINE</span>
+            <div style="text-align: right;" class="mono-font">
+                <span class="badge-tech">FRIENDLY NEIGHBORHOOD DISPATCH: ONLINE</span>
+                <div style="font-size: 11px; color: #34D399; margin-top: 4px; font-weight: bold;">● FIRST RESPONDERS STANDING BY</div>
             </div>
         </div>
         """
@@ -1792,10 +1891,12 @@ def render_dispatcher_dashboard() -> None:
                                     except Exception as ex:
                                         st.error(f"Dispatch update failed: {ex}")
 
+    icon_b64 = get_image_base64("spidycad-icon.svg")
     st.markdown(
-        """
-        <div style="text-align: center; margin-top: 40px; padding: 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); font-family: monospace; font-size: 13px; color: #94A3B8; letter-spacing: 1.2px;">
-            🕸️ Engineered by <strong style="color: #38BDF8;">Team AlgoRhythm</strong>
+        f"""
+        <div style="text-align: center; margin-top: 40px; padding: 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); font-family: monospace; font-size: 13px; color: #94A3B8; letter-spacing: 1.2px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <img src="{icon_b64}" style="width: 22px; height: 22px; border-radius: 4px; vertical-align: middle;" alt="SpidyCAD" />
+            <span>🕸️ Engineered by <strong style="color: #38BDF8;">Team AlgoRhythm</strong> &nbsp;|&nbsp; SpidyCAD Computer-Aided Dispatch</span>
         </div>
         """,
         unsafe_allow_html=True,
