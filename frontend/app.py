@@ -55,7 +55,7 @@ st.set_page_config(
     page_title="SpidyCAD // Team AlgoRhythm",
     page_icon=str(TAB_ICON_PATH) if TAB_ICON_PATH.exists() else "🕸️",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
 )
 
 BACKEND_URL = "http://localhost:8000"
@@ -524,78 +524,98 @@ render_html(
             min-width: 100% !important;
         }
     }
+
+    /* Hide default sidebar completely to give full 100% width to tactical HUD */
+    [data-testid="stSidebar"],
+    [data-testid="stSidebarCollapsedControl"],
+    button[data-testid="stSidebarCollapseButton"] {
+        display: none !important;
+    }
 </style>
     """
 )
 
 
 # -----------------------------------------------------------------------------
-# 4. Global Sidebar — Stark OS Navigation & Status
+# 4. Global Top Navigation Bar — Stark OS Tactical Command Header
 # -----------------------------------------------------------------------------
-with st.sidebar:
-    header_img_b64 = get_image_base64("spidycad-header.svg")
-    icon_img_b64 = get_image_base64("spidycad-icon.svg")
-    render_html(
-        f"""
-        <div style="padding: 6px 0 16px 0; border-bottom: 1px solid rgba(255,255,255,0.08); text-align: center;">
-            <img src="{header_img_b64}" style="width: 100%; max-width: 250px; height: auto; border-radius: 8px; border: 1px solid rgba(230,36,41,0.35); box-shadow: 0 4px 18px rgba(0,0,0,0.6);" alt="SpidyCAD Header" />
-            <div style="font-family: monospace; font-size: 10px; color: #38BDF8; letter-spacing: 1.5px; font-weight: 800; margin-top: 10px;">
-                STARK OS // SPIDYCAD v2.6.9
-            </div>
-            <div style="font-family: monospace; font-size: 10px; color: #94A3B8; margin-top: 2px;">
-                🕸️ Engineered by Team AlgoRhythm
-            </div>
-        </div>
-        """
-    )
-
-    st.markdown("### 🛰️ Navigation Hub")
-
+def render_top_navigation_bar() -> None:
+    """Render the sticky, high-tech Stark top navigation bar across all views."""
     current_p = st.session_state.page
-    if st.button("🌐 Comms Landing Hub", use_container_width=True, type="primary" if current_p == "landing" else "secondary"):
-        st.session_state.page = "landing"
-        st.rerun()
+    icon_b64 = get_image_base64("spidycad-icon.svg")
 
-    if st.button("🚨 Citizen Distress Portal", use_container_width=True, type="primary" if current_p == "citizen" else "secondary"):
-        st.session_state.page = "citizen"
-        st.rerun()
-
-    dash_label = "🛡️ Dispatcher Dashboard" if st.session_state.authenticated else "🛡️ Dispatcher Login"
-    if st.button(dash_label, use_container_width=True, type="primary" if current_p in ["login", "dashboard"] else "secondary"):
-        st.session_state.page = "dashboard" if st.session_state.authenticated else "login"
-        st.rerun()
-
-    st.markdown("---")
-    render_html(
-        f"""
-        <div style="font-family: monospace; font-size: 11px; color: #94A3B8; line-height: 1.7;">
-            <div>• <strong>ACTIVE VIEW:</strong> <span style="color: #38BDF8;">{current_p.upper()}</span></div>
-            <div>• <strong>COMMS LINK:</strong> <span style="color: #38BDF8;">WEB-NET ONLINE</span></div>
-            <div>• <strong>DISPATCH STATUS:</strong> <span style="color: #4ADE80;">OPERATIONAL</span></div>
-            <div>• <strong>AI TRIAGE:</strong> <span style="color: #FBBF24;">AUTOMATIC</span></div>
-            <div>• <strong>AUTH:</strong> <span style="color: {'#4ADE80' if st.session_state.authenticated else '#94A3B8'};">{'VERIFIED' if st.session_state.authenticated else 'UNLOCKED/CITIZEN'}</span></div>
-        </div>
-        """
+    nav_col_brand, nav_col_btn1, nav_col_btn2, nav_col_btn3, nav_col_status = st.columns(
+        [2.6, 1.25, 1.35, 1.45, 1.25]
     )
 
-    if st.session_state.authenticated:
-        st.markdown("---")
-        if st.button("🔒 Logout Dispatcher", use_container_width=True):
-            st.session_state.authenticated = False
+    with nav_col_brand:
+        render_html(
+            f"""
+            <div style="display: flex; align-items: center; gap: 12px; padding: 2px 0;">
+                <img src="{icon_b64}" style="width: 44px; height: 44px; border-radius: 10px; border: 1.5px solid #FF334B; box-shadow: 0 0 16px rgba(255, 51, 75, 0.4);" alt="SpidyCAD Icon" />
+                <div>
+                    <div style="font-size: 21px; font-weight: 900; color: #FFFFFF; line-height: 1.1; letter-spacing: -0.5px;">
+                        Spidy<span style="color: #FF334B;">CAD</span>
+                    </div>
+                    <div style="font-family: monospace; font-size: 10px; color: #38BDF8; letter-spacing: 1.2px; font-weight: 700;">
+                        TEAM ALGORHYTHM // HUD
+                    </div>
+                </div>
+            </div>
+            """
+        )
+
+    with nav_col_btn1:
+        if st.button(
+            "🌐 Comms Hub",
+            key="top_nav_hub",
+            use_container_width=True,
+            type="primary" if current_p == "landing" else "secondary",
+        ):
             st.session_state.page = "landing"
             st.rerun()
 
+    with nav_col_btn2:
+        if st.button(
+            "🚨 Citizen Portal",
+            key="top_nav_citizen",
+            use_container_width=True,
+            type="primary" if current_p == "citizen" else "secondary",
+        ):
+            st.session_state.page = "citizen"
+            st.rerun()
+
+    with nav_col_btn3:
+        disp_label = "🛡️ Dispatcher HUD" if st.session_state.authenticated else "🛡️ Dispatch Login"
+        if st.button(
+            disp_label,
+            key="top_nav_disp",
+            use_container_width=True,
+            type="primary" if current_p in ["login", "dashboard"] else "secondary",
+        ):
+            st.session_state.page = "dashboard" if st.session_state.authenticated else "login"
+            st.rerun()
+
+    with nav_col_status:
+        if st.session_state.authenticated:
+            if st.button("🔒 Logout", key="top_nav_logout", use_container_width=True):
+                st.session_state.authenticated = False
+                st.session_state.page = "landing"
+                st.rerun()
+        else:
+            render_html(
+                """
+                <div style="display: flex; align-items: center; justify-content: flex-end; height: 100%; padding-right: 4px;">
+                    <div style="font-family: monospace; font-size: 11px; background: rgba(16, 185, 129, 0.12); border: 1px solid #10B981; border-radius: 20px; padding: 6px 14px; color: #34D399; font-weight: bold; white-space: nowrap;">
+                        ● RADAR ONLINE
+                    </div>
+                </div>
+                """
+            )
+
     render_html(
-        f"""
-        <div style="margin-top: 24px; padding: 12px; background: rgba(18, 22, 31, 0.7); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; text-align: center;">
-            <img src="{icon_img_b64}" style="width: 36px; height: 36px; border-radius: 8px; margin-bottom: 6px; border: 1px solid rgba(0,128,255,0.4);" alt="SpidyCAD" />
-            <div style="font-family: monospace; font-size: 10px; font-weight: bold; color: #E2E8F0; letter-spacing: 1px;">
-                TEAM ALGORHYTHM
-            </div>
-            <div style="font-family: monospace; font-size: 9px; color: #38BDF8; margin-top: 2px;">
-                SPIDYCAD // AI DISPATCH HUD
-            </div>
-        </div>
+        """
+        <div style="height: 1px; background: linear-gradient(90deg, rgba(230,36,41,0.6) 0%, rgba(56,189,248,0.4) 50%, rgba(255,255,255,0.08) 100%); margin: 8px 0 20px 0;"></div>
         """
     )
 
@@ -671,11 +691,28 @@ def render_landing_page() -> None:
         """
     )
 
-    banner_b64 = get_image_base64("spidycad-banner.svg")
+    icon_b64 = get_image_base64("spidycad-icon.svg")
     render_html(
         f"""
-        <div style="text-align: center; margin-bottom: 20px;">
-            <img src="{banner_b64}" style="width: 100%; max-width: 960px; height: auto; border-radius: 14px; border: 1.5px solid rgba(230, 36, 41, 0.45); box-shadow: 0 0 35px rgba(230, 36, 41, 0.25), 0 10px 40px rgba(0,0,0,0.85);" alt="SpidyCAD Tactical Banner" />
+        <div style="text-align: center; padding: 12px 0 22px 0; max-width: 860px; margin: 0 auto;">
+            <div style="display: inline-block; margin-bottom: 8px;">
+                <img src="{icon_b64}" style="width: 70px; height: 70px; border-radius: 16px; border: 2px solid #FF334B; box-shadow: 0 0 30px rgba(255, 51, 75, 0.45);" alt="SpidyCAD Icon" />
+            </div>
+            <h1 style="font-size: clamp(34px, 5.2vw, 54px); font-weight: 900; color: #FFFFFF; letter-spacing: -1px; margin: 0; line-height: 1.1;">
+                Spidy<span style="color: #FF334B;">CAD</span>
+            </h1>
+            <div style="font-family: monospace; font-size: 13.5px; color: #38BDF8; letter-spacing: 4px; font-weight: 700; margin: 6px 0 4px 0;">
+                COMPUTER-AIDED DISPATCH SYSTEM
+            </div>
+            <p style="font-size: 14.5px; color: #94A3B8; max-width: 660px; margin: 0 auto; line-height: 1.55;">
+                Next-generation emergency dispatch, zero-touch NLP incident extraction, and live Manhattan tactical radar triage powered by Stark Suit protocols.
+            </p>
+            <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 14px;">
+                <span class="badge-critical mono-font">🚨 AI 911 INTERCEPT</span>
+                <span class="badge-tech mono-font">🛰️ NYC RADAR GRID</span>
+                <span class="badge-warning mono-font">⚡ SPIDER-SENSE TRIAGE</span>
+                <span class="badge-dispatched mono-font">🕸️ TEAM ALGORHYTHM</span>
+            </div>
         </div>
         """
     )
@@ -1906,6 +1943,8 @@ def render_dispatcher_dashboard() -> None:
 # -----------------------------------------------------------------------------
 # 9. Main Router Switch
 # -----------------------------------------------------------------------------
+render_top_navigation_bar()
+
 if st.session_state.page == "landing":
     render_landing_page()
 elif st.session_state.page == "citizen":
