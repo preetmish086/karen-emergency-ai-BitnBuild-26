@@ -1,14 +1,25 @@
 import re
 from typing import Dict
-from src.schemas.output_schema import (
-    CredibilityAssessment,
-    IncidentInfo,
-    PeopleAffected,
-    InformationCompleteness,
-    LocationMetadata,
-    IncidentCategory
-)
-from src.credibility.base import BaseCredibilityScorer
+try:
+    from role2.src.schemas.output_schema import (
+        CredibilityAssessment,
+        IncidentInfo,
+        PeopleAffected,
+        InformationCompleteness,
+        LocationMetadata,
+        IncidentCategory
+    )
+    from role2.src.credibility.base import BaseCredibilityScorer
+except (ImportError, ModuleNotFoundError):
+    from src.schemas.output_schema import (
+        CredibilityAssessment,
+        IncidentInfo,
+        PeopleAffected,
+        InformationCompleteness,
+        LocationMetadata,
+        IncidentCategory
+    )
+    from src.credibility.base import BaseCredibilityScorer
 
 
 class CredibilityScorer(BaseCredibilityScorer):

@@ -1,6 +1,9 @@
 import re
 from typing import Optional
-from src.schemas.output_schema import InformationCompleteness, PeopleAffected, IncidentInfo, LocationMetadata
+try:
+    from role2.src.schemas.output_schema import InformationCompleteness, PeopleAffected, IncidentInfo, LocationMetadata
+except (ImportError, ModuleNotFoundError):
+    from src.schemas.output_schema import InformationCompleteness, PeopleAffected, IncidentInfo, LocationMetadata
 
 
 class CompletenessEvaluator:

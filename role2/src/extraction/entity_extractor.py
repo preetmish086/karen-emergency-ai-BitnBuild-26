@@ -1,9 +1,14 @@
 import re
 from typing import Optional, Dict
 
-from src.schemas.output_schema import PeopleAffected
-from src.extraction.base import BaseEntityExtractor
-from src.preprocessing.text_preprocessor import TextPreprocessor
+try:
+    from role2.src.schemas.output_schema import PeopleAffected
+    from role2.src.extraction.base import BaseEntityExtractor
+    from role2.src.preprocessing.text_preprocessor import TextPreprocessor
+except (ImportError, ModuleNotFoundError):
+    from src.schemas.output_schema import PeopleAffected
+    from src.extraction.base import BaseEntityExtractor
+    from src.preprocessing.text_preprocessor import TextPreprocessor
 
 
 class EntityExtractor(BaseEntityExtractor):

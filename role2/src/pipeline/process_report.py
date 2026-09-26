@@ -2,15 +2,26 @@ import os
 import pandas as pd
 from typing import Union, Dict, Any, Optional
 
-from src.schemas.input_schema import EmergencyReportInput
-from src.schemas.output_schema import Role2OutputSchema, LocationMetadata
-from src.preprocessing.text_preprocessor import TextPreprocessor
-from src.classification.incident_classifier import IncidentClassifier
-from src.extraction.entity_extractor import EntityExtractor
-from src.extraction.location_extractor import LocationExtractor
-from src.extraction.location_tracker import LocationReportTracker
-from src.extraction.completeness_evaluator import CompletenessEvaluator
-from src.credibility.credibility_scorer import CredibilityScorer
+try:
+    from role2.src.schemas.input_schema import EmergencyReportInput
+    from role2.src.schemas.output_schema import Role2OutputSchema, LocationMetadata
+    from role2.src.preprocessing.text_preprocessor import TextPreprocessor
+    from role2.src.classification.incident_classifier import IncidentClassifier
+    from role2.src.extraction.entity_extractor import EntityExtractor
+    from role2.src.extraction.location_extractor import LocationExtractor
+    from role2.src.extraction.location_tracker import LocationReportTracker
+    from role2.src.extraction.completeness_evaluator import CompletenessEvaluator
+    from role2.src.credibility.credibility_scorer import CredibilityScorer
+except (ImportError, ModuleNotFoundError):
+    from src.schemas.input_schema import EmergencyReportInput
+    from src.schemas.output_schema import Role2OutputSchema, LocationMetadata
+    from src.preprocessing.text_preprocessor import TextPreprocessor
+    from src.classification.incident_classifier import IncidentClassifier
+    from src.extraction.entity_extractor import EntityExtractor
+    from src.extraction.location_extractor import LocationExtractor
+    from src.extraction.location_tracker import LocationReportTracker
+    from src.extraction.completeness_evaluator import CompletenessEvaluator
+    from src.credibility.credibility_scorer import CredibilityScorer
 
 
 class EmergencyReportPipeline:

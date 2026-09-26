@@ -1,5 +1,8 @@
 from abc import ABC, abstractmethod
-from src.schemas.output_schema import IncidentInfo
+try:
+    from role2.src.schemas.output_schema import IncidentInfo
+except (ImportError, ModuleNotFoundError):
+    from src.schemas.output_schema import IncidentInfo
 
 
 class BaseIncidentClassifier(ABC):

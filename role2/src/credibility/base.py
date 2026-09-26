@@ -1,11 +1,20 @@
 from abc import ABC, abstractmethod
-from src.schemas.output_schema import (
-    CredibilityAssessment,
-    IncidentInfo,
-    PeopleAffected,
-    InformationCompleteness,
-    LocationMetadata
-)
+try:
+    from role2.src.schemas.output_schema import (
+        CredibilityAssessment,
+        IncidentInfo,
+        PeopleAffected,
+        InformationCompleteness,
+        LocationMetadata
+    )
+except (ImportError, ModuleNotFoundError):
+    from src.schemas.output_schema import (
+        CredibilityAssessment,
+        IncidentInfo,
+        PeopleAffected,
+        InformationCompleteness,
+        LocationMetadata
+    )
 
 
 class BaseCredibilityScorer(ABC):

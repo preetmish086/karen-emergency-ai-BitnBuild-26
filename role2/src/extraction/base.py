@@ -1,5 +1,8 @@
 from abc import ABC, abstractmethod
-from src.schemas.output_schema import PeopleAffected
+try:
+    from role2.src.schemas.output_schema import PeopleAffected
+except (ImportError, ModuleNotFoundError):
+    from src.schemas.output_schema import PeopleAffected
 
 
 class BaseEntityExtractor(ABC):

@@ -5,8 +5,12 @@ from typing import Dict, List, Tuple, Optional
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 
-from src.schemas.output_schema import IncidentCategory, IncidentInfo
-from src.classification.base import BaseIncidentClassifier
+try:
+    from role2.src.schemas.output_schema import IncidentCategory, IncidentInfo
+    from role2.src.classification.base import BaseIncidentClassifier
+except (ImportError, ModuleNotFoundError):
+    from src.schemas.output_schema import IncidentCategory, IncidentInfo
+    from src.classification.base import BaseIncidentClassifier
 
 
 class IncidentClassifier(BaseIncidentClassifier):
