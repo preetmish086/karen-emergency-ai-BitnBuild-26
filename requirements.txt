@@ -1,1 +1,7 @@
-# Add Python runtime dependencies here as project modules are implemented.
+# Python runtime dependencies for Karen's Ear modules.
+
+# Role 1: Dataset + Baseline ML dependencies
+numpy>=1.24.0
+pandas>=2.0.0
+scikit-learn>=1.2.0
+joblib>=1.2.0
