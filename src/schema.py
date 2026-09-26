@@ -1,7 +1,7 @@
-"""Data models enforcing DATA_SCHEMA.md specifications for Karen's Ear."""
+"""Data schema models for Karen's Ear emergency reports."""
 
 from enum import Enum
-from typing import Optional, Literal
+from typing import Optional
 from pydantic import BaseModel, Field, field_validator
 
 
@@ -31,30 +31,24 @@ class ActionabilityLevel(str, Enum):
     HIGH = "high"
 
 
-class DispatchStatus(str, Enum):
-    PENDING = "pending"
-    DISPATCHED = "dispatched"
-    RESOLVED = "resolved"
-    DISMISSED = "dismissed"
-
-
 class EmergencyReport(BaseModel):
-    """Processed emergency report strictly matching DATA_SCHEMA.md."""
+    """Full emergency report strictly following project data schema."""
 
-    report_id: str = Field(..., description="Unique report identifier")
-    text: str = Field(..., description="Original emergency report text")
-    incident_type: IncidentType = Field(default=IncidentType.UNKNOWN, description="Type of incident")
-    location: Optional[str] = Field(default=None, description="Extracted location or null if uncertain")
-    severity: SeverityLevel = Field(default=SeverityLevel.MEDIUM, description="Estimated severity")
-    actionability: ActionabilityLevel = Field(default=ActionabilityLevel.MEDIUM, description="Urgency/actionability")
-    credibility: float = Field(..., ge=0.0, le=1.0, description="Credibility confidence from 0.0 to 1.0")
-    priority: float = Field(..., ge=0.0, le=1.0, description="Final priority score from 0.0 to 1.0")
+    report_id: str
+    text: str
+    incident_type: IncidentType = IncidentType.UNKNOWN
+    location: Optional[str] = None
+    severity: SeverityLevel = SeverityLevel.MEDIUM
+    actionability: ActionabilityLevel = ActionabilityLevel.MEDIUM
+    credibility: float = Field(default=0.75, ge=0.0, le=1.0)
+    priority: float = Field(..., ge=0.0, le=1.0)
 
-    # Additional dispatcher operational metadata (optional, non-breaking)
-    dispatch_status: DispatchStatus = Field(default=DispatchStatus.PENDING, description="Dispatcher triage state")
-    dispatched_unit: Optional[str] = Field(default=None, description="e.g. Engine 4, Ambulance 2, Police Squad")
-    cluster_id: Optional[str] = Field(default=None, description="Associated incident cluster ID")
-    timestamp: Optional[str] = Field(default=None, description="ISO timestamp")
+    # Geolocation and dispatcher tracking fields
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    status: Optional[str] = "pending"
+    dispatch_status: Optional[str] = "pending"
+    dispatched_unit: Optional[str] = None
 
     @field_validator("credibility", "priority")
     @classmethod
@@ -62,21 +56,18 @@ class EmergencyReport(BaseModel):
         return round(float(v), 4)
 
 
-class IngestReportRequest(BaseModel):
-    """Payload when creating or submitting a raw/partial emergency report."""
+class IngestReportPayload(BaseModel):
+    """Payload for POST /ingest endpoint."""
 
-    text: str = Field(..., min_length=3, description="Emergency report description")
-    incident_type: Optional[IncidentType] = Field(default=None, description="Optional pre-classified incident type")
-    location: Optional[str] = Field(default=None, description="Optional known location")
-    severity: Optional[SeverityLevel] = Field(default=None, description="Optional manual or model severity")
-    actionability: Optional[ActionabilityLevel] = Field(default=None, description="Optional actionability")
-    credibility: Optional[float] = Field(default=None, ge=0.0, le=1.0, description="Optional credibility score")
-    cluster_size: int = Field(default=1, ge=1, description="Number of reports corroborating this incident")
+    report_id: Optional[str] = None
+    text: str
+    incident_type: Optional[IncidentType] = None
+    location: Optional[str] = None
+    severity: Optional[SeverityLevel] = None
+    actionability: Optional[ActionabilityLevel] = None
+    credibility: Optional[float] = Field(default=0.75, ge=0.0, le=1.0)
+    priority: Optional[float] = None
 
-
-class DispatchActionRequest(BaseModel):
-    """Payload when dispatcher takes action on a report."""
-
-    status: DispatchStatus
-    dispatched_unit: Optional[str] = None
-    notes: Optional[str] = None
+    # Geolocation transmitted by the user's GPS
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None

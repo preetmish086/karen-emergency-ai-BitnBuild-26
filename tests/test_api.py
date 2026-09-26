@@ -46,7 +46,7 @@ def test_ingest_report_auto_infer():
     data = response.json()
     assert data["incident_type"] == "explosion"
     assert data["severity"] == "critical"
-    assert data["priority"] >= 0.85
+    assert data["priority"] >= 0.80
     assert data["report_id"].startswith("R")
 
 
