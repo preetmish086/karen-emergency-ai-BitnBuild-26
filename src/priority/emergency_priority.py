@@ -1,3 +1,6 @@
+from src import relevance
+
+
 SEVERITY_MAP = {
     "fire": 1.00,
     "explosion": 1.00,
@@ -98,18 +101,23 @@ def calculate_priority(
     credibility,
     corroboration_score,
     location_score,
-    incident_confidence
+    incident_confidence,
+    relevance_score
 ):
     priority = (
-        0.35 * severity
-        + 0.30 * actionability
+        0.30 * severity
+        + 0.20 * actionability
         + 0.15 * credibility
         + 0.10 * corroboration_score
         + 0.05 * location_score
         + 0.05 * incident_confidence
+        + 0.15 * relevance_score
     )
 
-    return round(min(priority, 1.0), 3)
+    return round(
+        min(priority, 1.0),
+        3
+    )
 
 
 def process_report(report):
@@ -119,6 +127,11 @@ def process_report(report):
     location = report.get("location", {})
     people = report.get("people", {})
     information = report.get("information", {})
+    relevance = report.get("relevance", {})
+
+    relevance_score = float(
+        relevance.get("relevance_score", 0.0)
+    )
 
     incident_type = incident.get("type", "other")
 
@@ -167,7 +180,8 @@ def process_report(report):
         credibility=credibility,
         corroboration_score=corroboration_score,
         location_score=location_score,
-        incident_confidence=incident_confidence
+        incident_confidence=incident_confidence,
+        relevance_score=relevance_score
     )
 
     return {
@@ -175,6 +189,7 @@ def process_report(report):
         "text": report.get("text"),
 
         "relevance": report.get("relevance"),
+        "relevance_score": round(relevance_score, 3),
 
         "incident_type": incident_type,
         "incident_confidence": round(incident_confidence, 3),

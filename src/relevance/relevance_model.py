@@ -2,14 +2,14 @@
 TF-IDF + Logistic Regression relevance model
 for emergency reports.
 
-The model produces three relevance levels:
+Labels:
+    0 = irrelevant
+    1 = relevant
 
-HIGH
-UNCERTAIN
-LOW
-
-A keyword safety net prevents unusual emergency
-wording from being silently discarded.
+Output levels:
+    LOW
+    MEDIUM
+    HIGH
 """
 
 import joblib
@@ -25,40 +25,25 @@ from src.relevance.preprocess import (
 
 
 class RelevanceModel:
-    """
-    Emergency report relevance classifier.
-    """
-
-    LEVELS = [
-        "low",
-        "uncertain",
-        "high"
-    ]
 
     def __init__(self):
 
         self.vectorizer = TfidfVectorizer(
+            lowercase=True,
+            strip_accents="unicode",
             ngram_range=(1, 2),
             min_df=1,
             sublinear_tf=True
         )
 
         self.model = LogisticRegression(
-            max_iter=1000,
+            max_iter=2000,
             random_state=42
         )
 
         self.is_trained = False
 
     def train(self, texts, labels):
-        """
-        Train the multiclass relevance model.
-
-        labels should contain:
-            low
-            uncertain
-            high
-        """
 
         cleaned_texts = [
             clean_text(text)
@@ -77,13 +62,6 @@ class RelevanceModel:
         self.is_trained = True
 
     def predict(self, texts):
-        """
-        Predict relevance levels.
-
-        Returns:
-            predictions,
-            probabilities
-        """
 
         if not self.is_trained:
             raise ValueError(
@@ -100,41 +78,24 @@ class RelevanceModel:
         )
 
         predictions = self.model.predict(X)
-
         probabilities = self.model.predict_proba(X)
 
         return predictions, probabilities
 
     def predict_one(self, text):
-        """
-        Predict relevance for one report.
-
-        Returns:
-            ML prediction,
-            ML confidence,
-            final relevance level,
-            emergency keyword signal.
-        """
 
         if not self.is_trained:
             raise ValueError(
                 "Relevance model has not been trained yet."
             )
 
-        prediction, probabilities = self.predict(
+        predictions, probabilities = self.predict(
             [text]
         )
 
-        ml_label = int(prediction[0])
+        ml_label = int(predictions[0])
 
-        if ml_label == 1:
-            ml_level = "high"
-        else:
-            ml_level = "low"
-
-        classes = list(
-            self.model.classes_
-        )
+        classes = list(self.model.classes_)
 
         probability_map = {
             str(label): float(probability)
@@ -143,6 +104,11 @@ class RelevanceModel:
                 probabilities[0]
             )
         }
+
+        relevance_score = probability_map.get(
+            "1",
+            0.0
+        )
 
         ml_confidence = max(
             probability_map.values()
@@ -156,67 +122,61 @@ class RelevanceModel:
             text
         )
 
-        final_level = self._apply_safety_net(
-            ml_level=ml_level,
-            emergency_signal=emergency_signal,
-            excluded_context=excluded_context,
-            probability_map=probability_map
+        relevance_level = self._get_level(
+            relevance_score,
+            emergency_signal,
+            excluded_context
         )
 
         return {
-            "relevance_level": final_level,
-            "ml_level": ml_level,
+            "relevance_level": relevance_level,
+            "ml_level": (
+                "high"
+                if ml_label == 1
+                else "low"
+            ),
+            "ml_prediction": ml_label,
             "ml_confidence": round(
                 ml_confidence,
                 3
             ),
-            "emergency_signal": emergency_signal,
             "relevance_score": round(
-                self._calculate_score(
-                    probability_map
-                ),
+                relevance_score,
                 3
-            )
+            ),
+            "emergency_signal": emergency_signal,
+            "excluded_context": excluded_context
         }
 
-    def _calculate_score(self, probability_map):
-        high_probability = probability_map.get("1", 0.0)
-        low_probability = probability_map.get("0", 0.0)
-
-        return (
-            0.9 * high_probability
-            + 0.1 * low_probability
-        )
-
-    def _apply_safety_net(
+    def _get_level(
         self,
-        ml_level,
+        relevance_score,
         emergency_signal,
-        excluded_context,
-        probability_map
+        excluded_context
     ):
-        """
-        Prevent potentially important emergency reports
-        from being silently classified as LOW.
 
-        Strong emergency wording can raise LOW -> UNCERTAIN.
+        if relevance_score >= 0.75:
+            level = "high"
 
-        It does NOT automatically raise a report to HIGH.
-        """
+        elif relevance_score >= 0.40:
+            level = "medium"
 
+        else:
+            level = "low"
+
+        # Safety net:
+        # an emergency keyword can prevent
+        # an important report from being discarded.
         if (
-            emergency_signal
-            and ml_level == "low"
+            level == "low"
+            and emergency_signal
             and not excluded_context
         ):
-            return "uncertain"
+            level = "medium"
 
-        return ml_level
+        return level
 
     def save(self, filepath):
-        """
-        Save the trained model.
-        """
 
         if not self.is_trained:
             raise ValueError(
@@ -232,20 +192,10 @@ class RelevanceModel:
         )
 
     def load(self, filepath):
-        """
-        Load a previously trained model.
-        """
 
-        saved = joblib.load(
-            filepath
-        )
+        saved = joblib.load(filepath)
 
-        self.vectorizer = saved[
-            "vectorizer"
-        ]
-
-        self.model = saved[
-            "model"
-        ]
+        self.vectorizer = saved["vectorizer"]
+        self.model = saved["model"]
 
         self.is_trained = True
