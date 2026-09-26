@@ -68,3 +68,26 @@ def test_stats_endpoint():
     assert stats["total_reports"] >= 8
     assert "critical_count" in stats
     assert "by_incident_type" in stats
+
+
+def test_raw_csv_logging():
+    from src.api.main import CSV_PATH
+    import csv
+
+    payload = {
+        "gps_xy": "40.7128, -74.0060",
+        "location": "Auto-resolved via GPS",
+        "text": "Test emergency distress call for CSV verification!",
+    }
+    response = client.post("/ingest", json=payload)
+    assert response.status_code == 201
+    assert CSV_PATH.exists()
+
+    with open(CSV_PATH, "r", encoding="utf-8") as f:
+        reader = list(csv.reader(f))
+        assert len(reader) >= 2
+        assert reader[0] == ["time", "gps_xy", "location", "text"]
+        last_row = reader[-1]
+        assert last_row[1] == "40.7128, -74.0060"
+        assert last_row[2] == "Auto-resolved via GPS"
+        assert last_row[3] == "Test emergency distress call for CSV verification!"

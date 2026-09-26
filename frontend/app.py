@@ -9,6 +9,7 @@ Multi-Page Architecture with st.session_state Routing:
 
 import html
 import json
+import random
 import textwrap
 from typing import Any, Dict, Optional
 
@@ -47,6 +48,70 @@ NYC_COORDINATES = {
     "Brooklyn Bridge": (40.7061, -73.9969),
 }
 
+# Major NYC Boroughs and Sub-Areas for manual location entry
+NYC_BOROUGHS = {
+    "Manhattan": [
+        "Midtown Manhattan",
+        "Lower Manhattan / Financial District",
+        "Times Square / Theater District",
+        "Hell's Kitchen",
+        "Chelsea",
+        "Upper East Side",
+        "Upper West Side",
+        "Harlem",
+        "East Village / Lower East Side",
+        "SoHo / Tribeca",
+    ],
+    "Brooklyn": [
+        "Downtown Brooklyn / DUMBO",
+        "Williamsburg",
+        "Brooklyn Heights",
+        "Bushwick",
+        "Bedford-Stuyvesant",
+        "Park Slope",
+        "Coney Island",
+        "Crown Heights",
+    ],
+    "Queens": [
+        "Queens Blvd / Elmhurst",
+        "Astoria",
+        "Long Island City",
+        "Flushing",
+        "Sunnyside",
+        "Jackson Heights",
+        "Forest Hills",
+        "Jamaica",
+    ],
+    "Bronx": [
+        "South Bronx / Mott Haven",
+        "Riverdale",
+        "Concourse / Yankee Stadium",
+        "Pelham Bay",
+        "Fordham",
+    ],
+    "Staten Island": [
+        "St. George",
+        "Todt Hill",
+        "New Dorp",
+        "Great Kills",
+        "Tottenville",
+    ],
+}
+
+# Simulated realistic NYC GPS coordinates for MVP GPS fetch
+RANDOM_NYC_COORDINATES = [
+    "40.7128, -74.0060",  # Downtown Manhattan
+    "40.7580, -73.9855",  # Times Square
+    "40.7527, -73.9772",  # Grand Central
+    "40.7282, -73.8820",  # Queens Blvd
+    "40.7061, -73.9969",  # Brooklyn Bridge
+    "40.7680, -73.9980",  # Hell's Kitchen
+    "40.8116, -73.9465",  # Harlem
+    "40.6782, -73.9442",  # Crown Heights
+    "40.7644, -73.9235",  # Astoria
+    "40.8448, -73.8648",  # Bronx
+]
+
 
 def safe_float(val: Any, default: float = 0.0) -> float:
     """Safely cast value to float, handling None, empty strings, and type errors."""
@@ -83,6 +148,14 @@ if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 if "citizen_text" not in st.session_state:
     st.session_state.citizen_text = ""
+if "location_locked" not in st.session_state:
+    st.session_state.location_locked = False
+if "locked_location" not in st.session_state:
+    st.session_state.locked_location = ""
+if "locked_gps_xy" not in st.session_state:
+    st.session_state.locked_gps_xy = "None"
+if "last_distress_report" not in st.session_state:
+    st.session_state.last_distress_report = None
 if "gps_coords" not in st.session_state:
     st.session_state.gps_coords = {
         "latitude": 40.7282,
@@ -879,57 +952,142 @@ def render_citizen_portal() -> None:
             st.session_state.page = "landing"
             st.rerun()
 
-    # Step 1: Location Verification (Fast GPS confirmation)
-    st.markdown("### 📍 Location Verification")
-    coords = st.session_state.gps_coords
+    # Render confirmation banner if a report was recently submitted
+    if st.session_state.last_distress_report:
+        report_data = st.session_state.last_distress_report
+        prio_val = int(safe_float(report_data.get("priority", 0.5)) * 100)
+        rep_id = html.escape(safe_str(report_data.get("report_id", "PENDING")))
+        rep_type = html.escape(safe_str(report_data.get("incident_type", "UNKNOWN")).upper())
+        rep_loc = html.escape(safe_str(report_data.get("location", "Reported Location")))
+        rep_gps = html.escape(safe_str(report_data.get("gps_xy", "None")))
 
-    col_loc1, col_loc2 = st.columns([2, 1])
-    with col_loc1:
         render_html(
             f"""
-            <div style="background: rgba(16, 185, 129, 0.12); border: 1px solid #10B981; border-radius: 6px; padding: 12px 16px;">
-                <div style="font-size: 13px; font-weight: bold; color: #34D399; font-family: monospace;">
-                    🟢 GPS LOCATION LOCKED & VERIFIED
+            <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; border-radius: 8px; padding: 18px; margin: 14px 0;">
+                <div style="font-size: 15px; font-weight: bold; color: #34D399; font-family: monospace;">
+                    🕸️ DISTRESS SIGNAL RECEIVED & TRIAGED BY SPIDYCAD
                 </div>
-                <div style="font-size: 13px; color: #F3F4F6; margin-top: 3px;">
-                    <strong>Location:</strong> {html.escape(coords.get('label', 'Unknown'))}
-                    <span style="color: #94A3B8; margin-left: 10px; font-family: monospace;">
-                        [{coords.get('latitude', 0.0):.4f}, {coords.get('longitude', 0.0):.4f}]
-                    </span>
+                <div style="font-size: 13.5px; color: #F3F4F6; margin-top: 6px;">
+                    Incident Call: <strong>#{rep_id}</strong> &nbsp;|&nbsp; 
+                    AI Priority Score: <strong>{prio_val}%</strong> &nbsp;|&nbsp; 
+                    Auto-Classified: <strong>{rep_type}</strong>
+                </div>
+                <div style="font-size: 12.5px; color: #CBD5E1; margin-top: 4px;">
+                    <strong>Location:</strong> {rep_loc} &nbsp;|&nbsp; <strong>GPS:</strong> {rep_gps}
+                </div>
+                <div style="font-size: 12px; color: #94A3B8; margin-top: 6px; line-height: 1.5;">
+                    Logged to raw telemetry stream (raw_emergencies.csv). First responder units and Spider-Man protocols have been alerted. Form has been reset for subsequent dispatches.
                 </div>
             </div>
             """
         )
-    with col_loc2:
-        preset_choice = st.selectbox(
-            "Change Emergency Sector:",
-            [
-                "Queens Blvd (40.7282, -73.8820)",
-                "Times Square (40.7580, -73.9855)",
-                "Station Road (40.7516, -73.9755)",
-                "Central Market (40.7527, -73.9772)",
-                "Brooklyn Bridge (40.7061, -73.9969)",
-                "Highway Sector 4 (40.7680, -73.9980)",
-                "Riverside Area (40.7480, -74.0080)",
-                "Downtown Manhattan (40.7128, -74.0060)",
-            ],
-            index=0,
-            label_visibility="collapsed",
+        if st.button("✕ Dismiss Confirmation", key="dismiss_confirm_btn"):
+            st.session_state.last_distress_report = None
+            st.rerun()
+
+    # Step 1: Location Selection (Sequential Lock)
+    st.markdown("### 📍 Step 1: Location Selection")
+
+    if not st.session_state.location_locked:
+        loc_choice = st.radio(
+            "Select Location Method:",
+            ["🛰️ Use GPS", "🗺️ Enter Manually"],
+            horizontal=True,
+            key="citizen_loc_choice",
         )
-        if st.button("📍 Update Sector Location", use_container_width=True):
-            clean_name = preset_choice.split(" (")[0]
-            new_coords = NYC_COORDINATES.get(clean_name, (40.7580, -73.9855))
-            st.session_state.gps_coords = {
-                "latitude": new_coords[0],
-                "longitude": new_coords[1],
-                "label": f"{clean_name} (GPS Verified)",
-            }
+
+        if loc_choice == "🗺️ Enter Manually":
+            col_b1, col_b2 = st.columns(2)
+            with col_b1:
+                selected_borough = st.selectbox(
+                    "Major NYC Borough:",
+                    list(NYC_BOROUGHS.keys()),
+                    key="manual_borough_select",
+                )
+            with col_b2:
+                selected_subarea = st.selectbox(
+                    "Sub-Area / Neighborhood:",
+                    NYC_BOROUGHS[selected_borough],
+                    key="manual_subarea_select",
+                )
+
+            specific_details = st.text_input(
+                "Specific Details (e.g., floor, landmark):",
+                placeholder="e.g., Floor 3, Apt 4B, near Grand Central terminal",
+                key="manual_details_input",
+            )
+
+            if st.button("🔒 Lock Location", type="primary", use_container_width=True, key="lock_manual_loc_btn"):
+                parts = [selected_borough, selected_subarea]
+                if specific_details.strip():
+                    parts.append(specific_details.strip())
+                st.session_state.locked_location = ", ".join(parts)
+                st.session_state.locked_gps_xy = "None"
+                st.session_state.location_locked = True
+                st.rerun()
+
+        else:  # "🛰️ Use GPS"
+            render_html(
+                """
+                <div style="background: rgba(0, 128, 255, 0.08); border: 1px solid rgba(0, 128, 255, 0.3); border-radius: 6px; padding: 12px 16px; margin-bottom: 12px;">
+                    <div style="font-size: 13px; color: #38BDF8; font-weight: 700; font-family: monospace;">🛰️ GPS SATELLITE BEACON</div>
+                    <div style="font-size: 12.5px; color: #94A3B8; margin-top: 3px;">Click below to fetch and lock your current high-precision GPS coordinates.</div>
+                </div>
+                """
+            )
+            if st.button("🛰️ Fetch Coordinates", type="primary", use_container_width=True, key="fetch_gps_btn"):
+                random_coord = random.choice(RANDOM_NYC_COORDINATES)
+                st.session_state.locked_gps_xy = random_coord
+                st.session_state.locked_location = "Auto-resolved via GPS"
+                st.session_state.location_locked = True
+                st.rerun()
+
+    else:
+        # Step 1 is locked! Render the locked status card and an option to unlock / edit
+        render_html(
+            f"""
+            <div style="background: rgba(16, 185, 129, 0.12); border: 1px solid #10B981; border-radius: 6px; padding: 14px 18px; margin-bottom: 10px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                    <div>
+                        <div style="font-size: 13px; font-weight: bold; color: #34D399; font-family: monospace;">
+                            🟢 LOCATION LOCKED (STEP 1 VERIFIED)
+                        </div>
+                        <div style="font-size: 14px; color: #F3F4F6; margin-top: 4px;">
+                            <strong>Location:</strong> {html.escape(st.session_state.locked_location)}
+                        </div>
+                        <div style="font-size: 12.5px; color: #94A3B8; margin-top: 2px; font-family: monospace;">
+                            <strong>GPS Coordinates:</strong> {html.escape(st.session_state.locked_gps_xy)}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            """
+        )
+        if st.button("🔓 Unlock / Change Location", use_container_width=False, key="unlock_loc_btn"):
+            st.session_state.location_locked = False
+            st.session_state.locked_location = ""
+            st.session_state.locked_gps_xy = "None"
             st.rerun()
 
     st.markdown("---")
 
     # Step 2: Emergency Description & Instant Browser-side Speech-to-Text
-    st.markdown("### 🚨 Emergency Distress Transmission")
+    st.markdown("### 🚨 Step 2: Emergency Distress Transmission")
+
+    if not st.session_state.location_locked:
+        render_html(
+            """
+            <div style="background: rgba(255, 255, 255, 0.02); border: 1px dashed rgba(255, 255, 255, 0.18); border-radius: 8px; padding: 26px; text-align: center; margin: 12px 0;">
+                <div style="font-size: 15px; font-weight: bold; color: #F87171; font-family: monospace;">
+                    🔒 STEP 2 LOCKED — LOCATION REQUIRED
+                </div>
+                <div style="font-size: 13px; color: #94A3B8; margin-top: 6px;">
+                    Please complete and lock in your location in <strong>Step 1</strong> above before the emergency description area is unlocked.
+                </div>
+            </div>
+            """
+        )
+        return
 
     # Browser-side STT Component using webkitSpeechRecognition
     components.html(
@@ -1154,45 +1312,28 @@ def render_citizen_portal() -> None:
     render_html("<div style='height: 8px;'></div>")
 
     # Primary Broadcast Action Button
-    if st.button("🚨 TRANSMIT EMERGENCY DISTRESS SIGNAL", type="primary", use_container_width=True):
+    if st.button("🚨 TRANSMIT EMERGENCY DISTRESS SIGNAL", type="primary", use_container_width=True, key="submit_distress_btn"):
         if not user_message.strip():
             st.error("Please provide an emergency description or dictate using the microphone.")
         else:
-            # Send payload with incident_type hardcoded to 'unknown' (NLP backend classifies)
             payload = {
+                "gps_xy": st.session_state.locked_gps_xy,
+                "location": st.session_state.locked_location,
                 "text": user_message.strip(),
-                "incident_type": "unknown",
-                "location": coords["label"],
-                "latitude": coords["latitude"],
-                "longitude": coords["longitude"],
             }
 
             try:
                 res = requests.post(INGEST_URL, json=payload, timeout=5)
                 if res.status_code in [200, 201]:
                     report_data = res.json()
-                    st.session_state.citizen_text = ""
-                    prio_val = int(safe_float(report_data.get("priority", 0.5)) * 100)
-                    rep_id = html.escape(safe_str(report_data.get("report_id", "PENDING")))
-                    rep_type = html.escape(safe_str(report_data.get("incident_type", "UNKNOWN")).upper())
+                    st.session_state.last_distress_report = report_data
 
-                    render_html(
-                        f"""
-                        <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; border-radius: 8px; padding: 18px; margin-top: 16px;">
-                            <div style="font-size: 15px; font-weight: bold; color: #34D399; font-family: monospace;">
-                                🕸️ DISTRESS SIGNAL RECEIVED & TRIAGED BY SPIDYCAD
-                            </div>
-                            <div style="font-size: 13.5px; color: #F3F4F6; margin-top: 6px;">
-                                Incident Call: <strong>#{rep_id}</strong> &nbsp;|&nbsp; 
-                                AI Priority Score: <strong>{prio_val}%</strong> &nbsp;|&nbsp; 
-                                Auto-Classified: <strong>{rep_type}</strong>
-                            </div>
-                            <div style="font-size: 12.5px; color: #94A3B8; margin-top: 6px; line-height: 1.5;">
-                                Tactical units and Spider-Man protocols have been dispatched to your GPS coordinates ({coords['latitude']:.4f}, {coords['longitude']:.4f}). Stay in a safe position.
-                            </div>
-                        </div>
-                        """
-                    )
+                    # Clear session state to reset the form as requested
+                    st.session_state.location_locked = False
+                    st.session_state.locked_location = ""
+                    st.session_state.locked_gps_xy = "None"
+                    st.session_state.citizen_text = ""
+                    st.rerun()
                 else:
                     st.error(f"Transmission failed: {res.status_code} {res.text}")
             except Exception as e:

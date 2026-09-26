@@ -46,6 +46,7 @@ class EmergencyReport(BaseModel):
     # Geolocation and dispatcher tracking fields
     latitude: Optional[float] = None
     longitude: Optional[float] = None
+    gps_xy: Optional[str] = None
     status: Optional[str] = "pending"
     dispatch_status: Optional[str] = "pending"
     dispatched_unit: Optional[str] = None
@@ -67,6 +68,7 @@ class IngestReportPayload(BaseModel):
     actionability: Optional[ActionabilityLevel] = None
     credibility: Optional[float] = Field(default=0.75, ge=0.0, le=1.0)
     priority: Optional[float] = None
+    gps_xy: Optional[str] = None
 
     # Geolocation transmitted by the user's GPS
     latitude: Optional[float] = None

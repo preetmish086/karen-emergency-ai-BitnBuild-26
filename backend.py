@@ -1,7 +1,10 @@
-"""Karen's Ear — Fast, Modular Emergency Dispatch API.
+"""SpidyCAD Backend API & Data Ingestion Engine.
 
-Provides endpoints for ingesting citizen emergency reports, calculating priority scores,
-and serving prioritized queues to authority dispatchers.
+Implements:
+1. Raw CSV logging logic in raw_emergencies.csv with exact headers: time, gps_xy, location, text
+2. /ingest endpoint generating timestamp via datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+3. Extracting gps_xy, location, and text from payload and appending to raw_emergencies.csv
+4. Priority triage scoring and prioritized incident queues for SpidyCAD HUD
 """
 
 import csv
@@ -9,7 +12,7 @@ import json
 import re
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 from fastapi import FastAPI, HTTPException, Query, status
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -40,7 +43,7 @@ app.add_middleware(
 # In-memory storage for reports
 REPORTS_DB: Dict[str, EmergencyReport] = {}
 
-WORKSPACE_ROOT = Path(__file__).resolve().parent.parent.parent
+WORKSPACE_ROOT = Path(__file__).resolve().parent
 SAMPLE_DATA_PATH = WORKSPACE_ROOT / "data" / "sample" / "sample_reports.json"
 CSV_PATH = WORKSPACE_ROOT / "raw_emergencies.csv"
 
@@ -131,7 +134,7 @@ load_initial_data = load_initial_reports
 @app.get("/", tags=["System"])
 def root():
     return {
-        "message": "Karen's Ear Emergency AI Backend API is online.",
+        "message": "SpidyCAD Emergency AI Backend API is online.",
         "endpoints": {
             "reports": "/reports",
             "ingest": "/ingest",
@@ -266,3 +269,8 @@ def reset_reports():
 @app.get("/api/health", tags=["System"])
 def health():
     return {"status": "healthy", "total_reports": len(REPORTS_DB)}
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("backend:app", host="127.0.0.1", port=8000, reload=True)
