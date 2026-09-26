@@ -1,4 +1,4 @@
-"""Karen's Ear — Stark Suit OS // Emergency Dispatch Triage System.
+"""SpidyCAD — Stark Suit OS // Emergency Dispatch Triage System.
 
 Multi-Page Architecture with st.session_state Routing:
 - Landing Page: Faux-3D Stark / Spider-Verse Hero with interactive 3D particle mesh and massive emergency button.
@@ -23,7 +23,7 @@ from streamlit_autorefresh import st_autorefresh
 # 1. Page Configuration & Global Constants
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="Karen's Ear // Stark Tactical HUD",
+    page_title="SpidyCAD",
     page_icon="🕸️",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -93,7 +93,7 @@ if "auth_error" not in st.session_state:
     st.session_state.auth_error = False
 
 # -----------------------------------------------------------------------------
-# 3. Global CSS — Stark Suit OS & Karen Tactical HUD Aesthetic
+# 3. Global CSS — Stark Suit OS & SpidyCAD Tactical HUD Aesthetic
 # -----------------------------------------------------------------------------
 render_html(
     """
@@ -418,10 +418,10 @@ with st.sidebar:
         """
         <div style="padding: 10px 0 16px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">
             <div style="font-family: monospace; font-size: 10px; color: #E62429; letter-spacing: 1.5px; font-weight: 900;">
-                STARK OS // KAREN PROTOCOL v2.6.9
+                STARK OS // SPIDYCAD v2.6.9
             </div>
             <div style="font-size: 18px; font-weight: 800; color: #FFFFFF; margin-top: 2px;">
-                🕸️ KAREN'S EAR
+                🕸️ SPIDYCAD
             </div>
             <div style="font-size: 11px; color: #94A3B8;">
                 AI Emergency Dispatch Assistant
@@ -645,7 +645,7 @@ def render_landing_page() -> None:
                 </div>
 
                 <div class="hud-center">
-                    <div class="hud-hero-title">KAREN PROTOCOL</div>
+                    <div class="hud-hero-title">SPIDYCAD</div>
                     <div class="hud-hero-sub">AI EMERGENCY DISPATCH SYSTEM</div>
                 </div>
             </div>
@@ -835,6 +835,15 @@ def render_landing_page() -> None:
             """
         )
 
+    st.markdown(
+        """
+        <div style="text-align: center; margin-top: 36px; padding: 18px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); font-family: monospace; font-size: 13px; color: #94A3B8; letter-spacing: 1.2px;">
+            🕸️ Engineered by <strong style="color: #38BDF8;">Team AlgoRhythm</strong>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
 
 # -----------------------------------------------------------------------------
 # 6. VIEW 2: CITIZEN EMERGENCY PORTAL (Streamlined & Speech-to-Text)
@@ -848,13 +857,13 @@ def render_citizen_portal() -> None:
             <div class="hud-top-left">
                 <div style="margin-bottom: 6px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                     <span class="badge-tech mono-font">CITIZEN DISTRESS CHANNEL</span>
-                    <span class="badge-critical mono-font">DIRECT LINK TO KAREN AI</span>
+                    <span class="badge-critical mono-font">DIRECT LINK TO SPIDYCAD</span>
                 </div>
                 <h1 class="hud-main-title">
-                    Karen AI Emergency Assistance
+                    SpidyCAD Emergency Assistance
                 </h1>
                 <p style="font-size: 13.5px; color: #94A3B8; margin: 4px 0 0 0; line-height: 1.5;">
-                    Speak or type your emergency below. Karen AI extracts incident types and prioritizes rescue units automatically.
+                    Speak or type your emergency below. SpidyCAD extracts incident types and prioritizes rescue units automatically.
                 </p>
             </div>
             <div class="hud-top-right">
@@ -1171,7 +1180,7 @@ def render_citizen_portal() -> None:
                         f"""
                         <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; border-radius: 8px; padding: 18px; margin-top: 16px;">
                             <div style="font-size: 15px; font-weight: bold; color: #34D399; font-family: monospace;">
-                                🕸️ DISTRESS SIGNAL RECEIVED & TRIAGED BY KAREN AI
+                                🕸️ DISTRESS SIGNAL RECEIVED & TRIAGED BY SPIDYCAD
                             </div>
                             <div style="font-size: 13.5px; color: #F3F4F6; margin-top: 6px;">
                                 Incident Call: <strong>#{rep_id}</strong> &nbsp;|&nbsp; 
@@ -1187,7 +1196,7 @@ def render_citizen_portal() -> None:
                 else:
                     st.error(f"Transmission failed: {res.status_code} {res.text}")
             except Exception as e:
-                st.error(f"Karen Comms Offline: Ensure FastAPI backend is running on :8000 ({e})")
+                st.error(f"SpidyCAD Comms Offline: Ensure FastAPI backend is running on :8000 ({e})")
 
 
 # -----------------------------------------------------------------------------
@@ -1284,7 +1293,7 @@ def render_dispatcher_dashboard() -> None:
                     <span class="badge-tech mono-font">3.0s LIVE SYNC</span>
                 </div>
                 <h1 class="hud-main-title">
-                    Karen Dispatch Feed // Spider-Net Triage
+                    SpidyCAD Dispatch Feed // Spider-Net Triage
                 </h1>
             </div>
             <div class="hud-top-right">
@@ -1322,7 +1331,7 @@ def render_dispatcher_dashboard() -> None:
         render_html(
             f"""
             <div style="background: rgba(230, 36, 41, 0.15); border: 1px solid #E62429; border-radius: 6px; padding: 14px; margin: 15px 0;">
-                <div style="font-size: 13px; font-weight: bold; color: #FF4D4D; font-family: monospace;">⚠️ KAREN COMMS OFFLINE</div>
+                <div style="font-size: 13px; font-weight: bold; color: #FF4D4D; font-family: monospace;">⚠️ SPIDYCAD COMMS OFFLINE</div>
                 <div style="font-size: 12px; color: #F3F4F6; margin-top: 2px;">Ensure FastAPI backend is running on :8000 (`uvicorn src.api.main:app --host 127.0.0.1 --port 8000`). Details: {html.escape(backend_error)}</div>
             </div>
             """
@@ -1641,6 +1650,15 @@ def render_dispatcher_dashboard() -> None:
                                             st.error(f"Dispatch failed: {patch_res.status_code} {patch_res.text}")
                                     except Exception as ex:
                                         st.error(f"Dispatch update failed: {ex}")
+
+    st.markdown(
+        """
+        <div style="text-align: center; margin-top: 40px; padding: 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); font-family: monospace; font-size: 13px; color: #94A3B8; letter-spacing: 1.2px;">
+            🕸️ Engineered by <strong style="color: #38BDF8;">Team AlgoRhythm</strong>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 # -----------------------------------------------------------------------------
