@@ -256,7 +256,7 @@ The Priority Engine computes a continuous priority metric $\mathcal{P} \in [0.0,
   \small
   \caption{Priority Engine Feature Weights and Numerical Encoding}
   \label{tab:priority_features}
-  \begin{tabularx}{\textwidth}{llcX}
+  \begin{tabularx}{\textwidth}{lXcc}
     \toprule
     \textbf{Dimension} & \textbf{Categorical / Raw Input} & \textbf{Normalized Value} & \textbf{Formula Weight} \\
     \midrule
@@ -298,8 +298,8 @@ The system implementation is partitioned into modular, highly cohesive micro-lay
   \item \textbf{Data Modeling (\texttt{src/schema.py}):} Validates inputs against Pydantic models with strict typing, GPS fields, and numeric bounds.
   \item \textbf{Priority Core (\texttt{src/priority/engine.py}):} Implements deterministic feature weighting, corroboration bonuses, and explainability.
   \item \textbf{Relevance Pipeline (\texttt{src/relevance/}):} Manages TF-IDF vectorization, multiclass logistic regression, and the safety net rule engine.
-  \item \textbf{API Backend (\texttt{backend.py}):} High-performance asynchronous FastAPI REST endpoints, landmark auto-resolution (40+ NYC coordinates), and streaming newline-sanitized CSV audit logging.
-  \item \textbf{Command Dashboard (\texttt{frontend/app.py} \& \texttt{frontend/src/App.jsx}):} SpidyCAD tactical command HUD featuring Stark Suit OS styling, PyDeck 3D Manhattan radar, P1 Spider-Sense danger pulse, 1-click dispatching, and Web Speech API voice synthesis.
+  \item \textbf{API Backend (\texttt{backend.py}):} Asynchronous FastAPI endpoints, NYC landmark auto-resolution (40+ locations), and streaming CSV audit logging.
+  \item \textbf{Command Dashboard (\texttt{frontend/app.py}):} SpidyCAD tactical HUD featuring Stark Suit OS styling, PyDeck 3D Manhattan radar, P1 Spider-Sense alert, 1-click dispatch, and Web Speech voice synthesis.
 \end{itemize}
 
 % ==============================================================================
@@ -330,9 +330,9 @@ The backend provides sub-millisecond REST endpoints for ingestion and dispatch t
 In emergency dispatch datasets, class distribution is inherently skewed: routine traffic or benign chatter outnumbers structural collapses. Relying on global \textbf{Accuracy} creates a perilous illusion of performance: $\text{Accuracy} = (\text{TP} + \text{TN}) / \text{Total Reports}$.
 A naive model predicting $100\%$ \texttt{LOW} in a dataset containing $95\%$ non-emergencies would achieve $95\%$ accuracy while missing every life-threatening event. Therefore, Karen's Ear mandatorily evaluates on \textbf{Macro-Averaged Precision, Recall, and $F_1$-Score}:
 \begin{equation}
-  \text{Precision}_{\text{macro}} = \frac{1}{K}\sum_{k=1}^K \frac{\text{TP}_k}{\text{TP}_k + \text{FP}_k}, \quad
-  \text{Recall}_{\text{macro}} = \frac{1}{K}\sum_{k=1}^K \frac{\text{TP}_k}{\text{TP}_k + \text{FN}_k}, \quad
-  F_{1,\text{macro}} = \frac{2 \times \text{Precision}_{\text{macro}} \times \text{Recall}_{\text{macro}}}{\text{Precision}_{\text{macro}} + \text{Recall}_{\text{macro}}}
+  \text{Prec}_{\text{macro}} = \frac{1}{K}\sum_{k=1}^K \frac{\text{TP}_k}{\text{TP}_k + \text{FP}_k}, \quad
+  \text{Rec}_{\text{macro}} = \frac{1}{K}\sum_{k=1}^K \frac{\text{TP}_k}{\text{TP}_k + \text{FN}_k}, \quad
+  F_{1,\text{macro}} = \frac{2 \cdot \text{Prec}_{\text{macro}} \cdot \text{Rec}_{\text{macro}}}{\text{Prec}_{\text{macro}} + \text{Rec}_{\text{macro}}}
 \end{equation}
 
 \subsection{Priority Regression \& Empirical Test Results}
