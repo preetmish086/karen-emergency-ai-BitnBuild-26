@@ -22,7 +22,8 @@
 
 *Built by **Team AlgoRhythm**: Preetika, Rishav, Ojas, and Aditya*
 </p>
-*Deployment Link:* https://npvp2xac7oaesubwrywdfp.streamlit.app
+*Deployment Link:* 
+https://npvp2xac7oaesubwrywdfp.streamlit.app
 
 ---
 
