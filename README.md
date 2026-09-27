@@ -6,11 +6,19 @@
 ### AI-Powered Autonomous Emergency Dispatch & Triage Engine
 **Bit N Build '26 Hackathon | Track 2: Artificial Intelligence & Machine Learning**
 
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg?style=flat&logo=fastapi)](https://fastapi.tiangolo.com)
-[![Streamlit](https://img.shields.io/badge/Streamlit-1.42+-FF4B4B.svg?style=flat&logo=streamlit)](https://streamlit.io)
-[![Python](https://img.shields.io/badge/Python-3.11+-3776AB.svg?style=flat&logo=python)](https://python.org)
-[![PyTest](https://img.shields.io/badge/Tests-16%20Passed-brightgreen.svg?style=flat&logo=pytest)](file:///Users/rishav07/Documents/BitNBuild/karen-emergency-ai-BitnBuild-26/tests)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+<p align="center">
+  <a href="doc/Karens_Ear_AI_Emergency_Dispatch_Assistant_Project_Document.pdf"><img src="https://img.shields.io/badge/Bit_N_Build_'26-Track_2_//_AI_&_ML-DC2626?style=for-the-badge&logo=target&logoColor=white" alt="Bit N Build 2026" /></a>
+  <a href="tests"><img src="https://img.shields.io/badge/Tests-16_%2F_16_Passed-10B981?style=for-the-badge&logo=pytest&logoColor=white" alt="Tests" /></a>
+  <a href="https://python.org"><img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.11" /></a>
+  <a href="data/priority_output.json"><img src="https://img.shields.io/badge/NYC_Data-8%2C735_Records-8B5CF6?style=for-the-badge&logo=kaggle&logoColor=white" alt="NYC Dataset" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-475569?style=for-the-badge" alt="License" /></a>
+</p>
+<p align="center">
+  <a href="https://fastapi.tiangolo.com"><img src="https://img.shields.io/badge/FastAPI-Async_Engine-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" /></a>
+  <a href="https://streamlit.io"><img src="https://img.shields.io/badge/Streamlit-Tactical_HUD-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit" /></a>
+  <a href="https://deckgl.github.io/pydeck/"><img src="https://img.shields.io/badge/PyDeck-3D_Radar-0284C7?style=for-the-badge&logo=mapbox&logoColor=white" alt="PyDeck 3D" /></a>
+  <a href="https://scikit-learn.org/"><img src="https://img.shields.io/badge/Scikit--Learn-Credibility_%26_Priority-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white" alt="Scikit-Learn" /></a>
+</p>
 
 *Built by **Team AlgoRhythm**: Preetika, Rishav, Ojas, and Aditya*
 
