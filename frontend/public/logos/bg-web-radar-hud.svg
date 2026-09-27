@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="100%" height="100%">
-  <defs>
+  <defs><clipPath id="canvasClip"><rect width="1920" height="1080" /></clipPath>
     <linearGradient id="bgDark" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#060911" />
       <stop offset="50%" stop-color="#0a0f1e" />
@@ -19,6 +19,7 @@
   </defs>
 
   <rect width="1920" height="1080" fill="url(#bgDark)" />
+<g clip-path="url(#canvasClip)">
 
   <!-- Tactical Range Rings (Isometric Web Grid) -->
   <g transform="translate(960, 540)">
@@ -63,4 +64,4 @@
     <circle cx="340" cy="220" r="8" fill="none" stroke="#00f2fe" stroke-width="1.5" />
     <circle cx="340" cy="220" r="3" fill="#00f2fe" filter="url(#radarGlow)" />
   </g>
-</svg>
+</g></svg>

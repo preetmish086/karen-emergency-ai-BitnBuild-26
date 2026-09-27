@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 import pandas as pd
+from PIL import Image
 import pydeck as pdk
 import requests
 import streamlit as st
@@ -27,7 +28,9 @@ from streamlit_autorefresh import st_autorefresh
 # -----------------------------------------------------------------------------
 WORKSPACE_ROOT = Path(__file__).resolve().parent.parent
 IMAGE_DIR = WORKSPACE_ROOT / "image"
-TAB_ICON_PATH = IMAGE_DIR / "tab-icon.png"
+TAB_ICON_PATH = IMAGE_DIR / "spidycad-logo.png"
+if not TAB_ICON_PATH.exists():
+    TAB_ICON_PATH = IMAGE_DIR / "tab-icon.png"
 
 
 @st.cache_data(show_spinner=False)
@@ -51,12 +54,40 @@ def get_image_base64(filename: str) -> str:
     return f"data:{mime};base64,{encoded}"
 
 
+try:
+    _tab_icon_obj = Image.open(TAB_ICON_PATH) if TAB_ICON_PATH.exists() else "🕸️"
+except Exception:
+    _tab_icon_obj = "🕸️"
+
 st.set_page_config(
     page_title="SpidyCAD // Team AlgoRhythm",
-    page_icon=str(TAB_ICON_PATH) if TAB_ICON_PATH.exists() else "🕸️",
+    page_icon=_tab_icon_obj,
     layout="wide",
     initial_sidebar_state="collapsed",
 )
+
+# Dynamically ensure the browser tab header link rel='icon' uses the high-res SpidyCAD logo
+_logo_b64 = get_image_base64("spidycad-logo.png") or get_image_base64("tab-icon.png")
+if _logo_b64:
+    st.html(
+        f"""
+        <script>
+            (function() {{
+                try {{
+                    const head = document.head || window.parent.document.head;
+                    let link = head.querySelector("link[rel*='icon']");
+                    if (!link) {{
+                        link = document.createElement('link');
+                        link.type = 'image/png';
+                        link.rel = 'shortcut icon';
+                        head.appendChild(link);
+                    }}
+                    link.href = "{_logo_b64}";
+                }} catch (e) {{}}
+            }})();
+        </script>
+        """
+    )
 
 BACKEND_URL = "http://localhost:8000"
 REPORTS_URL = f"{BACKEND_URL}/reports"
@@ -575,7 +606,7 @@ render_html(
 def render_top_navigation_bar() -> None:
     """Render the sticky, high-tech Stark top navigation bar across all views."""
     current_p = st.session_state.page
-    icon_b64 = get_image_base64("spidycad-icon.svg")
+    icon_b64 = get_image_base64("spidycad-logo.svg") or get_image_base64("spidycad-logo.png")
 
     nav_col_brand, nav_col_btn1, nav_col_btn2, nav_col_btn3, nav_col_status = st.columns(
         [2.6, 1.25, 1.35, 1.45, 1.25]
@@ -584,13 +615,13 @@ def render_top_navigation_bar() -> None:
     with nav_col_brand:
         render_html(
             f"""
-            <div style="display: flex; align-items: center; gap: 12px; padding: 2px 0;">
-                <img src="{icon_b64}" style="width: 44px; height: 44px; border-radius: 10px; border: 1.5px solid #FF334B; box-shadow: 0 0 16px rgba(255, 51, 75, 0.4);" alt="SpidyCAD Icon" />
+            <div style="display: flex; align-items: center; gap: 14px; padding: 2px 0;">
+                <img src="{icon_b64}" style="width: 48px; height: 48px; border-radius: 12px; border: 1.5px solid rgba(255, 51, 75, 0.85); box-shadow: 0 0 20px rgba(255, 51, 75, 0.5), 0 0 35px rgba(56, 189, 248, 0.25); background: #070b14; object-fit: contain;" alt="SpidyCAD Logo" />
                 <div>
-                    <div style="font-size: 21px; font-weight: 900; color: #FFFFFF; line-height: 1.1; letter-spacing: -0.5px;">
+                    <div style="font-size: 22px; font-weight: 900; color: #FFFFFF; line-height: 1.1; letter-spacing: -0.5px;">
                         Spidy<span style="color: #FF334B;">CAD</span>
                     </div>
-                    <div style="font-family: monospace; font-size: 10px; color: #38BDF8; letter-spacing: 1.2px; font-weight: 700;">
+                    <div style="font-family: monospace; font-size: 10px; color: #38BDF8; letter-spacing: 1.5px; font-weight: 700;">
                         TEAM ALGORHYTHM // HUD
                     </div>
                 </div>
@@ -724,12 +755,12 @@ def render_landing_page() -> None:
         """
     )
 
-    icon_b64 = get_image_base64("spidycad-icon.svg")
+    icon_b64 = get_image_base64("spidycad-logo.svg") or get_image_base64("spidycad-logo.png")
     render_html(
         f"""
         <div style="text-align: center; padding: 12px 0 22px 0; max-width: 860px; margin: 0 auto;">
             <div style="display: inline-block; margin-bottom: 8px;">
-                <img src="{icon_b64}" style="width: 70px; height: 70px; border-radius: 16px; border: 2px solid #FF334B; box-shadow: 0 0 30px rgba(255, 51, 75, 0.45);" alt="SpidyCAD Icon" />
+                <img src="{icon_b64}" style="width: 80px; height: 80px; border-radius: 20px; border: 2px solid rgba(255, 51, 75, 0.85); box-shadow: 0 0 35px rgba(255, 51, 75, 0.5), 0 0 50px rgba(56, 189, 248, 0.25); background: #070b14; object-fit: contain;" alt="SpidyCAD Logo" />
             </div>
             <h1 style="font-size: clamp(34px, 5.2vw, 54px); font-weight: 900; color: #FFFFFF; letter-spacing: -1px; margin: 0; line-height: 1.1;">
                 Spidy<span style="color: #FF334B;">CAD</span>
@@ -1047,11 +1078,11 @@ def render_landing_page() -> None:
             """
         )
 
-    icon_b64 = get_image_base64("spidycad-icon.svg")
+    icon_b64 = get_image_base64("spidycad-logo.svg") or get_image_base64("spidycad-logo.png")
     st.markdown(
         f"""
         <div style="text-align: center; margin-top: 36px; padding: 18px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); font-family: monospace; font-size: 13px; color: #94A3B8; letter-spacing: 1.2px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-            <img src="{icon_b64}" style="width: 22px; height: 22px; border-radius: 4px; vertical-align: middle;" alt="SpidyCAD" />
+            <img src="{icon_b64}" style="width: 24px; height: 24px; border-radius: 6px; vertical-align: middle; object-fit: contain;" alt="SpidyCAD" />
             <span>🕸️ Engineered by <strong style="color: #38BDF8;">Team AlgoRhythm</strong> &nbsp;|&nbsp; SpidyCAD Computer-Aided Dispatch</span>
         </div>
         """,
@@ -1065,12 +1096,12 @@ def render_landing_page() -> None:
 def render_citizen_portal() -> None:
     """Render the citizen emergency portal with instant browser Speech-to-Text and a massive text area."""
     # Top Status Bar with SpidyCAD Icon
-    icon_b64 = get_image_base64("spidycad-icon.svg")
+    icon_b64 = get_image_base64("spidycad-logo.svg") or get_image_base64("spidycad-logo.png")
     render_html(
         f"""
         <div style="display: flex; align-items: center; justify-content: space-between; background: #0A0F1E; border: 1px solid rgba(0, 128, 255, 0.35); border-radius: 12px; padding: 16px 22px; margin-bottom: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.6); flex-wrap: wrap; gap: 14px;">
             <div style="display: flex; align-items: center; gap: 16px;">
-                <img src="{icon_b64}" style="width: 58px; height: 58px; border-radius: 12px; border: 1.5px solid rgba(230,36,41,0.6); box-shadow: 0 0 20px rgba(230,36,41,0.4);" alt="SpidyCAD Icon" />
+                <img src="{icon_b64}" style="width: 58px; height: 58px; border-radius: 12px; border: 1.5px solid rgba(255, 51, 75, 0.85); box-shadow: 0 0 20px rgba(255, 51, 75, 0.45); background: #070b14; object-fit: contain;" alt="SpidyCAD Logo" />
                 <div>
                     <div style="margin-bottom: 4px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                         <span class="badge-tech mono-font">CITIZEN DISTRESS CHANNEL</span>
