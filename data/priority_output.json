@@ -1,0 +1,32 @@
+[
+  {
+    "report_id": "R00001",
+    "text": "Building has collapsed, people are trapped!",
+    "incident_type": "collapse",
+    "incident_confidence": 0.95,
+    "location": "100 Main Street, Midtown Manhattan, 8th floor, Room 8",
+    "location_report_count": 18,
+    "credibility": 0.92,
+    "corroboration_score": 0.72,
+    "severity": 1.0,
+    "location_score": 0.9,
+    "actionability": 1.0,
+    "priority": 0.952,
+    "rank": 1
+  },
+  {
+    "report_id": "R00002",
+    "text": "Garbage dumped near the road.",
+    "incident_type": "other",
+    "incident_confidence": 0.8,
+    "location": "Park Road",
+    "location_report_count": 2,
+    "credibility": 0.4,
+    "corroboration_score": 0.08,
+    "severity": 0.5,
+    "location_score": 0.4,
+    "actionability": 0.376,
+    "priority": 0.416,
+    "rank": 2
+  }
+]
