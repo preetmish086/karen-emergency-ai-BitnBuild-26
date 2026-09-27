@@ -1558,11 +1558,11 @@ def render_citizen_portal() -> None:
             except Exception as e:
                 st.error(f"SpidyCAD Comms Offline: Ensure FastAPI backend is running on :8000 ({e})")
 
-    icon_b64 = get_image_base64("spidycad-icon.svg")
+    icon_b64 = get_image_base64("spidycad-logo.svg") or get_image_base64("spidycad-logo.png")
     st.markdown(
         f"""
         <div style="text-align: center; margin-top: 36px; padding: 18px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); font-family: monospace; font-size: 13px; color: #94A3B8; letter-spacing: 1.2px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-            <img src="{icon_b64}" style="width: 22px; height: 22px; border-radius: 4px; vertical-align: middle;" alt="SpidyCAD" />
+            <img src="{icon_b64}" style="width: 24px; height: 24px; border-radius: 6px; vertical-align: middle; object-fit: contain;" alt="SpidyCAD" />
             <span>🕸️ Engineered by <strong style="color: #38BDF8;">Team AlgoRhythm</strong> &nbsp;|&nbsp; SpidyCAD Citizen Emergency Dispatch</span>
         </div>
         """,
@@ -1578,11 +1578,11 @@ def render_dispatcher_login() -> None:
     col_l, col_center, col_r = st.columns([1, 1.4, 1])
 
     with col_center:
-        icon_b64 = get_image_base64("spidycad-icon.svg")
+        icon_b64 = get_image_base64("spidycad-logo.svg") or get_image_base64("spidycad-logo.png")
         render_html(
             f"""
             <div style="text-align: center; margin-top: 15px; margin-bottom: 12px;">
-                <img src="{icon_b64}" style="width: 95px; height: 95px; border-radius: 20px; border: 2px solid #0080FF; box-shadow: 0 0 35px rgba(0, 128, 255, 0.45), inset 0 0 15px rgba(0, 128, 255, 0.2);" alt="SpidyCAD Security" />
+                <img src="{icon_b64}" style="width: 95px; height: 95px; border-radius: 22px; border: 2px solid rgba(255, 51, 75, 0.85); box-shadow: 0 0 35px rgba(255, 51, 75, 0.5), 0 0 50px rgba(56, 189, 248, 0.25); background: #070b14; object-fit: contain;" alt="SpidyCAD Security" />
             </div>
             <div style="background: #12161F; border: 1px solid rgba(0, 128, 255, 0.3); border-radius: 12px; padding: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.6); position: relative;">
                 <div style="font-family: monospace; font-size: 11px; color: #0080FF; letter-spacing: 1.5px; font-weight: 800;">
@@ -1659,12 +1659,12 @@ def render_dispatcher_dashboard() -> None:
     st_autorefresh(interval=3000, limit=None, key="karen_authority_autorefresh")
 
     # Header Bar with SpidyCAD Icon, 'Return to Home' and Logout Actions
-    icon_b64 = get_image_base64("spidycad-icon.svg")
+    icon_b64 = get_image_base64("spidycad-logo.svg") or get_image_base64("spidycad-logo.png")
     render_html(
         f"""
         <div style="display: flex; align-items: center; justify-content: space-between; background: #0A0F1E; border: 1px solid rgba(230, 36, 41, 0.35); border-radius: 12px; padding: 16px 22px; margin-bottom: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.6); flex-wrap: wrap; gap: 14px;">
             <div style="display: flex; align-items: center; gap: 16px;">
-                <img src="{icon_b64}" style="width: 58px; height: 58px; border-radius: 12px; border: 1.5px solid #FF334B; box-shadow: 0 0 20px rgba(255, 51, 75, 0.4);" alt="SpidyCAD Icon" />
+                <img src="{icon_b64}" style="width: 58px; height: 58px; border-radius: 12px; border: 1.5px solid rgba(255, 51, 75, 0.85); box-shadow: 0 0 20px rgba(255, 51, 75, 0.45); background: #070b14; object-fit: contain;" alt="SpidyCAD Logo" />
                 <div>
                     <div style="margin-bottom: 4px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                         <span class="badge-critical mono-font">TACTICAL OPTICS ACTIVE</span>
@@ -2053,11 +2053,11 @@ def render_dispatcher_dashboard() -> None:
                                     except Exception as ex:
                                         st.error(f"Dispatch update failed: {ex}")
 
-    icon_b64 = get_image_base64("spidycad-icon.svg")
+    icon_b64 = get_image_base64("spidycad-logo.svg") or get_image_base64("spidycad-logo.png")
     st.markdown(
         f"""
         <div style="text-align: center; margin-top: 40px; padding: 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); font-family: monospace; font-size: 13px; color: #94A3B8; letter-spacing: 1.2px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-            <img src="{icon_b64}" style="width: 22px; height: 22px; border-radius: 4px; vertical-align: middle;" alt="SpidyCAD" />
+            <img src="{icon_b64}" style="width: 24px; height: 24px; border-radius: 6px; vertical-align: middle; object-fit: contain;" alt="SpidyCAD" />
             <span>🕸️ Engineered by <strong style="color: #38BDF8;">Team AlgoRhythm</strong> &nbsp;|&nbsp; SpidyCAD Computer-Aided Dispatch</span>
         </div>
         """,
