@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="doc/Karens_Ear_AI_Emergency_Dispatch_Assistant_Project_Document.pdf"><img src="https://img.shields.io/badge/Bit_N_Build_'26-Track_2_//_AI_&_ML-DC2626?style=for-the-badge&logo=target&logoColor=white" alt="Bit N Build 2026" /></a>
-  <a href="tests"><img src="https://img.shields.io/badge/Tests-16_%2F_16_Passed-10B981?style=for-the-badge&logo=pytest&logoColor=white" alt="Tests" /></a>
+  <a href="tests"><img src="https://img.shields.io/badge/Tests-35_%2F_35_Passed-10B981?style=for-the-badge&logo=pytest&logoColor=white" alt="Tests" /></a>
   <a href="https://python.org"><img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.11" /></a>
   <a href="data/priority_output.json"><img src="https://img.shields.io/badge/NYC_Data-8%2C735_Records-8B5CF6?style=for-the-badge&logo=kaggle&logoColor=white" alt="NYC Dataset" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-475569?style=for-the-badge" alt="License" /></a>
@@ -205,20 +205,29 @@ curl -X POST http://127.0.0.1:8000/ingest \
 ---
 
 ## 🧪 Testing & Verification
-
-The test suite validates the REST API endpoints, priority scoring boundaries, and ML ranker integrity:
-
+ 
+The comprehensive test suite covers API routes, priority boundaries, NLP multi-hazard classification, zero-hallucination casualty extraction, credibility assessment, GPS preservation, and CSV integrity:
+ 
 ```bash
-.venv/bin/pytest tests/ -v
+# 1. Run root architecture & priority tests (16 tests)
+./.venv/bin/pytest tests/ -v
+
+# 2. Run Role 2 NLP & Credibility tests (19 tests)
+PYTHONPATH=role2:role2/src ./.venv/bin/pytest role2/tests/ -v
 ```
 
-**Test Results**:
+**Verification Results: 35 / 35 Tests Passing**:
 ```text
 tests/test_api.py ........                                [ 50%]
 tests/test_priority.py .......                            [ 93%]
 tests/test_ranker.py .                                    [100%]
-
 ======================== 16 passed in 1.45s =========================
+
+role2/tests/test_classification.py .......                [ 36%]
+role2/tests/test_credibility_and_pipeline.py ...          [ 52%]
+role2/tests/test_extraction.py ....                       [ 73%]
+role2/tests/test_location_and_csv.py .....                [100%]
+======================== 19 passed in 3.40s =========================
 ```
 
 ---
@@ -230,32 +239,39 @@ karen-emergency-ai-BitnBuild-26/
 ├── backend.py                  # Core FastAPI application & CSV ingestion engine
 ├── raw_emergencies.csv         # Real-time append-only CSV audit stream
 ├── requirements.txt            # System dependencies
-├── DATA_SCHEMA.md              # Cross-module data interface contract
-├── README.md                   # Project documentation
+├── README.md                   # Master project documentation
 │
-├── frontend/                   # SpidyCAD Tactical HUD
-│   ├── app.py                  # Streamlit application with PyDeck 3D radar & UI views
-│   └── public/logos/           # Tactical HUD background SVG/PNG vector assets
+├── frontend/                   # SpidyCAD Tactical HUD (Streamlit + PyDeck 3D)
+│   ├── app.py                  # Tactical HUD application with Speech-to-Text & radar map
+│   ├── README.md               # Detailed frontend architectural documentation
+│   └── public/logos/           # Tactical HUD brand vectors and icons
 │
 ├── src/                        # Core algorithmic engine
 │   ├── schema.py               # Pydantic v2 schemas and enumerations
 │   ├── pipeline.py             # Integrated processing pipeline
 │   ├── api/                    # API sub-module routing
 │   ├── priority/               # Priority engine, ML ranker, and formula features
-│   └── relevance/              # Relevance filtering model
+│   └── relevance/              # Relevance filtering model & lexical safety net
 │
-├── role2/                      # Role 2 NLP & Credibility
-│   └── src/pipeline/           # 8-factor credibility assessment & NER pipeline
+├── role2/                      # Role 2 NLP & Credibility Intelligence
+│   ├── src/                    # Classification, casualty extraction & 8-factor credibility
+│   ├── tests/                  # 19 automated unit & integration tests
+│   └── README.md               # Detailed NLP & credibility module documentation
 │
 ├── data/                       # Datasets & evaluation outputs
-│   ├── priority_output.json    # Pre-calculated priority output for 8,735 NYC incidents
-│   ├── final_dataset_sample.csv
-│   └── sample/sample_reports.json
+│   ├── final_dataset_sample.csv# 8,735 normalized NYC emergency incidents
+│   ├── priority_output.csv     # Complete prioritized output with priority bands (P1-P4)
+│   ├── priority_output.json    # Serialized JSON triage corpus with explainable reasons
+│   ├── relevance_demo.csv      # Relevance benchmark dataset
+│   └── README.md               # Detailed data dictionary, schemas, and catalogs
 │
 ├── doc/                        # Architecture specs & LaTeX technical report
-│   └── main.tex                # Complete Bit N Build '26 technical paper
+│   ├── Karens_Ear_AI_Emergency_Dispatch_Assistant_Project_Document.pdf # Master technical paper
+│   ├── Karens_Ear_AI_Emergency_Dispatch_Assistant_Project_Document.tex # Master LaTeX source
+│   ├── Problem statement.pdf   # Bit N Build '26 Track 2 problem statement
+│   └── README.md               # Documentation guide and paper table of contents
 │
-└── tests/                      # PyTest automated test suite
+└── tests/                      # Root PyTest automated test suite (16 tests)
     ├── test_api.py             # API route & response validation
     ├── test_priority.py        # Priority engine formula & edge case testing
     └── test_ranker.py          # ML ranker unit tests
