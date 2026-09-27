@@ -1574,34 +1574,31 @@ def render_citizen_portal() -> None:
                 "text": user_message.strip(),
             }
 
+            transmitted = False
             try:
-                res = requests.post(INGEST_URL, json=payload, timeout=5)
-                if res.status_code in [200, 201]:
-                    report_data = res.json()
-                    st.session_state.last_distress_report = report_data
-
-                    # Clear session state to reset the form as requested
-                    st.session_state.location_locked = False
-                    st.session_state.locked_location = ""
-                    st.session_state.locked_gps_xy = "None"
-                    st.session_state.citizen_text = ""
-                    st.rerun()
-                else:
-                    st.error(f"Transmission failed: {res.status_code} {res.text}")
-            except Exception as e:
-                # Direct in-process fallback (for Streamlit Cloud or standalone)
+                # Direct in-process ingestion guarantees latest AI engine & avoids background daemon cache lag
+                from backend import ingest_report, IngestReportPayload
+                p_obj = IngestReportPayload(**payload)
+                rep_res = ingest_report(p_obj)
+                st.session_state.last_distress_report = rep_res.model_dump()
+                transmitted = True
+            except Exception:
                 try:
-                    from backend import ingest_report, IngestReportPayload
-                    p_obj = IngestReportPayload(**payload)
-                    rep_res = ingest_report(p_obj)
-                    st.session_state.last_distress_report = rep_res.model_dump()
-                    st.session_state.location_locked = False
-                    st.session_state.locked_location = ""
-                    st.session_state.locked_gps_xy = "None"
-                    st.session_state.citizen_text = ""
-                    st.rerun()
+                    res = requests.post(INGEST_URL, json=payload, timeout=5)
+                    if res.status_code in [200, 201]:
+                        st.session_state.last_distress_report = res.json()
+                        transmitted = True
+                    else:
+                        st.error(f"Transmission failed: {res.status_code} {res.text}")
                 except Exception as ex:
                     st.error(f"SpidyCAD Comms Offline: ({ex})")
+
+            if transmitted:
+                st.session_state.location_locked = False
+                st.session_state.locked_location = ""
+                st.session_state.locked_gps_xy = "None"
+                st.session_state.citizen_text = ""
+                st.rerun()
 
     icon_b64 = get_image_base64("spidycad-logo.svg") or get_image_base64("spidycad-logo.png")
     st.markdown(
@@ -1786,24 +1783,27 @@ def render_dispatcher_dashboard() -> None:
     reports_list = []
     backend_error = None
 
+    # 1. Prioritize direct in-memory REPORTS_DB from backend.py to ensure instant reactivity and avoid stale daemon lag
     try:
-        r = requests.get(REPORTS_URL, timeout=3)
-        if r.status_code == 200:
-            reports_list = r.json()
-        else:
-            backend_error = f"Backend returned status {r.status_code}"
-    except Exception as e:
-        # Fall back to in-memory REPORTS_DB directly from backend.py
+        from backend import REPORTS_DB, load_initial_reports
+        if not REPORTS_DB:
+            load_initial_reports()
+        reports_list = [
+            rep.model_dump() if hasattr(rep, "model_dump") else rep
+            for rep in REPORTS_DB.values()
+        ]
+    except Exception:
+        pass
+
+    # 2. If in-memory reports are empty, fetch via HTTP backend endpoint
+    if not reports_list:
         try:
-            from backend import REPORTS_DB, load_initial_reports
-            if not REPORTS_DB:
-                load_initial_reports()
-            reports_list = [
-                rep.model_dump() if hasattr(rep, "model_dump") else rep
-                for rep in REPORTS_DB.values()
-            ]
-            backend_error = None
-        except Exception:
+            r = requests.get(REPORTS_URL, timeout=3)
+            if r.status_code == 200:
+                reports_list = r.json()
+            else:
+                backend_error = f"Backend returned status {r.status_code}"
+        except Exception as e:
             try:
                 import json
                 p_out = WORKSPACE_ROOT / "data" / "sample" / "sample_reports.json"

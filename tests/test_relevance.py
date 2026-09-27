@@ -134,3 +134,34 @@ def test_backend_ingest_benign_park_activity_dismissed():
     assert report.status == "non_emergency"
     assert report.dispatch_status == "dismissed"
 
+
+def test_backend_ingest_movie_with_explicit_disclaimer_dismissed():
+    """Verify movie description with hazard words and explicit disclaimer is dismissed with 0% priority."""
+    text = "I am watching a movie about a massive fire in a warehouse where three people are trapped and injured. There is no actual emergency."
+    is_slang, reason = is_slang_or_figurative(text)
+    assert is_slang is True
+
+    payload = IngestReportPayload(text=text)
+    report = ingest_report(payload)
+    assert report.incident_type == IncidentType.OTHER
+    assert report.severity == SeverityLevel.LOW
+    assert report.priority == 0.0
+    assert report.status == "non_emergency"
+    assert report.dispatch_status == "dismissed"
+    assert report.credibility <= 0.10
+
+
+def test_backend_ingest_drill_with_disclaimer_dismissed():
+    """Verify emergency training drill with explicit disclaimer is dismissed with 0% priority."""
+    text = "This is a fire drill in our office, two people trapped in room 402 for simulation. There is no actual emergency."
+    is_slang, _ = is_slang_or_figurative(text)
+    assert is_slang is True
+
+    payload = IngestReportPayload(text=text)
+    report = ingest_report(payload)
+    assert report.incident_type == IncidentType.OTHER
+    assert report.priority == 0.0
+    assert report.status == "non_emergency"
+    assert report.dispatch_status == "dismissed"
+
+

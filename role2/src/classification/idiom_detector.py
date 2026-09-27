@@ -126,6 +126,20 @@ except ImportError:
     ]
     COMPILED_IDIOM_PATTERNS = [re.compile(p, re.IGNORECASE) for p in IDIOM_PATTERNS]
 
+    EXPLICIT_NON_EMERGENCY_DISCLAIMERS = [
+        r"\b(?:there\s+is\s+|this\s+is\s+)?no\s+(?:actual|real)\s+emergency\b",
+        r"\b(?:this\s+is\s+)?not\s+an?\s+(?:actual|real)\s+emergency\b",
+        r"\b(?:not\s+a\s+real\s+emergency|not\s+a\s+real\s+call|not\s+a\s+real\s+situation)\b",
+        r"\b(?:just|only)\s+a\s+(?:movie|film|tv\s+show|series|documentary|book|story|drill|exercise|simulation|test|testing|false\s+alarm|prank|joke)\b",
+        r"\b(?:watching|watched|seeing|saw)\s+(?:a|the)\s+(?:movie|film|documentary|show|series|clip|video)\s+about\b",
+        r"\b(?:fire\s+drill|evacuation\s+drill|emergency\s+drill|training\s+exercise|routine\s+test|simulated\s+emergency)\b",
+        r"\b(?:reading|read)\s+(?:a|the)\s+(?:book|novel|story|article|news|script)\s+about\b",
+        r"\b(?:playing|played)\s+(?:a\s+)?(?:game|video\s+game)\s+about\b",
+        r"\b(?:just\s+pretending|just\s+rehearsing|in\s+a\s+rehearsal|acting\s+in\s+a\s+play)\b",
+        r"\b(?:movie|film|show)\s+(?:about|where|with)\s+.*(?:fire|explosion|crash|accident|trapped|killed|died|injured)\b",
+    ]
+    COMPILED_NON_EMERGENCY_DISCLAIMERS = [re.compile(p, re.IGNORECASE) for p in EXPLICIT_NON_EMERGENCY_DISCLAIMERS]
+
     AUTHENTIC_EMERGENCY_SIGNALS = [
         r"\bcall\s+(?:911|108|999|112|the\s+police|the\s+fire\s+department|an\s+ambulance)\b",
         r"\b(?:send|need|dispatch)\s+(?:help|ambulance|firefighters?|first\s+responders?|paramedics?|police|rescue\s+team)\b",
@@ -151,6 +165,10 @@ except ImportError:
         if not text:
             return False, "empty_text"
         lower_text = text.lower().strip()
+        for disclaimer_pattern in COMPILED_NON_EMERGENCY_DISCLAIMERS:
+            match = disclaimer_pattern.search(lower_text)
+            if match:
+                return True, f"explicit_non_emergency_disclaimer: '{match.group(0)}'"
         for signal_pattern in COMPILED_AUTHENTIC_SIGNALS:
             if signal_pattern.search(lower_text):
                 return False, "authentic_emergency_signal_present"

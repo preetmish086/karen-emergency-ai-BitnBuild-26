@@ -152,6 +152,24 @@ IDIOM_PATTERNS = [
 COMPILED_IDIOM_PATTERNS = [re.compile(p, re.IGNORECASE) for p in IDIOM_PATTERNS]
 
 
+# Explicit non-emergency declarations, disclaimers, entertainment context, drills, and false alarms
+# that completely supersede any hazard, casualty, or distress keywords.
+EXPLICIT_NON_EMERGENCY_DISCLAIMERS = [
+    r"\b(?:there\s+is\s+|this\s+is\s+)?no\s+(?:actual|real)\s+emergency\b",
+    r"\b(?:this\s+is\s+)?not\s+an?\s+(?:actual|real)\s+emergency\b",
+    r"\b(?:not\s+a\s+real\s+emergency|not\s+a\s+real\s+call|not\s+a\s+real\s+situation)\b",
+    r"\b(?:just|only)\s+a\s+(?:movie|film|tv\s+show|series|documentary|book|story|drill|exercise|simulation|test|testing|false\s+alarm|prank|joke)\b",
+    r"\b(?:watching|watched|seeing|saw)\s+(?:a|the)\s+(?:movie|film|documentary|show|series|clip|video)\s+about\b",
+    r"\b(?:fire\s+drill|evacuation\s+drill|emergency\s+drill|training\s+exercise|routine\s+test|simulated\s+emergency)\b",
+    r"\b(?:reading|read)\s+(?:a|the)\s+(?:book|novel|story|article|news|script)\s+about\b",
+    r"\b(?:playing|played)\s+(?:a\s+)?(?:game|video\s+game)\s+about\b",
+    r"\b(?:just\s+pretending|just\s+rehearsing|in\s+a\s+rehearsal|acting\s+in\s+a\s+play)\b",
+    r"\b(?:movie|film|show)\s+(?:about|where|with)\s+.*(?:fire|explosion|crash|accident|trapped|killed|died|injured)\b",
+]
+
+COMPILED_NON_EMERGENCY_DISCLAIMERS = [re.compile(p, re.IGNORECASE) for p in EXPLICIT_NON_EMERGENCY_DISCLAIMERS]
+
+
 # Authentic emergency distress markers that override slang exclusions.
 # If these are present, the report describes a real emergency even if casual words appear!
 AUTHENTIC_EMERGENCY_SIGNALS = [
@@ -189,6 +207,13 @@ def is_slang_or_figurative(text: str) -> Tuple[bool, str]:
         return False, "empty_text"
 
     lower_text = text.lower().strip()
+
+    # Step 0: Check for explicit non-emergency declarations / disclaimers
+    # These MUST supersede authentic distress keywords (e.g. "There is no actual emergency", "fire drill")
+    for disclaimer_pattern in COMPILED_NON_EMERGENCY_DISCLAIMERS:
+        match = disclaimer_pattern.search(lower_text)
+        if match:
+            return True, f"explicit_non_emergency_disclaimer: '{match.group(0)}'"
 
     # Step 1: Check for authentic emergency override
     for signal_pattern in COMPILED_AUTHENTIC_SIGNALS:
