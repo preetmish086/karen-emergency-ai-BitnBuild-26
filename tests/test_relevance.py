@@ -106,3 +106,31 @@ def test_backend_ingest_real_emergency_assigns_high_priority():
     assert report.priority >= 0.70
     assert report.severity == SeverityLevel.CRITICAL
     assert report.status == "pending"
+
+
+def test_backend_ingest_domestic_fireplace_dismissed():
+    """Verify domestic fireplace heating reports are dismissed as non-emergency."""
+    payload = IngestReportPayload(
+        text="i had to put the fire on the fire place to make the place warm"
+    )
+    report = ingest_report(payload)
+    assert report.incident_type == IncidentType.OTHER
+    assert report.severity == SeverityLevel.LOW
+    assert report.priority == 0.0
+    assert report.status == "non_emergency"
+    assert report.dispatch_status == "dismissed"
+    assert report.credibility <= 0.10
+
+
+def test_backend_ingest_benign_park_activity_dismissed():
+    """Verify mundane non-emergency reports without hazards are dismissed."""
+    payload = IngestReportPayload(
+        text="i was playing in the park with my 12 year old neice"
+    )
+    report = ingest_report(payload)
+    assert report.incident_type == IncidentType.OTHER
+    assert report.severity == SeverityLevel.LOW
+    assert report.priority == 0.0
+    assert report.status == "non_emergency"
+    assert report.dispatch_status == "dismissed"
+

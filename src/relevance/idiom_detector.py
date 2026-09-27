@@ -134,6 +134,19 @@ IDIOM_PATTERNS = [
     r"\b(?:standup\s+comedian|comedy\s+show|funny\s+meme|hilarious\s+video)\b",
     r"\b(?:best\s+buy|mall|store\s+sale|taco\s+truck|restaurant\s+bill)\b",
     r"\b(?:playing\s+(?:video\s+games?|call\s+of\s+duty|counter\s*strike|fortnite|gta|minecraft))\b",
+
+    # -------------------------------------------------------------------------
+    # 8. CONTROLLED / DOMESTIC / RECREATIONAL FIRE (FIREPLACE, CAMPFIRE, CANDLE)
+    # -------------------------------------------------------------------------
+    r"\b(?:put(?:ting)?|lit|light(?:ing)?|start(?:ed|ing)?|make|making|built|building)\s+(?:the\s+|a\s+)?fire\s+(?:on|in)\s+the\s+fire\s*place\b",
+    r"\b(?:fire\s*place|wood\s*stove|fire\s*pit)\s+to\s+(?:make|keep)\s+(?:the\s+)?(?:place|room|house|home|cabin)\s+warm\b",
+    r"\b(?:fire\s+(?:in|on)\s+the\s+fire\s*place\s+to\s+(?:make|keep)\s+.*warm)\b",
+    r"\b(?:sitting|relaxing|gathered)\s+(?:around|by|near)\s+the\s+(?:camp\s*fire|bonfire|fire\s*place|fire\s*pit)\b",
+    r"\b(?:marshmallows?\s+(?:around|over|by)\s+the\s+(?:camp\s*fire|bonfire|fire\s*pit))\b",
+    r"\b(?:camp\s*fire|bonfire)\s+(?:on\s+the\s+beach|with\s+friends|in\s+the\s+woods|at\s+the\s+campsite)\b",
+    r"\b(?:lighting|light|lit|blowing\s+out|blew\s+out)\s+(?:a\s+)?(?:candle|candles|scented\s+candle|birthday\s+candles)\b",
+    r"\b(?:gas\s+fire\s*place|electric\s+fire\s*place|cozy\s+fire\s*place|decorative\s+fire\s*place)\b",
+    r"\b(?:turned\s+on\s+the\s+fire\s*place)\b",
 ]
 
 COMPILED_IDIOM_PATTERNS = [re.compile(p, re.IGNORECASE) for p in IDIOM_PATTERNS]
