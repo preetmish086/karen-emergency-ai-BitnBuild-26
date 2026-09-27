@@ -28,7 +28,7 @@ from streamlit_autorefresh import st_autorefresh
 # -----------------------------------------------------------------------------
 WORKSPACE_ROOT = Path(__file__).resolve().parent.parent
 IMAGE_DIR = WORKSPACE_ROOT / "image"
-TAB_ICON_PATH = IMAGE_DIR / "spidycad-logo.png"
+TAB_ICON_PATH = IMAGE_DIR / "spidycad-2d-transparent.png"
 if not TAB_ICON_PATH.exists():
     TAB_ICON_PATH = IMAGE_DIR / "tab-icon.png"
 
