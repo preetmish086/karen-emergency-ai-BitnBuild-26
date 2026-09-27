@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="image/spidycad-logo.png" width="180" height="180" alt="SpidyCAD Spider Logo" style="border-radius: 28px; box-shadow: 0 0 30px rgba(255, 51, 75, 0.4);" />
+<img src="image/spider-logo-minimal.png" width="72" alt="SpidyCAD Spider Logo" />
 
 # 🕸️ KAREN'S EAR // SpidyCAD
 ### AI-Powered Autonomous Emergency Dispatch & Triage Engine
