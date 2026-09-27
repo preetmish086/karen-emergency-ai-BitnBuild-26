@@ -54,6 +54,28 @@ class CredibilityScorer(BaseCredibilityScorer):
         words = clean_text.split()
         word_count = len(words)
 
+        try:
+            from role2.src.classification.idiom_detector import is_slang_or_figurative
+        except (ImportError, ModuleNotFoundError):
+            try:
+                from src.classification.idiom_detector import is_slang_or_figurative
+            except (ImportError, ModuleNotFoundError):
+                from src.relevance.idiom_detector import is_slang_or_figurative
+
+        is_slang, _ = is_slang_or_figurative(clean_text)
+        if is_slang:
+            factors = {
+                "first_person_observation": 0.10,
+                "specificity": 0.10,
+                "coherence": 0.50,
+                "actionability": 0.00,
+                "casualty_reporting_signal": 0.00,
+                "location_density": 0.50,
+                "internal_consistency": 0.50,
+                "information_completeness": round(completeness.completeness_score, 2),
+            }
+            return CredibilityAssessment(score=0.05, factors=factors)
+
         # 1. First Person Observation Signal (weight 0.20)
         first_person_score = 0.50
         has_fp_marker = any(re.search(pattern, clean_text) for pattern in self.FIRST_PERSON_MARKERS)

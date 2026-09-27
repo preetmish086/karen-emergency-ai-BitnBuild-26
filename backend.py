@@ -32,6 +32,18 @@ try:
 except Exception:
     nlp_pipeline = None
 
+# Initialize Relevance Model
+try:
+    from src.relevance.relevance_model import RelevanceModel
+    relevance_model = RelevanceModel()
+    _rel_model_path = Path(__file__).resolve().parent / "models" / "relevance_model.pkl"
+    if _rel_model_path.exists():
+        relevance_model.load(str(_rel_model_path))
+    else:
+        relevance_model = None
+except Exception:
+    relevance_model = None
+
 app = FastAPI(
     title="SpidyCAD Emergency AI API",
     description="Emergency dispatch ingestion and prioritization backend.",
@@ -119,26 +131,35 @@ def log_raw_emergency(time_str: str, gps_xy: str, location: str, text: str) -> N
 
 def infer_metadata_fallback(text: str) -> dict:
     """Fallback keyword heuristic to identify incident type if not provided."""
+    from src.relevance.idiom_detector import is_slang_or_figurative
+    is_slang, _ = is_slang_or_figurative(text)
+    if is_slang:
+        return {
+            "incident_type": IncidentType.OTHER,
+            "severity": SeverityLevel.LOW,
+            "actionability": ActionabilityLevel.LOW
+        }
+
     lower = text.lower()
     inc = IncidentType.UNKNOWN
-    if any(k in lower for k in ["fire", "smoke", "blaze", "burning", "flames"]):
+    if any(re.search(r"\b" + re.escape(k) + r"\b", lower) for k in ["fire", "smoke", "blaze", "burning", "flames"]):
         inc = IncidentType.FIRE
-    elif any(k in lower for k in ["explosion", "blast", "bomb", "detonation"]):
+    elif any(re.search(r"\b" + re.escape(k) + r"\b", lower) for k in ["explosion", "blast", "bomb", "detonation"]):
         inc = IncidentType.EXPLOSION
-    elif any(k in lower for k in ["accident", "crash", "collision", "overturned"]):
+    elif any(re.search(r"\b" + re.escape(k) + r"\b", lower) for k in ["accident", "crash", "collision", "overturned"]):
         inc = IncidentType.ACCIDENT
-    elif any(k in lower for k in ["collapse", "collapsed", "cave-in", "rubble", "trapped"]):
+    elif any(re.search(r"\b" + re.escape(k) + r"\b", lower) for k in ["collapse", "collapsed", "cave-in", "rubble", "trapped"]):
         inc = IncidentType.COLLAPSE
-    elif any(k in lower for k in ["flood", "water rising", "submerged"]):
+    elif any(re.search(r"\b" + re.escape(k) + r"\b", lower) for k in ["flood", "water rising", "submerged"]):
         inc = IncidentType.FLOOD
-    elif any(k in lower for k in ["gunshot", "shooting", "robbery", "assault", "crime"]):
+    elif any(re.search(r"\b" + re.escape(k) + r"\b", lower) for k in ["gunshot", "shooting", "robbery", "assault", "crime"]):
         inc = IncidentType.CRIME
-    elif any(k in lower for k in ["cardiac", "stroke", "unconscious", "bleeding", "ambulance", "medical"]):
+    elif any(re.search(r"\b" + re.escape(k) + r"\b", lower) for k in ["cardiac", "stroke", "unconscious", "bleeding", "ambulance", "medical"]):
         inc = IncidentType.MEDICAL
-    elif any(k in lower for k in ["missing", "lost child"]):
+    elif any(re.search(r"\b" + re.escape(k) + r"\b", lower) for k in ["missing", "lost child"]):
         inc = IncidentType.MISSING_PERSON
 
-    sev = SeverityLevel.CRITICAL if any(k in lower for k in ["critical", "injured", "trapped", "explosion", "dying"]) else SeverityLevel.MEDIUM
+    sev = SeverityLevel.CRITICAL if any(re.search(r"\b" + re.escape(k) + r"\b", lower) for k in ["critical", "injured", "trapped", "explosion", "dying"]) else SeverityLevel.MEDIUM
     return {"incident_type": inc, "severity": sev}
 
 
@@ -252,6 +273,20 @@ def ingest_report(payload: IngestReportPayload):
     if gps_xy == "None" or not gps_xy:
         gps_xy = f"{lat:.4f}, {lon:.4f}"
 
+    # Run Relevance Model evaluation
+    relevance_result = None
+    is_slang = False
+    if relevance_model is not None:
+        try:
+            relevance_result = relevance_model.predict_one(payload.text)
+            is_slang = relevance_result.get("is_slang_or_figurative", False)
+        except Exception:
+            pass
+
+    if not is_slang:
+        from src.relevance.idiom_detector import is_slang_or_figurative
+        is_slang, _ = is_slang_or_figurative(payload.text)
+
     # Run Role 2 NLP pipeline for automated incident classification, entity extraction & credibility
     role2_result = None
     if nlp_pipeline is not None:
@@ -265,51 +300,73 @@ def ingest_report(payload: IngestReportPayload):
         except Exception:
             role2_result = None
 
-    # Auto-infer incident type if unknown or omitted
-    inferred = infer_metadata_fallback(payload.text)
-    incident_type = payload.incident_type
-    if not incident_type or incident_type == IncidentType.UNKNOWN:
-        if role2_result and role2_result.incident and role2_result.incident.type:
-            try:
-                incident_type = IncidentType(role2_result.incident.type.value)
-            except (ValueError, AttributeError):
-                incident_type = inferred["incident_type"]
-        else:
-            incident_type = inferred["incident_type"]
-
-    severity = payload.severity or inferred["severity"]
-    actionability = payload.actionability or ActionabilityLevel.MEDIUM
-
-    # Credibility assessment
-    if payload.credibility is not None and payload.credibility != 0.75:
-        credibility = payload.credibility
-    elif role2_result and role2_result.credibility:
-        credibility = round(float(role2_result.credibility.score), 4)
-    else:
-        credibility = payload.credibility if payload.credibility is not None else 0.75
+    # Check if this is a non-emergency report (slang/idiom or low relevance without explicit emergency fields)
+    is_non_emergency = is_slang or (
+        relevance_result is not None
+        and relevance_result.get("relevance_level") == "low"
+        and not payload.severity
+        and not payload.incident_type
+    )
 
     # Extract casualty counts from Role 2 if detected
     affected_count = None
     injured_count = None
     cred_factors = None
     if role2_result:
-        if role2_result.people:
+        if role2_result.people and not is_non_emergency:
             affected_count = role2_result.people.total_affected
             injured_count = role2_result.people.injured
-            if (injured_count and injured_count > 0) or (affected_count and affected_count > 0):
-                if not payload.actionability:
-                    actionability = ActionabilityLevel.HIGH
-                if not payload.severity:
-                    severity = SeverityLevel.CRITICAL
         if role2_result.credibility and hasattr(role2_result.credibility, "factors"):
             cred_factors = role2_result.credibility.factors.model_dump() if hasattr(role2_result.credibility.factors, "model_dump") else dict(role2_result.credibility.factors)
 
-    # Calculate priority score via Priority Engine
-    priority = calculate_priority(
-        severity=severity.value if hasattr(severity, "value") else str(severity),
-        actionability=actionability.value if hasattr(actionability, "value") else str(actionability),
-        credibility=credibility,
-    )
+    if is_non_emergency:
+        incident_type = payload.incident_type or IncidentType.OTHER
+        severity = payload.severity or SeverityLevel.LOW
+        actionability = payload.actionability or ActionabilityLevel.LOW
+        credibility = 0.05 if (payload.credibility is None or payload.credibility == 0.75) else payload.credibility
+        priority = 0.0 if payload.priority is None else payload.priority
+        status_val = "non_emergency"
+        dispatch_status_val = "dismissed"
+        cred_factors = cred_factors or {"slang_or_figurative_penalty": 1.0}
+    else:
+        status_val = "pending"
+        dispatch_status_val = "pending"
+
+        # Auto-infer incident type if unknown or omitted
+        inferred = infer_metadata_fallback(payload.text)
+        incident_type = payload.incident_type
+        if not incident_type or incident_type == IncidentType.UNKNOWN:
+            if role2_result and role2_result.incident and role2_result.incident.type:
+                try:
+                    incident_type = IncidentType(role2_result.incident.type.value)
+                except (ValueError, AttributeError):
+                    incident_type = inferred["incident_type"]
+            else:
+                incident_type = inferred["incident_type"]
+
+        severity = payload.severity or inferred["severity"]
+        actionability = payload.actionability or ActionabilityLevel.MEDIUM
+
+        if (injured_count and injured_count > 0) or (affected_count and affected_count > 0):
+            if not payload.actionability:
+                actionability = ActionabilityLevel.HIGH
+            if not payload.severity:
+                severity = SeverityLevel.CRITICAL
+
+        # Credibility assessment
+        if payload.credibility is not None and payload.credibility != 0.75:
+            credibility = payload.credibility
+        elif role2_result and role2_result.credibility:
+            credibility = round(float(role2_result.credibility.score), 4)
+        else:
+            credibility = payload.credibility if payload.credibility is not None else 0.75
+
+        # Calculate priority score via Priority Engine
+        priority = payload.priority if payload.priority is not None else calculate_priority(
+            severity=severity.value if hasattr(severity, "value") else str(severity),
+            actionability=actionability.value if hasattr(actionability, "value") else str(actionability),
+            credibility=credibility,
+        )
 
     report = EmergencyReport(
         report_id=report_id,
@@ -323,8 +380,8 @@ def ingest_report(payload: IngestReportPayload):
         latitude=lat,
         longitude=lon,
         gps_xy=gps_xy if gps_xy != "None" else None,
-        status="pending",
-        dispatch_status="pending",
+        status=status_val,
+        dispatch_status=dispatch_status_val,
         affected_count=affected_count,
         injured_count=injured_count,
         credibility_factors=cred_factors,

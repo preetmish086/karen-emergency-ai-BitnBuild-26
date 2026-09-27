@@ -1,129 +1,280 @@
 text,relevant
 "Explosion reported near Times Square, multiple people injured",1
-"Huge fire spreading through a building near JFK Airport",1
-"People trapped inside collapsed building in Lower Manhattan",1
+Huge fire spreading through a building near JFK Airport,1
+People trapped inside collapsed building in Lower Manhattan,1
 "Two vehicles crashed on Brooklyn Bridge, several people injured",1
-"Person unconscious near Central Park subway entrance",1
-"Flood water entering homes in Queens",1
-"Smoke and flames coming from apartment building on Broadway",1
-"Missing child reported near Grand Central Terminal",1
-"Suspicious package found near Wall Street",1
-"Multiple people injured after accident on Queens Boulevard",1
+Person unconscious near Central Park subway entrance,1
+Flood water entering homes in Queens,1
+Smoke and flames coming from apartment building on Broadway,1
+Missing child reported near Grand Central Terminal,1
+Suspicious package found near Wall Street,1
+Multiple people injured after accident on Queens Boulevard,1
 "Fire breaking out near Penn Station, people evacuating",1
 "Loud explosion heard around Midtown, reports of injuries",1
 "Building collapse reported in Brooklyn, rescue crews needed",1
-"Several cars involved in major crash near Manhattan Bridge",1
-"Person seriously injured outside Times Square",1
-"Water rising rapidly near subway station in Queens",1
-"Possible gas leak reported near apartment building in Harlem",1
-"Heavy smoke coming from restaurant in Manhattan",1
-"People trapped after elevator accident in Midtown",1
-"Armed robbery reported near a store in Brooklyn",1
-"Child missing after last seen near Central Park",1
-"Large fire visible near LaGuardia Airport",1
-"Emergency crews responding to crash on FDR Drive",1
-"Several injured after construction site accident in Queens",1
-"Person collapsed on subway platform at Union Square",1
-"Flooding blocking roads near Jamaica Queens",1
-"Explosion reported at construction site in Brooklyn",1
-"Smoke filling subway station near Times Square",1
-"Possible shooting reported near a busy street in Manhattan",1
-"Person trapped inside damaged vehicle after crash",1
-"Fire spreading across multiple floors near Washington Heights",1
-"Medical emergency reported outside Rockefeller Center",1
-"Building partially collapsed near Brooklyn neighborhood",1
-"Multiple ambulances responding to incident near Times Square",1
-"Strong smell of gas reported by residents in Queens",1
-"Police responding to reported assault near Central Park",1
-"Several people injured after bus accident in Manhattan",1
-"Water flooding basement apartments in Brooklyn",1
-"Large fire and thick smoke near Harlem",1
-"Missing elderly person last seen near Queens Boulevard",1
-"Explosion-like sound followed by smoke near Midtown",1
-"Vehicle overturned after serious accident on Queens road",1
-"Person bleeding heavily after accident near Penn Station",1
-"Reports of people trapped in burning building in Brooklyn",1
-"Emergency evacuation underway near JFK terminal",1
-"Possible chemical spill reported near industrial area in Queens",1
-"Police searching for missing child near Prospect Park",1
-"Several people injured after collapse at construction site",1
-"Firefighters arriving at building fire near 5th Avenue",1
-"Subway platform crowded after someone collapsed and needs medical help",1
-"Flood water covering several streets in Queens",1
-"Suspicious person reportedly threatening people near a Manhattan station",1
-"Crash has blocked multiple lanes on Brooklyn Bridge",1
-"Smoke coming from underground subway entrance near Union Square",1
-"Person found unconscious near a bus stop in Harlem",1
-"Large explosion reported near a warehouse in Brooklyn",1
-"Police responding to possible robbery near Times Square",1
-"Apartment building shaking after reported blast in Manhattan",1
-"People being evacuated from office building due to fire",1
-"Several injured after pileup on FDR Drive",1
-"Rescue teams needed after building collapse in Queens",1
-"Traffic is very slow around Times Square today",0
-"Beautiful sunset over Central Park tonight",0
-"Tourists taking photos at Brooklyn Bridge",0
-"New restaurant opened near Times Square",0
-"Weather looks cloudy over Queens",0
-"Subway train delayed due to routine maintenance",0
-"People waiting for taxis outside JFK Airport",0
-"Large crowd attending a concert in Manhattan",0
-"Coffee shop offering discounts near Broadway",0
-"Central Park looks beautiful this morning",0
-"Lots of tourists visiting Times Square today",0
-"Traffic is heavy on FDR Drive during rush hour",0
-"Rain expected across New York this evening",0
-"Restaurant reservations are filling up in Midtown",0
-"Tourists walking across Brooklyn Bridge",0
-"Subway service running normally near Union Square",0
-"Street performers attracting a crowd in Times Square",0
-"Sunny afternoon expected in Manhattan",0
-"New store opening near Queens Boulevard",0
-"People lining up outside a theater on Broadway",0
-"Taxi fares increased in Manhattan this week",0
-"Central Park is crowded with runners today",0
-"Visitors taking pictures near Rockefeller Center",0
-"Coffee shop near Wall Street is very busy",0
-"Normal traffic near JFK Airport right now",0
-"Cloudy weather reported across Brooklyn",0
-"Concert tickets available for a Manhattan event",0
-"Tourists enjoying the view from Brooklyn Bridge",0
-"Subway passengers waiting for the next train",0
-"Restaurant serving lunch near Times Square",0
-"Lots of people shopping in Midtown today",0
-"Rain making sidewalks wet around Queens",0
-"New apartment listings available in Brooklyn",0
-"Street festival happening near Central Park",0
-"Traffic moving slowly near Grand Central during rush hour",0
-"Tourists visiting the Empire State Building",0
-"Sunny weather expected near JFK Airport",0
-"People waiting outside a Broadway theater",0
-"Popular restaurant has a long line tonight",0
-"Subway station is crowded during evening commute",0
-"New coffee shop opened in Brooklyn",0
-"People exercising in Central Park this morning",0
-"Heavy traffic reported near Manhattan Bridge",0
-"Tourists gathering around a street performer",0
-"Weekend event attracting visitors to Queens",0
-"Normal subway delays reported across Manhattan",0
-"People shopping near Wall Street",0
-"Clouds moving over Midtown this afternoon",0
-"Busy restaurant district near Broadway tonight",0
-"Taxi queue is long outside Grand Central",0
-"Visitors enjoying the weather in New York",0
-"Street market attracting shoppers in Brooklyn",0
-"Normal rush hour traffic near Queens Boulevard",0
-"People taking pictures around Times Square",0
-"Subway platform crowded during evening commute",0
-"New hotel opened near Central Park",0
-"Rain causing normal traffic delays in Manhattan",0
-"Tourists arriving at JFK Airport",0
-"Large crowd leaving a sports event in Brooklyn",0
-"Shopping district is busy near Times Square",0
-"People walking around Midtown after work",0
-"Weather forecast says rain tomorrow in Queens",0
-"Restaurant opening announced near Union Square",0
-"Visitors enjoying the Brooklyn waterfront",0
-"Traffic building up around Grand Central",0
-"Normal crowd outside a Manhattan concert venue",0
-"Tourists exploring Lower Manhattan",0
+Several cars involved in major crash near Manhattan Bridge,1
+Person seriously injured outside Times Square,1
+Water rising rapidly near subway station in Queens,1
+Possible gas leak reported near apartment building in Harlem,1
+Heavy smoke coming from restaurant in Manhattan,1
+People trapped after elevator accident in Midtown,1
+Armed robbery reported near a store in Brooklyn,1
+Child missing after last seen near Central Park,1
+Large fire visible near LaGuardia Airport,1
+Emergency crews responding to crash on FDR Drive,1
+Several injured after construction site accident in Queens,1
+Person collapsed on subway platform at Union Square,1
+Flooding blocking roads near Jamaica Queens,1
+Explosion reported at construction site in Brooklyn,1
+Smoke filling subway station near Times Square,1
+Possible shooting reported near a busy street in Manhattan,1
+Person trapped inside damaged vehicle after crash,1
+Fire spreading across multiple floors near Washington Heights,1
+Medical emergency reported outside Rockefeller Center,1
+Building partially collapsed near Brooklyn neighborhood,1
+Multiple ambulances responding to incident near Times Square,1
+Strong smell of gas reported by residents in Queens,1
+Police responding to reported assault near Central Park,1
+Several people injured after bus accident in Manhattan,1
+Water flooding basement apartments in Brooklyn,1
+Large fire and thick smoke near Harlem,1
+Missing elderly person last seen near Queens Boulevard,1
+Explosion-like sound followed by smoke near Midtown,1
+Vehicle overturned after serious accident on Queens road,1
+Person bleeding heavily after accident near Penn Station,1
+Reports of people trapped in burning building in Brooklyn,1
+Emergency evacuation underway near JFK terminal,1
+Possible chemical spill reported near industrial area in Queens,1
+Police searching for missing child near Prospect Park,1
+Several people injured after collapse at construction site,1
+Firefighters arriving at building fire near 5th Avenue,1
+Subway platform crowded after someone collapsed and needs medical help,1
+Flood water covering several streets in Queens,1
+Suspicious person reportedly threatening people near a Manhattan station,1
+Crash has blocked multiple lanes on Brooklyn Bridge,1
+Smoke coming from underground subway entrance near Union Square,1
+Person found unconscious near a bus stop in Harlem,1
+Large explosion reported near a warehouse in Brooklyn,1
+Police responding to possible robbery near Times Square,1
+Apartment building shaking after reported blast in Manhattan,1
+People being evacuated from office building due to fire,1
+Several injured after pileup on FDR Drive,1
+Rescue teams needed after building collapse in Queens,1
+Traffic is very slow around Times Square today,0
+Beautiful sunset over Central Park tonight,0
+Tourists taking photos at Brooklyn Bridge,0
+New restaurant opened near Times Square,0
+Weather looks cloudy over Queens,0
+Subway train delayed due to routine maintenance,0
+People waiting for taxis outside JFK Airport,0
+Large crowd attending a concert in Manhattan,0
+Coffee shop offering discounts near Broadway,0
+Central Park looks beautiful this morning,0
+Lots of tourists visiting Times Square today,0
+Traffic is heavy on FDR Drive during rush hour,0
+Rain expected across New York this evening,0
+Restaurant reservations are filling up in Midtown,0
+Tourists walking across Brooklyn Bridge,0
+Subway service running normally near Union Square,0
+Street performers attracting a crowd in Times Square,0
+Sunny afternoon expected in Manhattan,0
+New store opening near Queens Boulevard,0
+People lining up outside a theater on Broadway,0
+Taxi fares increased in Manhattan this week,0
+Central Park is crowded with runners today,0
+Visitors taking pictures near Rockefeller Center,0
+Coffee shop near Wall Street is very busy,0
+Normal traffic near JFK Airport right now,0
+Cloudy weather reported across Brooklyn,0
+Concert tickets available for a Manhattan event,0
+Tourists enjoying the view from Brooklyn Bridge,0
+Subway passengers waiting for the next train,0
+Restaurant serving lunch near Times Square,0
+Lots of people shopping in Midtown today,0
+Rain making sidewalks wet around Queens,0
+New apartment listings available in Brooklyn,0
+Street festival happening near Central Park,0
+Traffic moving slowly near Grand Central during rush hour,0
+Tourists visiting the Empire State Building,0
+Sunny weather expected near JFK Airport,0
+People waiting outside a Broadway theater,0
+Popular restaurant has a long line tonight,0
+Subway station is crowded during evening commute,0
+New coffee shop opened in Brooklyn,0
+People exercising in Central Park this morning,0
+Heavy traffic reported near Manhattan Bridge,0
+Tourists gathering around a street performer,0
+Weekend event attracting visitors to Queens,0
+Normal subway delays reported across Manhattan,0
+People shopping near Wall Street,0
+Clouds moving over Midtown this afternoon,0
+Busy restaurant district near Broadway tonight,0
+Taxi queue is long outside Grand Central,0
+Visitors enjoying the weather in New York,0
+Street market attracting shoppers in Brooklyn,0
+Normal rush hour traffic near Queens Boulevard,0
+People taking pictures around Times Square,0
+Subway platform crowded during evening commute,0
+New hotel opened near Central Park,0
+Rain causing normal traffic delays in Manhattan,0
+Tourists arriving at JFK Airport,0
+Large crowd leaving a sports event in Brooklyn,0
+Shopping district is busy near Times Square,0
+People walking around Midtown after work,0
+Weather forecast says rain tomorrow in Queens,0
+Restaurant opening announced near Union Square,0
+Visitors enjoying the Brooklyn waterfront,0
+Traffic building up around Grand Central,0
+Normal crowd outside a Manhattan concert venue,0
+Tourists exploring Lower Manhattan,0
+the movie i watched last night was fire,0
+the new album is straight fire,0
+this mixtape is pure fire,0
+those sneakers are absolute fire,0
+her outfit tonight was fire,0
+the dj dropped a fire beat,0
+this spicy ramen is pure fire,0
+fire deal on laptops at best buy,0
+there is a fire sale going on at the mall,0
+she was smoking hot in that dress,0
+we are going to smoke the competition today,0
+he got completely roasted in the comment section,0
+the roast battle last night was hilarious,0
+the quarterback was on fire all night,0
+our team is on fire with five straight wins,0
+i have a burning desire to travel the world,0
+that is a burning question in science,0
+putting out fires at work all afternoon,0
+this code is a dumpster fire,0
+this burger is the bomb,0
+that party last night was an absolute blast,0
+we had a blast at disneyland with the family,0
+thanks for having us over we had a blast,0
+turn the music up to full blast,0
+blast from the past seeing my high school friend,0
+he bombed his math exam this morning,0
+the comedian totally bombed on stage,0
+the studio dropped a bombshell trailer today,0
+she dropped a bombshell about leaving her job,0
+my phone blew up with notifications after my tweet,0
+he blew up on tiktok overnight,0
+that magic trick completely blew my mind,0
+my head is about to explode from studying calculus,0
+the crowd exploded with cheers when he scored,0
+the new video game exploded in popularity,0
+that was an explosive guitar solo,0
+my code crashed on production,0
+the server crashed right after deployment,0
+my browser crashed and i lost all my tabs,0
+the app keeps crashing whenever i open it,0
+the stock market took a dive and crashed,0
+bitcoin crashed twenty percent overnight,0
+can i crash on your couch tonight,0
+we decided to crash the wedding reception,0
+i need to take a crash course in python,0
+that reality show is an absolute train wreck,0
+he is an emotional wreck after the breakup,0
+it was just a happy accident that we met,0
+i am dying of laughter watching this cat video,0
+that standup comedian had me dying the whole time,0
+i am literally dying laughing right now,0
+i am dying to try that new italian restaurant,0
+i had a heart attack when i saw the restaurant bill,0
+the jumpscare in the movie almost gave me a heart attack,0
+traffic on the expressway is absolute murder,0
+my feet are killing me after walking all day,0
+that killer bassline makes the song amazing,0
+she wore a killer red dress to the party,0
+the team killed it during the client presentation,0
+they completely killed their live performance,0
+i choked during my presentation in front of the boss,0
+the tennis player choked in the final set,0
+i died of embarrassment when i tripped on stage,0
+my phone battery is completely dead,0
+the kids are shooting hoops at the community park,0
+let us go shoot some pool at the billiards club,0
+we were taking shots of tequila at the bar,0
+let me shoot you a quick email about the project,0
+she stole my heart the moment i saw her,0
+the backup dancer stole the show tonight,0
+these concert ticket fees are highway robbery,0
+ten dollars for a bottle of water is daylight robbery,0
+that was a total cheap shot in the debate,0
+i am flooded with emails and messages this morning,0
+the helpline was flooded with customer complaints,0
+i got overwhelmed by a flood of childhood memories,0
+we are drowning in paperwork at the office,0
+drowning in college assignments this semester,0
+the sports team collapsed under pressure in the 4th quarter,0
+the company stock price collapsed today,0
+the government caved in to public pressure,0
+"Fire broke out at AMC movie theater on 42nd St, smoke everywhere, call 911!",1
+"Real car accident on highway near movie theater, driver trapped!",1
+"Loud explosion outside the restaurant, send ambulance immediately",1
+Someone collapsed at the party and is not breathing,1
+"Active shooter reported near the stadium, shots fired",1
+"Water rising rapidly inside homes due to flash flood, send rescue team",1
+"Child is choking on food at the restaurant and turning blue, send ambulance!",1
+"Ceiling collapsed inside the supermarket, people pinned under rubble!",1
+Active armed robbery in progress at the jewelry store on Broadway!,1
+"Elderly man collapsed on the subway platform, unconscious and not breathing!",1
+"Severe car accident with two overturned vehicles on Brooklyn Bridge, people trapped!",1
+"Huge building fire on 42nd Street, flames and black smoke coming out!",1
+"Loud explosion at the gas station near Queens Blvd, multiple injured!",1
+"Gas leak explosion in apartment basement, residents evacuating immediately",1
+Three cars collided in multi-vehicle accident on FDR Drive with injuries,1
+"Pedestrian struck by bus on 5th Avenue, bleeding heavily, unconscious",1
+"Warehouse fire spreading rapidly to neighboring homes, firefighters needed",1
+"Subway collision between two trains, passengers screaming and injured",1
+"Construction crane collapsed onto roadway, crushing multiple parked cars",1
+"Flooding waters reached second floor of apartment complex, family trapped",1
+"Explosion in residential building, flames spreading to adjacent units",1
+"Two cars crashed at high speed on Queens Boulevard, airbags deployed, driver injured",1
+"Severe structure fire at warehouse on 12th Avenue, firefighters on scene",1
+"Man unconscious on subway tracks at 14th Street station, urgent rescue needed",1
+"Heavy flooding in basement apartments in Brooklyn, families need evacuation",1
+Armed robber with firearm holding up convenience store on Grand Street,1
+"Scaffolding collapsed onto sidewalk in Midtown, several pedestrians pinned",1
+"Elderly woman having acute stroke symptoms, face drooping, call ambulance",1
+"Gas leak detected in apartment complex, strong odor, immediate evacuation underway",1
+"School bus collided with delivery truck on FDR drive, multiple students injured",1
+Flames erupting from second floor window of apartment on Elm Street,1
+Person severely bleeding after assault near subway turnstiles,1
+Multiple vehicles involved in fatal collision on Brooklyn Bridge,1
+"Apartment building roof collapsed after heavy rain, search and rescue deployed",1
+"Toddler swallowed small object and cannot breathe, choking, call 911",1
+Transformer explosion caused power outage and fire on 8th Avenue,1
+Flash flood water trapped motorists inside cars on expressway,1
+"Shots fired outside nightclub in Manhattan, two people wounded",1
+"Cardiac arrest in progress at gym, bystander performing CPR",1
+"Construction worker fell from scaffolding, critical trauma, send medic",1
+"Massive chemical leak at industrial plant, hazardous fumes spreading",1
+"Subway derailment reported near Queens plaza, passengers trapped in cars",1
+"Residential home fully engulfed in fire, occupants screaming for help",1
+"Head-on crash between two SUVs on highway, victims trapped inside vehicles",1
+"Bridge support cable snapped, roadway partially collapsed, traffic halted",1
+"Severe allergic reaction, throat swelling, patient turning blue",1
+Stabbing victim found unconscious in alley near Broadway,1
+Water main burst causing sinkhole and street flooding in Manhattan,1
+Apartment fire with thick black smoke trapping residents on upper floor,1
+"Multiple gunshots heard near park playground, people fleeing",1
+"Pedestrian run over by speeding vehicle at crosswalk, unresponsive",1
+"Boiler explosion in basement of hotel, multiple burn victims",1
+"River bank overflowed, submerging roadway and residential streets",1
+"Balcony collapsed during gathering, several people injured in fall",1
+Driver unconscious at wheel after crashing into traffic light pole,1
+"Active burglary in progress, suspects armed inside home",1
+Child trapped in burning vehicle following crash on parkway,1
+"Person collapsed from heat exhaustion, not breathing, send EMT",1
+Commercial kitchen explosion with severe fire spreading to dining room,1
+"Highway pileup involving tanker truck and five cars, fire hazards present",1
+"Building collapse in Lower East Side, emergency crews digging through rubble",1
+"Armed suspects fleeing bank after robbery, police chasing",1
+"Subway platform crowd crush, several commuters injured",1
+Severe burns reported after electrical panel exploded in office,1
+"Trench collapsed on construction workers, two men buried alive",1
+Person bleeding uncontrollably after industrial accident in warehouse,1
+"Apartment complex on fire, sirens approaching, people evacuating",1
+"Vehicle plunged into river from bridge, occupants trapped underwater",1
+"Elderly resident unresponsive and cyanotic in apartment, CPR initiated",1
+"Gas explosion leveled residential townhouse, neighbors reporting injuries",1

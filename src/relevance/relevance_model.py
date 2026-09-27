@@ -118,6 +118,9 @@ class RelevanceModel:
             probability_map.values()
         )
 
+        from src.relevance.idiom_detector import is_slang_or_figurative
+        is_slang, slang_reason = is_slang_or_figurative(text)
+
         emergency_signal = contains_emergency_signal(
             text
         )
@@ -126,20 +129,22 @@ class RelevanceModel:
             text
         )
 
-        relevance_level = self._get_level(
-            relevance_score,
-            emergency_signal,
-            excluded_context
-        )
+        if is_slang:
+            relevance_level = "low"
+            relevance_score = min(relevance_score, 0.15)
+            ml_level = "low"
+        else:
+            relevance_level = self._get_level(
+                relevance_score,
+                emergency_signal,
+                excluded_context
+            )
+            ml_level = "high" if ml_label == 1 else "low"
 
         return {
             "relevance_level": relevance_level,
-            "ml_level": (
-                "high"
-                if ml_label == 1
-                else "low"
-            ),
-            "ml_prediction": ml_label,
+            "ml_level": ml_level,
+            "ml_prediction": 0 if is_slang else ml_label,
             "ml_confidence": round(
                 ml_confidence,
                 3
@@ -149,7 +154,9 @@ class RelevanceModel:
                 3
             ),
             "emergency_signal": emergency_signal,
-            "excluded_context": excluded_context
+            "excluded_context": excluded_context or is_slang,
+            "is_slang_or_figurative": is_slang,
+            "slang_reason": slang_reason if is_slang else None
         }
 
     def _get_level(
@@ -158,6 +165,9 @@ class RelevanceModel:
         emergency_signal,
         excluded_context
     ):
+
+        if excluded_context:
+            return "low"
 
         if relevance_score >= 0.75:
             level = "high"

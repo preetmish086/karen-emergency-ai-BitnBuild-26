@@ -25,6 +25,18 @@ class EntityExtractor(BaseEntityExtractor):
         if not text or not text.strip():
             return PeopleAffected()
 
+        try:
+            from role2.src.classification.idiom_detector import is_slang_or_figurative
+        except (ImportError, ModuleNotFoundError):
+            try:
+                from src.classification.idiom_detector import is_slang_or_figurative
+            except (ImportError, ModuleNotFoundError):
+                from src.relevance.idiom_detector import is_slang_or_figurative
+
+        is_slang, _ = is_slang_or_figurative(text)
+        if is_slang:
+            return PeopleAffected()
+
         # Step 1: Normalize number words to digits for pattern matching
         normalized_text = self.preprocessor.normalize_number_words(text)
 

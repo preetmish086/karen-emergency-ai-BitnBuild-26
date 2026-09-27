@@ -8,9 +8,14 @@ from sklearn.naive_bayes import MultinomialNB
 try:
     from role2.src.schemas.output_schema import IncidentCategory, IncidentInfo
     from role2.src.classification.base import BaseIncidentClassifier
+    from role2.src.classification.idiom_detector import is_slang_or_figurative
 except (ImportError, ModuleNotFoundError):
     from src.schemas.output_schema import IncidentCategory, IncidentInfo
     from src.classification.base import BaseIncidentClassifier
+    try:
+        from src.classification.idiom_detector import is_slang_or_figurative
+    except (ImportError, ModuleNotFoundError):
+        from src.relevance.idiom_detector import is_slang_or_figurative
 
 
 class IncidentClassifier(BaseIncidentClassifier):
@@ -83,6 +88,13 @@ class IncidentClassifier(BaseIncidentClassifier):
         ("Elderly person disappeared from home", IncidentCategory.MISSING_PERSON),
         ("Hello test testing 123", IncidentCategory.UNKNOWN),
         ("Something weird happened outside", IncidentCategory.OTHER),
+        ("the movie i watched last night was fire", IncidentCategory.OTHER),
+        ("this burger is the bomb", IncidentCategory.OTHER),
+        ("that concert was an absolute blast", IncidentCategory.OTHER),
+        ("my code crashed on production", IncidentCategory.OTHER),
+        ("i am dying of laughter watching this", IncidentCategory.OTHER),
+        ("the kids are shooting hoops at the park", IncidentCategory.OTHER),
+        ("i am flooded with emails and assignments today", IncidentCategory.OTHER),
     ]
 
     def __init__(self, csv_dataset_path: Optional[str] = None):
@@ -127,6 +139,11 @@ class IncidentClassifier(BaseIncidentClassifier):
 
     def classify(self, text: str) -> IncidentInfo:
         clean_text = text.lower()
+
+        # 0. Check for slang / idioms / figurative expressions with hazard words
+        is_slang, _ = is_slang_or_figurative(clean_text)
+        if is_slang:
+            return IncidentInfo(type=IncidentCategory.OTHER, confidence=0.88)
 
         # 1. Direct Pattern / Keyword Matching
         matched_scores: Dict[IncidentCategory, float] = {}

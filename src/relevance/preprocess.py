@@ -113,18 +113,23 @@ def clean_text(text):
 def contains_emergency_signal(text):
     """
     Check whether a report contains a potentially
-    important emergency term.
+    important emergency term. Ensures slang/idioms with hazard words
+    are excluded.
 
     Returns:
         bool
     """
+    from src.relevance.idiom_detector import is_slang_or_figurative
+    is_slang, _ = is_slang_or_figurative(text)
+    if is_slang:
+        return False
 
     cleaned = clean_text(text)
 
-    return any(
-        term in cleaned
-        for term in EMERGENCY_TERMS
-    )
+    for term in EMERGENCY_TERMS:
+        if re.search(r"\b" + re.escape(term) + r"\b", cleaned):
+            return True
+    return False
 
 
 def has_context_exclusion(text):
@@ -132,10 +137,16 @@ def has_context_exclusion(text):
     Detect contexts where an emergency word may not
     describe a real emergency.
     """
+    from src.relevance.idiom_detector import is_slang_or_figurative
+    is_slang, reason = is_slang_or_figurative(text)
+    if reason == "authentic_emergency_signal_present":
+        return False
+    if is_slang:
+        return True
 
     cleaned = clean_text(text)
 
-    return any(
-        phrase in cleaned
-        for phrase in CONTEXT_EXCLUSIONS
-    )
+    for phrase in CONTEXT_EXCLUSIONS:
+        if re.search(r"\b" + re.escape(phrase) + r"\b", cleaned):
+            return True
+    return False
