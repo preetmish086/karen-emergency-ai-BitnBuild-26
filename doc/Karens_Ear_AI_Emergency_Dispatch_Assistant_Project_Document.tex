@@ -3,7 +3,7 @@
 % --- Core Packages ---
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[margin=1.8cm,top=2.0cm,bottom=2.0cm]{geometry}
+\usepackage[margin=1.60cm,top=1.60cm,bottom=1.60cm]{geometry}
 \usepackage{amsmath,amssymb,mathtools}
 \usepackage{booktabs,tabularx,multirow,makecell,array}
 \usepackage{xcolor}
@@ -25,17 +25,16 @@
 \definecolor{AccentBlue}{HTML}{2563EB}
 \definecolor{CrimsonRed}{HTML}{DC2626}
 \definecolor{EmeraldGreen}{HTML}{059669}
-\definecolor{AmberYellow}{HTML}{D97706}
 \definecolor{LightSlateBg}{HTML}{F8FAFC}
 \definecolor{BorderGray}{HTML}{CBD5E1}
 
 % --- Typography & Spacing ---
-\linespread{1.08}
-\setlist{noitemsep,topsep=2.5pt,parsep=1.2pt,partopsep=0pt,leftmargin=1.35em}
+\linespread{1.03}
+\setlist{noitemsep,topsep=1.8pt,parsep=0.8pt,partopsep=0pt,leftmargin=1.25em}
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{4.0pt plus 1pt minus 1pt}
-\renewcommand{\arraystretch}{1.18}
-\setlength{\tabcolsep}{5pt}
+\setlength{\parskip}{2.7pt plus 0.5pt minus 0.5pt}
+\renewcommand{\arraystretch}{1.12}
+\setlength{\tabcolsep}{4.5pt}
 
 % --- Running Headers & Footers ---
 \pagestyle{fancy}
@@ -48,14 +47,11 @@
 \fancyfoot[R]{\footnotesize\bfseries Page \thepage\ of \pageref{LastPage}}
 
 % --- Section Titles ---
-\titleformat{\section}{\color{DarkNavy}\large\bfseries}{\thesection.}{0.5em}{}[\color{AccentBlue}\titlerule]
-\titlespacing*{\section}{0pt}{9pt plus 2pt minus 2pt}{3.5pt plus 1pt minus 1pt}
+\titleformat{\section}{\color{DarkNavy}\large\bfseries}{\thesection.}{0.45em}{}[\color{AccentBlue}\titlerule]
+\titlespacing*{\section}{0pt}{6.5pt plus 1.2pt minus 1.0pt}{2.2pt plus 0.5pt minus 0.5pt}
 
-\titleformat{\subsection}{\color{SlateBlue}\normalsize\bfseries}{\thesubsection}{0.4em}{}
-\titlespacing*{\subsection}{0pt}{6.5pt plus 1.5pt minus 1pt}{2.5pt plus 1pt}
-
-\titleformat{\subsubsection}{\color{DarkNavy}\small\bfseries}{\thesubsubsection}{0.35em}{}
-\titlespacing*{\subsubsection}{0pt}{4.5pt plus 1pt minus 1pt}{2pt plus 1pt}
+\titleformat{\subsection}{\color{SlateBlue}\normalsize\bfseries}{\thesubsection}{0.35em}{}
+\titlespacing*{\subsection}{0pt}{4.5pt plus 1.0pt minus 0.8pt}{1.8pt plus 0.5pt}
 
 % --- Callout Box ---
 \newtcolorbox{calloutbox}[2][]{
@@ -66,33 +62,33 @@
   coltitle=white,
   colbacktitle=DarkNavy,
   title=#2,
-  boxrule=0.7pt,
-  arc=2mm,
-  left=3.5mm,right=3.5mm,top=2.5mm,bottom=2.5mm,
-  boxsep=2pt,
+  boxrule=0.65pt,
+  arc=1.8mm,
+  left=3.5mm,right=3.5mm,top=2.2mm,bottom=2.2mm,
+  boxsep=1.5pt,
   #1
 }
 
 \begin{document}
 
 % ==============================================================================
-% SECTION 1: TITLE, EXECUTIVE SUMMARY & PROBLEM CONTEXT
+% PAGE 1: TITLE, OPERATIONAL DELUGE & PROBLEM DEFINITION
 % ==============================================================================
 \begin{center}
-  {\small\scshape\bfseries\color{SlateBlue}Bit N Build '26 Hackathon \textbar\ Track 2: Artificial Intelligence \& Machine Learning}\\[0.12cm]
-  {\LARGE\bfseries\color{DarkNavy} KAREN'S EAR // SpidyCAD}\\[0.06cm]
-  {\large\bfseries\color{SlateBlue} AI-Powered Autonomous Emergency Dispatch \& Triage Engine}\\[0.10cm]
-  {\small\color{AccentBlue}\textbf{System Architecture, Algorithmic Methodology, Empirical Validation, and Operational Blueprint}}\\[0.14cm]
+  {\small\scshape\bfseries\color{SlateBlue}Bit N Build '26 Hackathon \textbar\ Track 2: Artificial Intelligence \& Machine Learning}\\[0.10cm]
+  {\LARGE\bfseries\color{DarkNavy} KAREN'S EAR // SpidyCAD}\\[0.05cm]
+  {\large\bfseries\color{SlateBlue} AI-Powered Autonomous Emergency Dispatch \& Triage Engine}\\[0.08cm]
+  {\small\color{AccentBlue}\textbf{System Architecture, Algorithmic Methodology, Empirical Validation, and Operational Blueprint}}\\[0.12cm]
   {\footnotesize \textbf{Team AlgoRhythm:} Preetika (Priority \& ML), Rishav (FastAPI Backend \& Tactical HUD), Ojas (NLP \& Credibility), Aditya (Datasets \& Curation)}\\
-  {\footnotesize \textbf{Core Stack:} Python 3.11+, FastAPI, Streamlit, PyDeck 3D, Scikit-Learn, Pydantic v2, PyTest (35 Tests Passing)}
+  {\footnotesize \textbf{Production Stack:} Python 3.11+, FastAPI, Streamlit, PyDeck 3D, Scikit-Learn, Pydantic v2, PyTest (35 Tests Passing)}
 \end{center}
-\vspace{-0.2cm}
-\hrule height 0.8pt
-\vspace{0.25cm}
+\vspace{-0.20cm}
+\hrule height 0.75pt
+\vspace{0.20cm}
 
 \begin{calloutbox}{Executive Summary \& Core Operational Mission}
 \small
-\textbf{Karen's Ear (SpidyCAD)} is an end-to-end, edge-resilient emergency dispatch intelligence system engineered to ingest chaotic, fragmented civic distress reports, filter irrelevant noise, corroborate multi-caller events, compute explainable priority triage scores, and render real-time tactical situational awareness to dispatchers and first responders. Operating across a strict 6-phase pipeline:
+\textbf{Karen's Ear (SpidyCAD)} is an end-to-end, edge-resilient emergency dispatch intelligence system engineered to ingest chaotic civic distress reports, filter ambient chatter, corroborate multi-caller events, compute explainable priority triage scores, and render real-time tactical situational awareness to dispatchers and first responders. Operating across a strict 6-phase pipeline:
 \begin{center}
   \textbf{\color{DarkNavy} Detect} $\boldsymbol{\longrightarrow}$ 
   \textbf{\color{DarkNavy} Understand} $\boldsymbol{\longrightarrow}$ 
@@ -106,7 +102,7 @@ The platform couples a \textbf{Tri-State Relevance Gate} ($92.31\%$ test accurac
 
 \section{Problem Definition and Operational Context}
 \subsection{The Challenge: Information Deluge in Severe Urban Crises}
-During catastrophic civic events (fires, structural collapses, explosions, mass-casualty incidents), municipal 911 public safety answering points (PSAPs) and digital citizen feeds experience acute operational breakdown:
+During catastrophic civic events (fires, structural collapses, explosions, mass casualties), municipal 911 public safety answering points (PSAPs) and digital citizen feeds experience acute operational breakdown:
 \begin{itemize}
   \item \textbf{Explosive Concurrency \& Volume:} Emergency distress traffic spikes by orders of magnitude within seconds of an incident, overwhelming call-taker capacity and creating severe dispatch backlogs.
   \item \textbf{Panicked Linguistic Fragmentation:} Real citizens transmit truncated, ungrammatical, and panicked messages (e.g., \emph{"5th ave fire big smoke help stuck inside"}), lacking standard dispatch taxonomies.
@@ -119,105 +115,80 @@ During catastrophic civic events (fires, structural collapses, explosions, mass-
 \small
 \textbf{The Web We Weave:} When New York is in trouble, the calls and messages pour in all at once, panicked, half-finished, overlapping. \emph{``There's smoke on 5th.''} \emph{``Someone's stuck under the rubble.''} \emph{``The lizard-thing is heading downtown.''} Buried in that flood of words is exactly the information Spider-Man needs: what's happening, where, and how urgent. But no human can read it all fast enough, and by the time the important message is spotted, it's too late. Karen, Peter's AI assistant, needs to cut through the chaos and tell him where to swing first.
 
-\vspace{0.12cm}
+\vspace{0.10cm}
 \textbf{Your Mission:} Build an assistant that reads incoming emergency reports and messages, understands what each one is actually about, and decides which ones matter most right now, turning a chaotic stream of text into a clear, prioritised picture of where help is needed.
 \end{calloutbox}
 
-\subsection{Human-in-the-Loop Philosophy \& Zero-Hallucination Directives}
-Karen's Ear is designed as an \textbf{intelligence amplification and decision-support layer}. It preserves dispatcher autonomy while automating the heavy cognitive burden of message ingestion, parsing, entity extraction, deduplication, and priority ranking.
-To guarantee operational safety in life-or-death scenarios, the system enforces strict \textbf{Anti-Hallucination Directives}:
-\begin{enumerate}
-  \item If an incident location is not explicitly stated or geocoded, \texttt{location} strictly defaults to \texttt{null} with safe coordinate fallback; models are prohibited from guessing physical addresses.
-  \item If casualty or trapped victim numbers are unstated, casualty fields strictly remain \texttt{null}; no synthetic victim counts are ever fabricated.
-  \item If hazard classification cannot be established with statistical certainty, \texttt{incident\_type} evaluates to \texttt{unknown}.
-\end{enumerate}
+\subsection{System Scope, Human-in-the-Loop Philosophy \& Zero-Hallucination Directives}
+Karen's Ear functions strictly as an \textbf{intelligence amplification and decision-support layer}. It preserves dispatcher autonomy while automating the heavy cognitive burden of message ingestion, parsing, entity extraction, deduplication, and priority ranking.
+To guarantee operational safety in life-or-death scenarios, the system enforces strict \textbf{Anti-Hallucination Directives}: (1) If an incident location is not explicitly stated or geocoded, \texttt{location} strictly defaults to \texttt{null} with safe coordinate fallback; models are prohibited from guessing physical addresses; (2) If casualty numbers are unstated, casualty fields strictly remain \texttt{null}; no synthetic victim counts are ever fabricated; (3) If hazard classification cannot be established with statistical certainty, \texttt{incident\_type} evaluates to \texttt{unknown}.
 
+\section{Canonical Data Schema and Contract}
+To eliminate schema drift across microservices, Karen's Ear establishes a unified, strictly typed incident contract (Table~\ref{tab:schema_definition}).
 
 % ==============================================================================
-% SECTION 2: CANONICAL DATA SCHEMA & AUDIT TRAIL CONTRACT
+% PAGE 2: DATA SCHEMA & END-TO-END SYSTEM ARCHITECTURE
 % ==============================================================================
-\section{Canonical Data Schema and Compliance Contract}
-\subsection{Incident Schema Contract}
-To guarantee seamless interoperability across the ingestion API, NLP extraction tier, priority regression engine, and tactical dashboard, Karen's Ear enforces a canonical, strictly validated Pydantic v2 data contract (Table~\ref{tab:schema_definition}).
-
 \begin{table}[htbp]
   \centering
   \small
-  \caption{Karen's Ear Canonical Incident Schema Specification}
+  \caption{Karen's Ear Canonical Incident Schema Contract}
   \label{tab:schema_definition}
-  \begin{tabularx}{\textwidth}{lp{2.1cm}p{4.3cm}X}
+  \begin{tabularx}{\textwidth}{lp{2.1cm}p{4.2cm}X}
     \toprule
-    \textbf{Field Name} & \textbf{Data Type} & \textbf{Permitted Domain / Enum} & \textbf{Operational Function} \\
+    \textbf{Field} & \textbf{Data Type} & \textbf{Permitted Domain / Enum} & \textbf{Operational Function} \\
     \midrule
-    \texttt{report\_id} & String & \texttt{"R001"}, UUID, auto-increment & Unique deterministic identifier for deduplication, tracking, and audit indexing. \\
-    \texttt{text} & String & Arbitrary distress string & Raw, unmodified message payload received from citizen SMS, portal, or call transcript. \\
-    \texttt{incident\_type} & Categorical & \texttt{fire, explosion, accident, medical, collapse, flood, crime, missing\_person, unknown, other} & Standardized taxonomy classifying the primary hazardous event category. \\
-    \texttt{location} & String / Null & Named landmark or \texttt{null} & Normalized physical landmark or address (e.g., \texttt{"Times Square"}). Null if omitted. \\
-    \texttt{severity} & Categorical & \texttt{critical, high, medium, low} & Inherent hazard threat to human life, structural integrity, and physical safety. \\
-    \texttt{actionability} & Categorical & \texttt{high, medium, low} & Operational feasibility of immediate unit deployment (e.g., trapped victims reported). \\
-    \texttt{credibility} & Float & $[0.0000, 1.0000]$ (Default $0.75$) & Multi-signal evidentiary confidence computed by the 8-factor credibility engine. \\
-    \texttt{priority} & Float & $[0.0000, 1.0000]$ & Final synthesized priority metric governing order in the active dispatch queue. \\
-    \texttt{latitude}, \texttt{longitude} & Float / Null & Valid WGS84 coordinates & Spatial coordinates used for PyDeck 3D radar map positioning and spatial clustering. \\
-    \texttt{gps\_xy} & String / Null & Format: \texttt{"lat, lon"} or \texttt{"None"} & Raw geocode string captured directly from mobile device GPS telemetry. \\
-    \texttt{status}, \texttt{dispatch\_status} & Categorical & \texttt{pending, dispatched, resolved} & Real-time lifecycle state of the incident within the dispatch workflow. \\
-    \texttt{dispatched\_unit} & String / Null & \texttt{"Engine 5"}, \texttt{"Web Strike"}, etc. & Assigned tactical apparatus or first responder unit deployed to the scene. \\
-    \texttt{affected\_count}, \texttt{injured\_count} & Integer / Null & $\ge 0$ or \texttt{null} & Factual, un-hallucinated casualty counts extracted from citizen statements. \\
-    \texttt{credibility\_factors} & Dict / JSON & 8 numerical factor sub-scores & Granular diagnostic breakdown enabling complete explainability of credibility. \\
+    \texttt{report\_id} & String & \texttt{"R001"}, UUID, auto-increment & Unique deterministic identifier for deduplication and audit tracking. \\
+    \texttt{text} & String & Arbitrary distress string & Raw, unmodified text as transmitted by citizen or emergency caller. \\
+    \texttt{incident\_type} & Categorical & \texttt{fire, explosion, accident, medical, collapse, flood, crime, missing, unknown} & Standardized taxonomy classifying the primary hazardous event. \\
+    \texttt{location} & String / Null & Named landmark or \texttt{null} & Geocoded physical entity (e.g., \texttt{"Times Square"}). Null if unspecified. \\
+    \texttt{severity} & Categorical & \texttt{low, medium, high, critical} & Estimated threat to life safety, structural collapse, or physical injury. \\
+    \texttt{actionability} & Categorical & \texttt{low, medium, high} & Extent to which actionable dispatch details (e.g., trapped victims) exist. \\
+    \texttt{credibility} & Float & $[0.0000, 1.0000]$ (Default $0.75$) & 8-factor statistical confidence score based on observation and density. \\
+    \texttt{priority} & Float & $[0.0000, 1.0000]$ & Final triaged score determining position in dispatcher's deployment queue. \\
+    \texttt{latitude}, \texttt{longitude} & Float / Null & Valid WGS84 coordinates & Spatial coordinates for PyDeck 3D radar mapping and sector clustering. \\
+    \texttt{status}, \texttt{unit} & Categorical & \texttt{pending, dispatched, resolved} & Real-time operational lifecycle status and assigned unit (e.g. \texttt{"Engine 5"}). \\
+    \texttt{casualty counts} & Integer / Null & $\ge 0$ or \texttt{null} & Zero-hallucination extracted casualty figures (affected, injured, trapped). \\
     \bottomrule
   \end{tabularx}
 \end{table}
 
-\subsection{Real-Time Append-Only CSV Audit Engine (\texttt{raw\_emergencies.csv})}
-In emergency governance and legal discovery, unalterable audit trails are mandatory. The backend incorporates a dedicated real-time streaming audit engine:
-\begin{itemize}
-  \item Every report ingested via the \texttt{/ingest} endpoint is instantaneously appended to \texttt{raw\_emergencies.csv}.
-  \item The CSV schema enforces exact four-column headers: \texttt{time, gps\_xy, location, text}.
-  \item \textbf{Newline Sanitization \& Injection Guard:} Multiline citizen distress texts are sanitized by stripping carriage returns and converting newline characters to single whitespace, preventing CSV row injection, format breaking, and data corruption.
-  \item Timestamps are generated using system standard UTC/local notation (\texttt{YYYY-MM-DD HH:MM:SS}).
-\end{itemize}
+\textbf{Real-Time Append-Only CSV Audit Engine (\texttt{raw\_emergencies.csv}):} In emergency governance and legal discovery, unalterable audit trails are mandatory. Every incoming report ingested via the \texttt{/ingest} endpoint is instantaneously appended to \texttt{raw\_emergencies.csv} with exact headers: \texttt{time, gps\_xy, location, text}. Multiline citizen distress texts are sanitized by stripping carriage returns and converting newlines to spaces, preventing CSV injection and row corruption.
 
-
-% ==============================================================================
-% SECTION 3: SYSTEM ARCHITECTURE & 6-PHASE OPERATIONAL PIPELINE
-% ==============================================================================
-\section{System Architecture and Operational Pipeline}
-\subsection{End-to-End Architectural Blueprint}
-Karen's Ear implements a decoupled, fail-safe architecture partitioned into independent processing tiers (Figure~\ref{fig:architecture_pipeline}).
+\section{System Architecture and Pipeline}
+\subsection{Architectural Blueprint}
+The pipeline enforces a decoupled, sequential architecture where each stage has a single verifiable responsibility (Figure~\ref{fig:architecture_pipeline}).
 
 \begin{figure}[htbp]
   \centering
-  \vspace{0.1cm}
+  \vspace{0.05cm}
   \begin{tikzpicture}[
-    scale=0.92, every node/.style={scale=0.86},
-    stage/.style={rectangle, rounded corners=2mm, draw=DarkNavy, fill=LightSlateBg, thick, minimum width=2.6cm, minimum height=0.9cm, align=center, font=\scriptsize\bfseries},
+    scale=0.90, every node/.style={scale=0.80},
+    stage/.style={rectangle, rounded corners=1.6mm, draw=DarkNavy, fill=LightSlateBg, thick, minimum width=2.4cm, minimum height=0.72cm, align=center, font=\scriptsize\bfseries},
     gate/.style={diamond, aspect=1.8, draw=CrimsonRed, fill=LightSlateBg, thick, align=center, font=\tiny\bfseries},
-    action/.style={rectangle, rounded corners=2mm, draw=AccentBlue, fill=AccentBlue!10, thick, minimum width=2.6cm, minimum height=0.9cm, align=center, font=\scriptsize\bfseries},
-    audit/.style={cylinder, shape border rotate=90, draw=SlateBlue, fill=SlateBlue!12, aspect=0.25, minimum width=2.2cm, minimum height=0.9cm, align=center, font=\tiny\bfseries},
-    hud/.style={rectangle, rounded corners=2mm, draw=EmeraldGreen, fill=EmeraldGreen!12, thick, minimum width=6.0cm, minimum height=0.95cm, align=center, font=\scriptsize\bfseries},
-    arrow/.style={-{Stealth[scale=0.9]}, thick, color=DarkNavy},
-    redarrow/.style={-{Stealth[scale=0.9]}, thick, color=CrimsonRed},
-    dasharrow/.style={-{Stealth[scale=0.9]}, thick, dashed, color=SlateBlue}
+    action/.style={rectangle, rounded corners=1.6mm, draw=AccentBlue, fill=AccentBlue!10, thick, minimum width=2.4cm, minimum height=0.72cm, align=center, font=\scriptsize\bfseries},
+    audit/.style={cylinder, shape border rotate=90, draw=SlateBlue, fill=SlateBlue!12, aspect=0.25, minimum width=1.9cm, minimum height=0.72cm, align=center, font=\tiny\bfseries},
+    hud/.style={rectangle, rounded corners=1.6mm, draw=EmeraldGreen, fill=EmeraldGreen!12, thick, minimum width=5.4cm, minimum height=0.76cm, align=center, font=\scriptsize\bfseries},
+    arrow/.style={-{Stealth[scale=0.85]}, thick, color=DarkNavy},
+    redarrow/.style={-{Stealth[scale=0.85]}, thick, color=CrimsonRed},
+    dasharrow/.style={-{Stealth[scale=0.85]}, thick, dashed, color=SlateBlue}
   ]
-    % Row 1
     \node[stage] (intake) {Stage 1: Raw Intake\\(Citizen Portal / SMS)};
-    \node[gate, right=0.7cm of intake] (relgate) {Stage 2: Relevance\\Gate (Tri-State)};
-    \node[action, right=0.7cm of relgate] (safety) {Lexical Safety Net\\(Escalates OOV)};
-    \node[audit, below=0.85cm of intake] (auditcsv) {Audit Stream\\(\texttt{raw\_emergencies.csv})};
+    \node[gate, right=0.6cm of intake] (relgate) {Stage 2: Relevance\\Gate (Tri-State)};
+    \node[action, right=0.6cm of relgate] (safety) {Lexical Safety Net\\(Escalates OOV)};
+    \node[audit, below=0.65cm of intake] (auditcsv) {Audit Stream\\(\texttt{raw\_emergencies.csv})};
 
-    % Row 2
-    \node[action, below=0.85cm of safety] (nlp) {Stage 3: NLP Extraction\\(Type, Loc, Casualties)};
-    \node[stage, left=0.7cm of nlp] (cred) {Stage 4: 8-Factor\\Credibility Engine};
-    \node[action, left=0.7cm of cred] (corrob) {Stage 5: Corroboration\\\& Deduplication};
+    \node[action, below=0.65cm of safety] (nlp) {Stage 3: NLP Extraction\\(Type, Loc, Casualties)};
+    \node[stage, left=0.6cm of nlp] (cred) {Stage 4: 8-Factor\\Credibility Engine};
+    \node[action, left=0.6cm of cred] (corrob) {Stage 5: Corroboration\\\& Deduplication};
 
-    % Row 3
-    \node[stage, below=0.85cm of corrob] (prio) {Stage 6: Multi-Attribute\\Priority Engine};
-    \node[hud, right=0.7cm of prio] (dash) {SpidyCAD Tactical HUD Command Console\\(PyDeck 3D Radar, P1 Spider-Sense Pulse, 1-Click Dispatch)};
+    \node[stage, below=0.65cm of corrob] (prio) {Stage 6: Multi-Attribute\\Priority Engine};
+    \node[hud, right=0.6cm of prio] (dash) {SpidyCAD Tactical HUD Command Console\\(PyDeck 3D Radar, P1 Spider-Sense Pulse, 1-Click Dispatch)};
 
-    % Connections
     \draw[arrow] (intake) -- (relgate);
     \draw[dasharrow] (intake) -- node[left, font=\tiny\color{SlateBlue}]{Real-Time Logging} (auditcsv);
     \draw[arrow] (relgate) -- node[above, font=\tiny\bfseries\color{EmeraldGreen}]{HIGH / UNCERTAIN} (safety);
-    \draw[redarrow] (relgate) |- node[near end, above, font=\tiny\bfseries\color{CrimsonRed}]{LOW (Drop Chatter)} ++(0,-0.7) -| (auditcsv);
+    \draw[redarrow] (relgate) |- node[near end, above, font=\tiny\bfseries\color{CrimsonRed}]{LOW (Drop Chatter)} ++(0,-0.55) -| (auditcsv);
     \draw[arrow] (safety) -- (nlp);
     \draw[arrow] (nlp) -- (cred);
     \draw[arrow] (cred) -- (corrob);
@@ -229,174 +200,155 @@ Karen's Ear implements a decoupled, fail-safe architecture partitioned into inde
   \label{fig:architecture_pipeline}
 \end{figure}
 
-\subsection{Decoupling Relevance Filtering from Priority Triage}
-A fundamental architectural triumph of Karen's Ear is the strict decoupling of \textbf{Relevance} from \textbf{Priority}:
-\begin{itemize}
-  \item \textbf{Relevance Gate:} Answers the classification query: \emph{``Does this transmission report a genuine emergency?''}
-  \item \textbf{Priority Engine:} Answers the resource allocation query: \emph{``Where must first responders deploy first?''}
-\end{itemize}
-Conflating these dimensions introduces catastrophic failure modes. For example, a citizen reporting \emph{"a cat is stuck in a tree in Central Park"} is $100\%$ emergency-relevant, yet possesses low priority ($\mathcal{P} \approx 0.25$). Conversely, a fragmented whisper \emph{"bomb subway station"} carries low grammatical certainty, but demands immediate maximum priority deployment ($\mathcal{P} \ge 0.90$). Decoupling guarantees that low-urgency events are preserved without preempting acute hazards, while ambiguous high-threat events are surfaced instantly.
+\subsection{Decoupling Relevance Gate from Priority Ranking}
+Relevance answers: \emph{``Does this message describe a real emergency?''} Priority answers: \emph{``Where must first responders deploy first?''} Conflating these dimensions causes dangerous operational confusion. A report saying \emph{"a cat is stuck on a garden fence"} is $100\%$ emergency-relevant, but has low priority ($\approx 0.20$). Conversely, a vague fragment \emph{"bomb subway"} carries low grammatical certainty, but demands maximum priority vigilance ($\approx 0.95$). Decoupling guarantees that low-urgency events are not discarded as noise, while ambiguous high-threat events are immediately flagged.
 
-\subsection{The 6-Phase Operational Workflow}
+% ==============================================================================
+% PAGE 3: 6-PHASE WORKFLOW & MACHINE LEARNING
+% ==============================================================================
+\subsection{The 6-Phase Operational Flow}
+The Karen's Ear data pipeline executes six disciplined transformations:
 \begin{enumerate}
   \item \textbf{Detect (Intake \& Relevance Gating):} Ingests incoming distress payloads through asynchronous FastAPI endpoints, validates schemas, logs to \texttt{raw\_emergencies.csv}, and categorizes reports into \texttt{HIGH}, \texttt{UNCERTAIN}, or \texttt{LOW}.
-  \item \textbf{Understand (Role 2 NLP \& Entity Extraction):} Employs domain tokenizers and pattern matching to classify incident categories, resolve named landmarks (40+ NYC coordinates), and extract casualty counts (\texttt{affected}, \texttt{injured}, \texttt{trapped}) with zero hallucination.
-  \item \textbf{Corroborate (Multi-Caller Clustering):} Identifies duplicate reports referencing the identical physical event using spatiotemporal proximity and landmark matching, computing cluster size $N$.
+  \item \textbf{Understand (Role 2 NLP \& Entity Extraction):} Normalizes text into standard hazard categories (\texttt{fire}, \texttt{explosion}, \texttt{collapse}, etc.), extracts landmarks (40+ NYC coordinates), and extracts casualty figures with zero hallucination.
+  \item \textbf{Corroborate (Multi-Caller Clustering):} Groups concurrent reports referencing identical events using string distance and spatiotemporal clustering, dynamically incrementing credibility ($\mathcal{C}$) based on cluster size $N$.
   \item \textbf{Predict (Multi-Attribute Priority Regression):} Evaluates normalized severity ($S$), actionability ($A$), credibility ($C$), and corroboration bonus ($\Delta_k$) via formula and Random Forest models.
   \item \textbf{Rank (Active Priority Queue):} Inserts incident records into a dynamically sorted, priority-descending queue to ensure dispatchers focus on acute life-safety hazards.
-  \item \textbf{Dispatch (Tactical Action \& Auditing):} Projects incidents onto the PyDeck 3D Manhattan radar HUD, sounds the P1 Spider-Sense alert for critical incidents, and empowers dispatchers to deploy response units with a single click.
+  \item \textbf{Dispatch (Tactical Action \& Telemetry):} Projects incidents onto the PyDeck 3D Manhattan radar HUD, sounds the P1 Spider-Sense alert for critical incidents, and empowers dispatchers to deploy response units with a single click.
 \end{enumerate}
 
-
-% ==============================================================================
-% SECTION 4: MACHINE LEARNING, NLP & PRIORITY METHODOLOGY
-% ==============================================================================
 \section{Machine Learning and Algorithmic Methodology}
-\subsection{Tri-State Relevance Gate \& Lexical Safety Net}
-Binary classifiers in emergency dispatch suffer high false-negative rates on noisy, out-of-vocabulary citizen text. Karen's Ear deploys a \textbf{Tri-State Architecture}:
+\subsection{Tri-State Relevance Classification}
+Binary classification is unacceptably brittle in civic safety: fragmented reports are easily dropped as false negatives. Karen's Ear introduces a \textbf{Tri-State Architecture}:
 \begin{itemize}
-  \item \textbf{HIGH ($P \ge 0.75$):} Unambiguous, high-confidence emergency signals with actionable details.
-  \item \textbf{UNCERTAIN ($0.40 \le P < 0.75$):} Fragmented, ambiguous, or borderline reports passed forward for human verification.
-  \item \textbf{LOW ($P < 0.40$):} Verified benign chatter, spam, or explicit non-emergency statements.
+  \item \textbf{HIGH:} Unambiguous emergency markers with actionable details (e.g., \emph{"Explosion at 5th Ave, people trapped"}).
+  \item \textbf{UNCERTAIN:} Ambiguous, fragmented, or unverified reports containing emergency-adjacent signals. Passed forward with review flags.
+  \item \textbf{LOW:} Verified benign chatter, spam, or explicit non-emergency statements (e.g., \emph{"Did you see the explosion in the movie?"}).
 \end{itemize}
 
-Feature extraction uses \textbf{TF-IDF} with sublinear term frequency scaling and word unigram/bigram ranges ($n \in \{1, 2\}$):
-\begin{equation}
-  \text{TF-IDF}(t, d, D) = \big(1 + \log(\text{TF}(t, d))\big) \times \log\left(\frac{1 + |D|}{1 + |\{d \in D : t \in d\}|}\right) + 1
-\end{equation}
-The vectorizer feeds a multinomial \textbf{Logistic Regression} classifier:
+Feature extraction uses \textbf{TF-IDF} with unigrams and bigrams ($n \in \{1, 2\}$) paired with a multinomial \textbf{Logistic Regression} classifier:
 \begin{equation}
   P(y = k \mid \mathbf{x}) = \frac{\exp(\mathbf{w}_k^T \phi(\mathbf{x}) + b_k)}{\sum_{j=1}^K \exp(\mathbf{w}_j^T \phi(\mathbf{x}) + b_j)}, \quad k \in \{\text{HIGH}, \text{UNCERTAIN}, \text{LOW}\}
 \end{equation}
 
-\textbf{Deterministic Safety Net Guard:} To prevent statistical blind spots on rare disaster keywords, the ML prediction is wrapped in a deterministic safety net. The system scans for critical trigger stems (\texttt{explosion}, \texttt{collapse}, \texttt{gunshot}, \texttt{trapped}, \texttt{bleeding}, \texttt{fire}, \texttt{rubble}) and verifies the absence of non-emergency exclusion contexts (\texttt{drill}, \texttt{movie}, \texttt{film}, \texttt{rehearsal}, \texttt{fireworks}). If a trigger is present without exclusion and the statistical model predicted \texttt{LOW}, the report is automatically escalated to \textbf{\texttt{UNCERTAIN}}. It is never silently dropped.
+\subsection{Context-Aware Emergency Signal Safety Net}
+Because statistical models can under-score out-of-vocabulary emergency phrasing, Karen's Ear wraps the ML layer with a deterministic \textbf{Safety Net}:
+\begin{itemize}
+  \item \textbf{Trigger Lexicon:} Scans for critical root stems: \texttt{explosion, fire, collapse, trapped, shooter, gunshot, flood, rubble, bleeding}.
+  \item \textbf{Context Exclusion:} Checks for non-emergency qualifiers: \texttt{drill, movie, film, rehearsal, documentary, fireworks, museum}.
+  \item \textbf{Safety Override:} If a trigger is detected without an exclusion context, and the ML model predicted \texttt{LOW}, the classification is automatically escalated to \textbf{\texttt{UNCERTAIN}}. It is never silently dropped.
+\end{itemize}
 
 \subsection{Role 2: 8-Factor Multi-Signal Credibility Model}
-Unlike primitive dispatch systems that assume uniform caller reliability, Karen's Ear computes an explainable, continuous credibility score $C \in [0.0, 1.0]$ synthesizing eight distinct linguistic, structural, and consensus signals (Table~\ref{tab:credibility_factors}):
+Unlike primitive dispatch systems that assume uniform caller reliability, Karen's Ear computes an explainable credibility score $C \in [0.0, 1.0]$ synthesizing eight distinct signals: (1) \emph{First-Person Observation} ($w=0.20$); (2) \emph{Linguistic Specificity} ($w=0.15$); (3) \emph{Syntactic Coherence} ($w=0.15$); (4) \emph{Direct Actionability} ($w=0.15$); (5) \emph{Casualty Reporting Bonus Signal} ($w=0.10$); (6) \emph{Location Density Consensus Boost} ($w=0.15$); (7) \emph{Internal Consistency Logic Guard} ($w=0.10$); and (8) \emph{Information Completeness Ratio}.
+\begin{equation}
+  C = \mathrm{round}\left(\min\left(1.0, \; \max\left(0.0, \; \sum_{i=1}^{7} w_i \cdot F_i\right)\right), \; 2\right), \quad \sum_{i=1}^{7} w_i = 1.00
+\end{equation}
 
+\subsection{Priority Engine Formulation}
+The Priority Engine computes a continuous priority metric $\mathcal{P} \in [0.0, 1.0]$. The deterministic core operates on four structured, normalized inputs (Table~\ref{tab:priority_features}).
+
+% ==============================================================================
+% PAGE 4: PRIORITY MODELING & EXPLAINABILITY
+% ==============================================================================
 \begin{table}[htbp]
   \centering
   \small
-  \caption{8-Factor Credibility Assessment Feature Breakdown}
-  \label{tab:credibility_factors}
+  \caption{Priority Engine Feature Weights and Numerical Encoding}
+  \label{tab:priority_features}
   \begin{tabularx}{\textwidth}{llcX}
     \toprule
-    \textbf{Factor Name} & \textbf{Signal Type} & \textbf{Weight ($w_i$)} & \textbf{Operational Detection Logic} \\
+    \textbf{Dimension} & \textbf{Categorical / Raw Input} & \textbf{Normalized Value} & \textbf{Formula Weight} \\
     \midrule
-    \textbf{First-Person Observation} & Linguistic & $0.20$ & Detects direct eyewitness pronouns (\emph{"I saw", "my building", "in front of me"}). \\
-    \textbf{Linguistic Specificity} & Structural & $0.15$ & Evaluates presence of exact GPS coordinates, named street addresses, and numbers. \\
-    \textbf{Syntactic Coherence} & Integrity & $0.15$ & Penalizes keyboard spam, character repetition ($\ge 4$), and token entropy collapse. \\
-    \textbf{Direct Actionability} & Operational & $0.15$ & Verifies presence of actionable hazard context and identified incident categories. \\
-    \textbf{Casualty Reporting Signal} & Evidentiary & $0.10$ & \textbf{Bonus signal} awarded when caller details explicit injured/trapped/dead counts. \\
-    \textbf{Location Density Consensus}& Consensus & $0.15$ & \textbf{Consensus boost} awarded when multiple independent calls arrive from same zone. \\
-    \textbf{Internal Consistency} & Logic Guard & $0.10$ & Validates mathematical coherence (penalizes cases where $\text{injured} > \text{total affected}$). \\
-    \textbf{Information Completeness} & Diagnostic & Diagnostic & Computes ratio of populated metadata fields $\in [0.0, 1.0]$ for audit transparency. \\
+    \textbf{Severity} ($S$) & \texttt{critical} (1.00), \texttt{high} (0.75), \texttt{medium} (0.50), \texttt{low} (0.25) & $S \in [0.25, 1.00]$ & $w_s = 0.45$ \\
+    \textbf{Actionability} ($A$) & \texttt{high} (1.00), \texttt{medium} (0.60), \texttt{low} (0.20) & $A \in [0.20, 1.00]$ & $w_a = 0.35$ \\
+    \textbf{Credibility} ($C$) & 8-Factor Signal Confidence / Density Consensus & $C \in [0.00, 1.00]$ & $w_c = 0.20$ \\
+    \textbf{Corroboration Bonus} ($\Delta_k$) & Incident Cluster Size $N$ & $\min(0.05, (N-1) \times 0.015)$ & Additive Boost \\
     \bottomrule
   \end{tabularx}
 \end{table}
 
-The composite credibility score $C$ is computed via weighted linear aggregation:
+The synthesized priority score $\mathcal{P}$ is defined mathematically by:
 \begin{equation}
-  C = \mathrm{round}\left(\min\left(1.0, \; \max\left(0.0, \; \sum_{i=1}^{7} w_i \cdot F_i\right)\right), \; 2\right), \quad \text{where } \sum_{i=1}^{7} w_i = 1.00
+  \mathcal{P}_{\text{raw}} = \left(0.45 \cdot S\right) + \left(0.35 \cdot A\right) + \left(0.20 \cdot C\right) + \min\Big(0.05,\, (N - 1) \times 0.015\Big)
+\end{equation}
+\begin{equation}
+  \mathcal{P} = \mathrm{round}\Big(\max\left(0.0, \min\left(1.0, \mathcal{P}_{\text{raw}}\right)\right),\, 4\Big)
 \end{equation}
 
-\subsection{Multi-Attribute Priority Engine Formulation}
-The Priority Engine calculates continuous priority $\mathcal{P} \in [0.0, 1.0]$ by synthesizing normalized severity ($S$), actionability ($A$), credibility ($C$), and an additive corroboration bonus ($\Delta_k$):
+\subsection{Explainability Engine, Operational Priority Bands and Automated Recommendations}
+In critical civic infrastructure, ``black-box'' scores are hazardous. Karen's Ear generates a real-time explainability payload for every incident, decomposing the score into its constituent drivers and providing an automated operational recommendation:
+\begin{itemize}
+  \item \textbf{CRITICAL ($\mathcal{P} \ge 0.85$):} \textbf{IMMEDIATE\_DISPATCH} --- Triggers P1 Spider-Sense siren alert and heavy rescue / hero deployment.
+  \item \textbf{HIGH ($0.70 \le \mathcal{P} < 0.85$):} \textbf{PRIORITY\_DEPLOY} --- Deploys nearest available primary first responder apparatus (Engine/Ladder).
+  \item \textbf{MEDIUM ($0.45 \le \mathcal{P} < 0.70$):} \textbf{AREA\_PATROL\_STAGE} --- Assigns secondary patrol staging or queues for continuous monitoring.
+  \item \textbf{LOW ($\mathcal{P} < 0.45$):} \textbf{MONITOR} --- Holds in queue for community response or automated corroboration.
+\end{itemize}
+
+\subsection{Random Forest Priority Regression Baseline}
+To discover non-linear feature interactions as training datasets expand, an ensemble Random Forest Regressor is trained on historical dispatch outcomes:
 \begin{equation}
-  \mathcal{P}_{\text{raw}} = \big(0.45 \cdot S\big) + \big(0.35 \cdot A\big) + \big(0.20 \cdot C\big) + \Delta_k
+  \hat{\mathcal{P}}_{\text{RF}}(\mathbf{x}) = \frac{1}{B} \sum_{b=1}^B T_b(\mathbf{x}), \quad B = 100 \text{ estimators over } (S, A, C, \text{Corroboration})
 \end{equation}
+The ensemble baseline exhibits high stability against noisy outlier labels while producing a smooth continuous ranking curve.
+
+\section{System Implementation and Architecture}
+The system implementation is partitioned into modular, highly cohesive micro-layers:
+\begin{itemize}
+  \item \textbf{Data Modeling (\texttt{src/schema.py}):} Validates inputs against Pydantic models with strict typing, GPS fields, and numeric bounds.
+  \item \textbf{Priority Core (\texttt{src/priority/engine.py}):} Implements deterministic feature weighting, corroboration bonuses, and explainability.
+  \item \textbf{Relevance Pipeline (\texttt{src/relevance/}):} Manages TF-IDF vectorization, multiclass logistic regression, and the safety net rule engine.
+  \item \textbf{API Backend (\texttt{backend.py}):} High-performance asynchronous FastAPI REST endpoints, landmark auto-resolution (40+ NYC coordinates), and streaming newline-sanitized CSV audit logging.
+  \item \textbf{Command Dashboard (\texttt{frontend/app.py} \& \texttt{frontend/src/App.jsx}):} SpidyCAD tactical command HUD featuring Stark Suit OS styling, PyDeck 3D Manhattan radar, P1 Spider-Sense danger pulse, 1-click dispatching, and Web Speech API voice synthesis.
+\end{itemize}
+
+% ==============================================================================
+% PAGE 5: TECH STACK, APIS & EVALUATION METRICS
+% ==============================================================================
+\subsection{Production Technology Stack}
+The production system leverages lightweight, high-performance open-source tools:
+\begin{itemize}
+  \item \textbf{Core Runtime \& Backend:} Python 3.11+ with \textbf{FastAPI} (ASGI/Starlette) for sub-millisecond asynchronous request handling and automated OpenAPI documentation.
+  \item \textbf{Data Modeling \& Validation:} \textbf{Pydantic v2} enforcing strict type boundaries and runtime payload validation.
+  \item \textbf{Machine Learning \& Numerics:} \textbf{Scikit-Learn} (Logistic Regression, TF-IDF Vectorizer, Random Forest, Naive Bayes), \textbf{NumPy}, and \textbf{Pandas} for CPU-efficient, edge-friendly execution without GPU dependencies.
+  \item \textbf{Tactical Telemetry HUD:} \textbf{Streamlit} with \textbf{PyDeck} (3D Hexagon \& Column Radar Map), Pillow, and custom Stark Suit OS styling, paired with the browser \textbf{Web Speech API} for Karen voice alerts and a complementary \textbf{React 18 / Vite} console.
+\end{itemize}
+
+\subsection{FastAPI REST Service Specifications}
+The backend provides sub-millisecond REST endpoints for ingestion and dispatch telemetry:
+\begin{itemize}
+  \item \texttt{POST /ingest} (and \texttt{/api/reports}): Ingests distress text, logs to CSV, calculates priority score $\mathcal{P}$, and enqueues record.
+  \item \texttt{GET /reports} (and \texttt{/api/reports}): Returns all stored emergency incidents sorted strictly in descending order of priority score $\mathcal{P}$.
+  \item \texttt{PATCH /api/reports/\{id\}/dispatch}: Updates dispatch status and assigns a tactical response unit (e.g., \emph{"Engine 5"}, \emph{"Web Strike"}).
+  \item \texttt{GET /api/stats}: Returns aggregate analytics: total reports, critical hazard counts, and incident type breakdowns.
+  \item \texttt{GET /health}: Liveness probe reporting operational health and active in-memory incident volume.
+  \item \texttt{POST /api/reports/reset}: Restores initial demonstration scenarios for continuous automated evaluation.
+\end{itemize}
+
+\section{Evaluation Strategy and Verification Framework}
+\subsection{Relevance Classification Evaluation: Why Macro Metrics Matter}
+In emergency dispatch datasets, class distribution is inherently skewed: routine traffic or benign chatter outnumbers structural collapses. Relying on global \textbf{Accuracy} creates a perilous illusion of performance: $\text{Accuracy} = (\text{TP} + \text{TN}) / \text{Total Reports}$.
+A naive model predicting $100\%$ \texttt{LOW} in a dataset containing $95\%$ non-emergencies would achieve $95\%$ accuracy while missing every life-threatening event. Therefore, Karen's Ear mandatorily evaluates on \textbf{Macro-Averaged Precision, Recall, and $F_1$-Score}:
 \begin{equation}
-  \Delta_k = \min\Big(0.05, \; (N - 1) \times 0.015\Big), \quad \mathcal{P} = \mathrm{round}\Big(\max\left(0.0, \; \min\left(1.0, \; \mathcal{P}_{\text{raw}}\right)\right), \; 4\Big)
+  \text{Precision}_{\text{macro}} = \frac{1}{K}\sum_{k=1}^K \frac{\text{TP}_k}{\text{TP}_k + \text{FP}_k}, \quad
+  \text{Recall}_{\text{macro}} = \frac{1}{K}\sum_{k=1}^K \frac{\text{TP}_k}{\text{TP}_k + \text{FN}_k}, \quad
+  F_{1,\text{macro}} = \frac{2 \times \text{Precision}_{\text{macro}} \times \text{Recall}_{\text{macro}}}{\text{Precision}_{\text{macro}} + \text{Recall}_{\text{macro}}}
 \end{equation}
+
+\subsection{Priority Regression \& Empirical Test Results}
+Continuous priority regression is evaluated across complementary regression metrics: $\text{MAE} = \frac{1}{N}\sum|y_i - \hat{y}_i|$, $\text{RMSE} = \sqrt{\frac{1}{N}\sum(y_i - \hat{y}_i)^2}$, and $R^2 = 1 - \frac{\sum(y_i - \hat{y}_i)^2}{\sum(y_i - \bar{y})^2}$.
+Empirical evaluations were conducted on a curated corpus of \textbf{8,735 NYC emergency incidents} (Table~\ref{tab:empirical_results}).
 
 \begin{table}[htbp]
   \centering
-  \small
-  \caption{Operational Priority Bands and Automated Tactical Actions}
-  \label{tab:priority_tiers}
-  \begin{tabularx}{\textwidth}{lp{2.2cm}p{4.2cm}X}
-    \toprule
-    \textbf{Priority Band} & \textbf{Score Range ($\mathcal{P}$)} & \textbf{Operational Meaning} & \textbf{Tactical Recommendation} \\
-    \midrule
-    \color{CrimsonRed}\textbf{CRITICAL} & $0.85 - 1.00$ & Immediate threat to life safety; structural collapse, explosion, or trapped casualties. & \textbf{IMMEDIATE\_DISPATCH}: Triggers P1 Spider-Sense audio siren and deploys heavy rescue / hero units. \\
-    \color{AmberYellow}\textbf{HIGH} & $0.70 - 0.84$ & Severe developing hazard; active fire or major traffic collision with escalation potential. & \textbf{PRIORITY\_DEPLOY}: Dispatches nearest available primary first responder apparatus (Engine/Ladder). \\
-    \color{AccentBlue}\textbf{MEDIUM} & $0.45 - 0.69$ & Property risk or localized disturbance without immediate life entrapment. & \textbf{AREA\_PATROL\_STAGE}: Assigns secondary patrol staging or queues for continuous monitoring. \\
-    \color{SlateBlue}\textbf{LOW} & $0.00 - 0.44$ & Non-acute advisory, minor hazard, or preliminary unverified report. & \textbf{MONITOR}: Holds in queue for community response or automated corroboration. \\
-    \bottomrule
-  \end{tabularx}
-\end{table}
-
-\subsection{Ensemble Random Forest Priority Regressor}
-To model non-linear interactions across severity, actionability, credibility, and caller cluster count, an ensemble \textbf{Random Forest Regressor} was trained:
-\begin{equation}
-  \hat{\mathcal{P}}_{\text{RF}}(\mathbf{x}) = \frac{1}{B}\sum_{b=1}^B T_b(\mathbf{x}), \quad B = 100 \text{ estimators}, \; \mathbf{x} = [S, A, C, N]
-\end{equation}
-The ensemble achieves exceptional ranking smoothness, resisting label noise while faithfully predicting multi-attribute urgency.
-
-
-% ==============================================================================
-% SECTION 5: PRODUCTION SYSTEM ARCHITECTURE & SPIDYCAD HUD
-% ==============================================================================
-\section{Production System Implementation}
-\subsection{High-Performance FastAPI Ingestion Backend (\texttt{backend.py})}
-The backend is built on Python 3.11+ and FastAPI (ASGI/Starlette), delivering sub-millisecond route latency:
-\begin{itemize}
-  \item \texttt{POST /ingest} (and \texttt{/api/reports}): Ingests distress text, executes real-time CSV audit logging, invokes the Role 2 NLP pipeline, runs the Priority Engine, auto-resolves coordinates, and registers the incident in memory.
-  \item \texttt{GET /reports} (and \texttt{/api/reports}): Returns all active incidents sorted strictly descending by priority score $\mathcal{P}$. Supports real-time filtering by \texttt{incident\_type} and \texttt{severity}.
-  \item \texttt{PATCH /api/reports/\{id\}/dispatch}: Dispatches emergency apparatus (e.g., \emph{"Engine 5"}, \emph{"Web Strike"}), updating status from \texttt{pending} to \texttt{dispatched}.
-  \item \texttt{GET /api/stats}: Emits real-time operational metrics: total volume, active critical incidents, and hazard breakdowns.
-  \item \texttt{GET /health}: Liveness and readiness probe reporting server status and total active incident volume.
-  \item \texttt{POST /api/reports/reset}: Restores initial demonstration scenarios for continuous testing and evaluation.
-\end{itemize}
-
-\subsection{Landmark \& Coordinate Auto-Resolution Engine}
-Because panicked callers rarely know their exact GPS coordinates, \texttt{backend.py} incorporates an intelligent multi-tiered geocoding engine:
-\begin{enumerate}
-  \item \textbf{Direct Telemetry:} Inspects device \texttt{latitude}/\texttt{longitude} floats or \texttt{gps\_xy} strings.
-  \item \textbf{Named Landmark Dictionary:} Maintains coordinates for 40+ New York landmarks and boroughs (Times Square, Grand Central, Central Park, Brooklyn Bridge, Wall Street, Queens Blvd, Flushing, Astoria, DUMBO, Harlem, etc.).
-  \item \textbf{Natural Language Regex Extraction:} Scans the raw distress text for New York geographic markers if metadata fields are empty.
-  \item \textbf{Midtown Manhattan Fallback:} Ensures every incident safely maps to the 3D radar grid even when locations are unspecified.
-\end{enumerate}
-
-\subsection{SpidyCAD Tactical Command HUD (\texttt{frontend/app.py})}
-The production user interface is a multi-page tactical command system engineered with Streamlit, PyDeck, HTML5/CSS3 custom styling, and the browser Web Speech API:
-\begin{itemize}
-  \item \textbf{Stark Suit OS Aesthetic:} Designed with dark tactical HUD styling (\texttt{\#0B0F19}), glowing hexagonal mesh vectors, custom corner brackets, and responsive telemetry badges.
-  \item \textbf{Multi-Page Session State Routing:}
-    \begin{enumerate}
-      \item \emph{Hero Landing Page:} Visual 3D particle mesh with instant call-to-action buttons.
-      \item \emph{Citizen Distress Portal:} Voice dictation via \texttt{webkitSpeechRecognition}, quick hazard tags, auto-GPS resolution, and instant submission.
-      \item \emph{Dispatcher Login:} Security gate enforcing access code authorization (\texttt{"KAREN-2026"}).
-      \item \emph{Tactical Dispatcher HUD:} Real-time 3-second auto-refresh polling via \texttt{st\_autorefresh}.
-    \end{enumerate}
-  \item \textbf{PyDeck 3D Manhattan Radar Grid:} Renders interactive 3D ColumnLayer and ScatterplotLayer visualizations across New York City. Incident marker height is dynamically scaled to priority score $\mathcal{P}$, with color-coded severity rings.
-  \item \textbf{P1 Spider-Sense Danger Pulse:} Detects critical emergencies ($\mathcal{P} \ge 0.85$ or reported casualties) in real time, triggering a pulsating red tactical alert banner, Karen voice alert audio synthesis, and sound effect cues.
-  \item \textbf{1-Click Response Dispatching:} Allows dispatchers to assign designated response units directly from priority queue cards, instantaneously synchronizing state with the backend.
-  \item \textbf{Explainable Diagnostic Drawer:} Expands any report to inspect the 8-factor credibility vector, casualty breakdown, and exact formula derivation.
-  \item \textbf{Complementary React Telemetry Console (\texttt{frontend/src/App.jsx}):} A lightweight React 18 / Vite / Tailwind CSS console providing an alternate single-page operational view.
-\end{itemize}
-
-
-% ==============================================================================
-% SECTION 6: EMPIRICAL EVALUATION & TEST VERIFICATION
-% ==============================================================================
-\section{Empirical Evaluation and Experimental Results}
-\subsection{The Curated NYC Emergency Incident Corpus}
-The models were trained and verified against a curated corpus of \textbf{8,735 emergency incident reports} derived from municipal NYC open data, simulated 911 dispatch logs, and multi-channel distress feeds (\texttt{data/final\_dataset\_sample.csv} and \texttt{data/priority\_output.csv}). Reports were partitioned into stratified $80/20$ train/test splits.
-
-\subsection{Relevance Classification Performance}
-In civic emergency triage, classification accuracy alone is misleading due to class imbalances. Karen's Ear is evaluated on Macro-Averaged Precision, Recall, and $F_1$-score across all classes (Table~\ref{tab:evaluation_metrics}).
-
-\begin{table}[htbp]
-  \centering
-  \small
+  \footnotesize
   \caption{Empirical Model Performance and Test Verification Metrics}
-  \label{tab:evaluation_metrics}
+  \label{tab:empirical_results}
   \begin{tabularx}{\textwidth}{llccX}
     \toprule
-    \textbf{Model / Pipeline Component} & \textbf{Evaluation Metric} & \textbf{Empirical Score} & \textbf{Benchmark Target} & \textbf{Operational Significance} \\
+    \textbf{Component} & \textbf{Evaluation Metric} & \textbf{Empirical Score} & \textbf{Target} & \textbf{Operational Significance} \\
     \midrule
-    \multirow{4}{*}{\makecell[l]{\textbf{Relevance Gate}\\\scriptsize(TF-IDF + Logistic Reg.)}} 
+    \multirow{4}{*}{\makecell[l]{\textbf{Relevance Gate}\\\scriptsize(TF-IDF + LogReg)}} 
     & Test Accuracy & $\mathbf{92.31\%}$ & $> 85.0\%$ & Accurately filters non-emergency civic noise. \\
     & Macro Precision & $\mathbf{92.26\%}$ & $> 85.0\%$ & Minimizes false alarms across rare emergency types. \\
     & Macro Recall & $\mathbf{92.26\%}$ & $> 90.0\%$ & Prevents critical distress calls from being dropped. \\
@@ -407,64 +359,50 @@ In civic emergency triage, classification accuracy alone is misleading due to cl
     & Root Mean Squared Error & $\mathbf{0.0778}$ & $< 0.120$ & Penalizes large triage deviations heavily. \\
     & Coefficient of Det. ($R^2$) & $\mathbf{0.7658}$ & $> 0.700$ & Explains $76.58\%$ of priority variance across incidents. \\
     \midrule
-    \multirow{2}{*}{\makecell[l]{\textbf{Automated Test Suite}\\\scriptsize(PyTest Framework)}}
-    & API \& Priority Tests & $\mathbf{16 / 16 \text{ Passed}}$ & $100\%$ & Validates REST routes, clamping, and CSV logging. \\
+    \multirow{2}{*}{\makecell[l]{\textbf{Automated Tests}\\\scriptsize(PyTest Framework)}}
+    & API \& Priority Suite & $\mathbf{16 / 16 \text{ Passed}}$ & $100\%$ & Validates REST routes, clamping, and CSV logging. \\
     & Role 2 NLP \& Credibility & $\mathbf{19 / 19 \text{ Passed}}$ & $100\%$ & Validates zero-hallucination and credibility factors. \\
     \bottomrule
   \end{tabularx}
 \end{table}
 
-\subsection{Automated Test Suite Verification (35 Tests Passing)}
-The platform is validated through 35 comprehensive automated unit and integration tests:
-\begin{enumerate}
-  \item \textbf{System \& API Verification (\texttt{tests/test\_api.py} --- 8 Tests):} Verifies \texttt{/health} liveness, report retrieval, incident filtering, auto-inference, unit dispatch transitions, stats aggregation, and \texttt{raw\_emergencies.csv} logging with newline sanitization.
-  \item \textbf{Priority Formulation \& Edge Cases (\texttt{tests/test\_priority.py} --- 7 Tests):} Verifies boundary clamping $[0.0, 1.0]$, critical severity dominance ($\mathcal{P} \ge 0.90$), corroboration boost increments, explainability schemas, and ranking order.
-  \item \textbf{ML Ranker Stability (\texttt{tests/test\_ranker.py} --- 1 Test):} Confirms trained Random Forest inference and rank consistency across batches.
-  \item \textbf{Role 2 Incident Classification (\texttt{role2/tests/test\_classification.py} --- 7 Tests):} Verifies accurate classification for fire, accident, flood, explosion, medical, collapse, and missing persons.
-  \item \textbf{Zero-Hallucination Casualty Extraction (\texttt{role2/tests/test\_extraction.py} --- 4 Tests):} Verifies explicit casualty extraction and rigorously confirms that omitted numbers are never hallucinated.
-  \item \textbf{Location \& Credibility Boosts (\texttt{role2/tests/test\_location\_and\_csv.py} --- 5 Tests):} Proves that location density and casualty reporting dynamically elevate caller credibility.
-  \item \textbf{Pipeline Integrity (\texttt{role2/tests/test\_credibility\_and\_pipeline.py} --- 3 Tests):} Validates GPS coordinate preservation and schema compliance.
-\end{enumerate}
-
+\subsection{Automated Unit Testing \& Validation Suite (35 Tests Passing)}
+The platform is validated via 35 automated PyTest unit tests: (1) \texttt{tests/test\_api.py} (8 tests: health, CRUD, CSV sanitization); (2) \texttt{tests/test\_priority.py} (7 tests: clamping, boundary dominance, corroboration boost, explainability); (3) \texttt{tests/test\_ranker.py} (1 test: RF inference); and (4) \texttt{role2/tests/} (19 tests: NLP categorization, zero-hallucination casualty extraction, density consensus, and GPS preservation).
 
 % ==============================================================================
-% SECTION 7: ARCHITECTURAL DECISIONS & RATIONALE MATRIX
+% PAGE 6: ARCHITECTURAL DECISIONS, TEAM ROLES & ROADMAP
 % ==============================================================================
 \section{Architectural Decisions and Rationale Matrix}
 Every engineering decision in Karen's Ear is documented with an explicit operational justification:
 \begin{itemize}
-  \item \textbf{Why Tri-State instead of Binary Relevance?} Binary classification fails on fragmented distress messages. The \texttt{UNCERTAIN} buffer ensures ambiguous messages containing partial emergency signals are routed for verification rather than silently discarded.
-  \item \textbf{Why TF-IDF Vectorization over Heavy LLMs?} Emergency dispatch requires sub-10ms response times. TF-IDF paired with Logistic Regression is ultra-fast, deterministic, CPU-efficient, and operates reliably in edge environments without external cloud API dependencies.
-  \item \textbf{Why Bigrams ($n=2$)?} Emergency distress is conveyed through short collocations (\emph{"gas leak"}, \emph{"shots fired"}, \emph{"water rising"}). Bigrams capture critical contextual urgency that unigrams miss.
-  \item \textbf{Why a Context-Aware Safety Net?} Statistical models inevitably fail on rare out-of-vocabulary phrases. The safety net guarantees critical hazards (\emph{"rubble trapped"}) are never dropped due to vocabulary sparsity.
-  \item \textbf{Why not force all keywords to HIGH?} Emergency terms frequently appear in benign contexts (drills, movies, fireworks). Blindly forcing \texttt{HIGH} causes severe alert fatigue. Escalating to \texttt{UNCERTAIN} balances safety with selectivity.
-  \item \textbf{Why an 8-Factor Credibility Engine?} Single-score credibility is brittle. Decomposing credibility into observation, specificity, coherence, actionability, casualty signals, density consensus, and consistency provides complete explainability.
+  \item \textbf{Why three relevance levels?} A binary gate is brittle. Fragmented reports that contain genuine emergency signals but lack sufficient context would be discarded. \texttt{UNCERTAIN} provides a safe review buffer.
+  \item \textbf{Why TF-IDF Vectorization?} TF-IDF is lightweight, CPU-efficient, deterministic, provides sub-millisecond inference latencies, and operates without expensive GPU infrastructure.
+  \item \textbf{Why Bigrams ($n=2$)?} Emergency distress is expressed through short collocations rather than single words (e.g., \emph{"shots fired"}, \emph{"water rising"}). Bigrams capture imperative intent.
+  \item \textbf{Why an Emergency Safety Net?} Statistical models fail on out-of-distribution wording. The lexical safety layer guarantees critical terms (\emph{"something blew up"}) are never dropped due to vocabulary sparsity.
+  \item \textbf{Why not force all keywords to HIGH?} High-consequence words appear in benign contexts (drills, movies, news). Blindly forcing \texttt{HIGH} causes alert fatigue. The safety net elevates to \texttt{UNCERTAIN}.
+  \item \textbf{Why an 8-Factor Credibility Model?} Single-score credibility is brittle. Decomposing credibility into observation, specificity, coherence, actionability, casualty signals, density consensus, and consistency provides complete explainability.
   \item \textbf{Why Streamlit + PyDeck for the Tactical HUD?} PyDeck provides high-performance 3D GPU-accelerated spatial rendering of NYC landmarks, while Streamlit enables rapid real-time state management, audio synthesis, and seamless dispatcher controls.
   \item \textbf{Why Newline-Sanitized Streaming CSV Logging?} Regulatory compliance requires immutable, auditable records. Sanitizing multiline distress text prevents CSV injection and preserves row integrity across data pipelines.
 \end{itemize}
 
-
-% ==============================================================================
-% SECTION 8: TEAM ROLES, LIMITATIONS & ROADMAP
-% ==============================================================================
-\section{Team Integration, Limitations, and Future Roadmap}
+\section{Team Integration, Operational Limitations, and Future Roadmap}
 \subsection{Team Responsibilities and Module Ownership}
-Karen's Ear was engineered by \textbf{Team AlgoRhythm} during the Bit N Build '26 Hackathon:
+Karen's Ear was engineered by \textbf{Team AlgoRhythm} during Bit N Build '26:
 \begin{itemize}
-  \item \textbf{Preetika (Priority Engine \& ML):} Designed the multi-attribute priority formula, trained the Random Forest regression model, developed the explainability reasoner, and generated synthetic priority datasets.
-  \item \textbf{Rishav (FastAPI Backend \& Tactical HUD):} Architected the high-performance FastAPI server, GPS auto-resolution engine (40+ NYC landmarks), streaming CSV audit logger, PyDeck 3D radar map, and the multi-page SpidyCAD tactical command HUD with P1 Spider-Sense pulse and 1-click dispatch.
-  \item \textbf{Ojas (NLP \& Credibility Pipeline):} Built the Role 2 NLP extraction engine, hazard classification models, entity/casualty extractors with zero-hallucination guarantees, and the 8-factor multi-signal credibility assessment model.
-  \item \textbf{Aditya (Datasets \& Curation):} Curated and normalized the 8,735 NYC emergency incident corpus, generated relevance evaluation benchmarks, executed stratified splits, and validated data schema compliance.
+  \item \textbf{Preetika (Priority Engine \& ML):} Multi-attribute priority formula, Random Forest regression ranker, explainable dispatch reasons, and priority dataset generation.
+  \item \textbf{Rishav (FastAPI Backend \& Tactical HUD):} High-performance FastAPI server, GPS auto-resolution (40+ NYC landmarks), streaming CSV audit logging, PyDeck 3D radar map, and Streamlit tactical HUD with P1 Spider-Sense danger pulse and 1-click dispatch.
+  \item \textbf{Ojas (NLP \& Credibility Pipeline):} Role 2 NLP extraction, hazard classification, entity/casualty extractors with zero-hallucination guarantees, and 8-factor multi-signal credibility assessment.
+  \item \textbf{Aditya (Datasets \& Curation):} NYC emergency corpus curation (8,735 incidents), relevance evaluation datasets, stratified splitting, and data normalization.
 \end{itemize}
 
 \subsection{Current Prototype Limitations \& Engineering Roadmap}
 \begin{itemize}
-  \item \textbf{Municipal Telephony Integration:} The prototype currently ingests REST payloads; production deployment will integrate standard CAD (Computer-Aided Dispatch) NG911 SIP/RTP audio streams.
+  \item \textbf{Municipal CAD Telephony Integration:} The prototype currently ingests REST payloads; production deployment will integrate standard CAD NG911 SIP/RTP audio streams.
   \item \textbf{Multilingual Idiomatic Slang:} The safety net lexicon is currently optimized for English; expanding to multilingual urban slang (Spanish, Mandarin, etc.) is planned.
   \item \textbf{Dynamic Multi-Vehicle Fleet Routing:} The platform ranks incidents individually; future work will incorporate Google OR-Tools to solve dynamic Vehicle Routing Problems (VRP) for emergency fleets.
 \end{itemize}
 
 \subsection{Conclusion}
-\textbf{Karen's Ear // SpidyCAD} bridges the dangerous gap between chaotic civic distress communications and life-saving emergency response. By enforcing a disciplined 6-phase paradigm---\emph{Detect $\rightarrow$ Understand $\rightarrow$ Corroborate $\rightarrow$ Predict $\rightarrow$ Rank $\rightarrow$ Dispatch}---the system eliminates cognitive paralysis, prevents dangerous false negatives, and provides first responders with explainable, sub-second tactical clarity. Engineered with edge resilience, zero-hallucination guarantees, and 35 verified automated tests, Karen's Ear fulfills the Bit N Build '26 mission: giving emergency responders the ultimate ``Spider-Sense'' to cut through the chaos and save lives when every second counts.
+\textbf{Karen's Ear // SpidyCAD} re-imagines emergency response intelligence by cutting through the chaotic fog of civic disasters. By enforcing a disciplined multi-stage paradigm---\emph{Detect $\rightarrow$ Understand $\rightarrow$ Corroborate $\rightarrow$ Predict $\rightarrow$ Rank $\rightarrow$ Dispatch}---the system eliminates information paralysis while preserving human dispatcher authority. Designed for edge resilience, transparency, zero-hallucination guarantees, and validated by 35 automated tests, Karen's Ear fulfills the Bit N Build '26 mission: giving emergency responders the ultimate ``Spider-Sense'' to know exactly where help is needed first.
 
 \end{document}
