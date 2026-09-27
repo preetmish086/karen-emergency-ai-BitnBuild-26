@@ -26,11 +26,44 @@ from streamlit_autorefresh import st_autorefresh
 # -----------------------------------------------------------------------------
 # 1. Page Configuration & Global Constants
 # -----------------------------------------------------------------------------
-WORKSPACE_ROOT = Path(__file__).resolve().parent.parent
+CURRENT_PATH = Path(__file__).resolve()
+if CURRENT_PATH.parent.name == "frontend":
+    WORKSPACE_ROOT = CURRENT_PATH.parent.parent
+else:
+    WORKSPACE_ROOT = CURRENT_PATH.parent
 IMAGE_DIR = WORKSPACE_ROOT / "image"
 TAB_ICON_PATH = IMAGE_DIR / "spidycad-2d-transparent.png"
 if not TAB_ICON_PATH.exists():
     TAB_ICON_PATH = IMAGE_DIR / "tab-icon.png"
+
+
+@st.cache_resource
+def ensure_backend_daemon() -> bool:
+    """Ensure FastAPI backend is running on 127.0.0.1:8000.
+    Launches uvicorn in a background daemon thread if not already running (for Streamlit Cloud)."""
+    try:
+        r = requests.get("http://127.0.0.1:8000/health", timeout=0.8)
+        if r.status_code == 200:
+            return True
+    except Exception:
+        pass
+
+    def _run():
+        try:
+            import uvicorn
+            from backend import app as fastapi_app
+            uvicorn.run(fastapi_app, host="127.0.0.1", port=8000, log_level="warning")
+        except Exception:
+            pass
+
+    import threading
+    t = threading.Thread(target=_run, daemon=True)
+    t.start()
+    time.sleep(1.2)
+    return True
+
+
+ensure_backend_daemon()
 
 
 @st.cache_data(show_spinner=False)
@@ -1556,7 +1589,19 @@ def render_citizen_portal() -> None:
                 else:
                     st.error(f"Transmission failed: {res.status_code} {res.text}")
             except Exception as e:
-                st.error(f"SpidyCAD Comms Offline: Ensure FastAPI backend is running on :8000 ({e})")
+                # Direct in-process fallback (for Streamlit Cloud or standalone)
+                try:
+                    from backend import ingest_report, IngestReportPayload
+                    p_obj = IngestReportPayload(**payload)
+                    rep_res = ingest_report(p_obj)
+                    st.session_state.last_distress_report = rep_res.model_dump()
+                    st.session_state.location_locked = False
+                    st.session_state.locked_location = ""
+                    st.session_state.locked_gps_xy = "None"
+                    st.session_state.citizen_text = ""
+                    st.rerun()
+                except Exception as ex:
+                    st.error(f"SpidyCAD Comms Offline: ({ex})")
 
     icon_b64 = get_image_base64("spidycad-logo.svg") or get_image_base64("spidycad-logo.png")
     st.markdown(
@@ -1702,13 +1747,26 @@ def render_dispatcher_dashboard() -> None:
     backend_error = None
 
     try:
-        r = requests.get(REPORTS_URL, timeout=4)
+        r = requests.get(REPORTS_URL, timeout=3)
         if r.status_code == 200:
             reports_list = r.json()
         else:
             backend_error = f"Backend returned status {r.status_code}"
     except Exception as e:
-        backend_error = str(e)
+        # Fall back to in-memory REPORTS_DB directly from backend.py
+        try:
+            from backend import REPORTS_DB
+            reports_list = [rep.model_dump() for rep in REPORTS_DB]
+            backend_error = None
+        except Exception:
+            try:
+                import json
+                p_out = WORKSPACE_ROOT / "data" / "priority_output.json"
+                if p_out.exists():
+                    reports_list = json.loads(p_out.read_text())[:35]
+                    backend_error = None
+            except Exception:
+                backend_error = str(e)
 
     if backend_error:
         render_html(
@@ -2051,7 +2109,14 @@ def render_dispatcher_dashboard() -> None:
                                         else:
                                             st.error(f"Dispatch failed: {patch_res.status_code} {patch_res.text}")
                                     except Exception as ex:
-                                        st.error(f"Dispatch update failed: {ex}")
+                                        # In-memory fallback
+                                        try:
+                                            from backend import update_dispatch_status, DispatchUpdatePayload
+                                            update_dispatch_status(report_id, DispatchUpdatePayload(status="dispatched", dispatched_unit="Spider-Man / FDNY Team 1"))
+                                            st.success(f"First responders dispatched to #{report_id}!")
+                                            st.rerun()
+                                        except Exception as fallback_ex:
+                                            st.error(f"Dispatch update failed: {fallback_ex}")
 
     icon_b64 = get_image_base64("spidycad-logo.svg") or get_image_base64("spidycad-logo.png")
     st.markdown(
