@@ -20,10 +20,9 @@
   <a href="https://scikit-learn.org/"><img src="https://img.shields.io/badge/Scikit--Learn-Credibility_%26_Priority-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white" alt="Scikit-Learn" /></a>
 </p>
 
-*Built by **Team AlgoRhythm**: Preetika, Rishav, Ojas, and Aditya*
-</p>
-Deployment Link: 
-https://npvp2xac7oaesubwrywdfp.streamlit.app
+*Built by **Team AlgoRhythm**: Preetika Mishra, Rishav Kumar, Ojas Raj, and Aditya*
+
+**🌐 Live Deployment:** [npvp2xac7oaesubwrywdfp.streamlit.app](https://npvp2xac7oaesubwrywdfp.streamlit.app)
 
 ---
 
