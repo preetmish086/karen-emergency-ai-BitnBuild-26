@@ -60,20 +60,44 @@ NYC_COORDINATES = {
     "midtown": (40.7549, -73.9840),
     "downtown": (40.7128, -74.0060),
     "financial district": (40.7075, -74.0090),
+    "wall street": (40.7075, -74.0090),
+    "grand central": (40.7527, -73.9772),
     "central market": (40.7527, -73.9772),
     "station road": (40.7516, -73.9755),
+    "penn station": (40.7505, -73.9934),
+    "penn plaza": (40.7505, -73.9934),
+    "chelsea": (40.7465, -74.0014),
     "highway": (40.7680, -73.9980),
     "riverside": (40.7480, -74.0080),
     "brooklyn": (40.6782, -73.9442),
     "brooklyn bridge": (40.7061, -73.9969),
+    "manhattan bridge": (40.7081, -73.9941),
+    "williamsburg": (40.7081, -73.9571),
+    "dumbo": (40.7033, -73.9881),
     "queens": (40.7282, -73.7949),
     "queens blvd": (40.7282, -73.8820),
+    "long island city": (40.7447, -73.9485),
+    "lic plaza": (40.7505, -73.9372),
+    "astoria": (40.7644, -73.9235),
+    "flushing": (40.7674, -73.8331),
     "manhattan": (40.7831, -73.9712),
+    "harlem": (40.8116, -73.9465),
+    "central park": (40.7851, -73.9683),
     "bronx": (40.8448, -73.8648),
     "staten island": (40.5795, -74.1502),
-    "harlem": (40.8116, -73.9465),
-    "astoria": (40.7644, -73.9235),
-    "williamsburg": (40.7081, -73.9571),
+    "greenwich village": (40.7336, -74.0027),
+    "east village": (40.7265, -73.9815),
+    "soho": (40.7233, -74.0030),
+    "tribeca": (40.7163, -74.0086),
+    "fdr drive": (40.7308, -73.9734),
+    "broadway": (40.7590, -73.9845),
+    "atlantic avenue": (40.6845, -73.9780),
+    "park avenue": (40.7587, -73.9738),
+    "bus stand": (40.7570, -73.9900),
+    "market": (40.7520, -73.9770),
+    "subway": (40.7580, -73.9855),
+    "jfk": (40.6413, -73.7781),
+    "laguardia": (40.7769, -73.8740),
 }
 
 
@@ -208,6 +232,25 @@ def ingest_report(payload: IngestReportPayload):
             if landmark.lower() in location.lower():
                 lat, lon = l_lat, l_lon
                 break
+
+    # If coordinates are still unresolved, check if payload text mentions any NYC landmarks
+    if lat is None or lon is None:
+        for landmark, (l_lat, l_lon) in NYC_COORDINATES.items():
+            if landmark.lower() in payload.text.lower():
+                lat, lon = l_lat, l_lon
+                if not location or location == "None":
+                    location = landmark.title()
+                break
+
+    # Default fallback coordinates (Midtown Manhattan) to ensure radar grid always maps pins
+    if lat is None or lon is None:
+        lat, lon = 40.7549, -73.9840
+        if not location or location == "None":
+            location = "Midtown Manhattan"
+
+    # Format gps_xy string if originally empty
+    if gps_xy == "None" or not gps_xy:
+        gps_xy = f"{lat:.4f}, {lon:.4f}"
 
     # Run Role 2 NLP pipeline for automated incident classification, entity extraction & credibility
     role2_result = None

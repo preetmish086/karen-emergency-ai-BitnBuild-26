@@ -64,16 +64,49 @@ INGEST_URL = f"{BACKEND_URL}/ingest"
 
 # Default fallback coordinates for known NYC landmarks
 NYC_COORDINATES = {
+    "times square": (40.7580, -73.9855),
+    "midtown": (40.7549, -73.9840),
+    "grand central": (40.7527, -73.9772),
     "central market": (40.7527, -73.9772),
-    "Station Road": (40.7516, -73.9755),
-    "highway": (40.7680, -73.9980),
-    "riverside area": (40.7480, -74.0080),
+    "station road": (40.7516, -73.9755),
+    "penn station": (40.7505, -73.9934),
+    "penn plaza": (40.7505, -73.9934),
+    "chelsea": (40.7465, -74.0014),
     "downtown": (40.7128, -74.0060),
-    "market": (40.7520, -73.9770),
+    "financial district": (40.7075, -74.0090),
+    "wall street": (40.7075, -74.0090),
+    "brooklyn bridge": (40.7061, -73.9969),
+    "manhattan bridge": (40.7081, -73.9941),
+    "brooklyn": (40.6782, -73.9442),
+    "williamsburg": (40.7081, -73.9571),
+    "dumbo": (40.7033, -73.9881),
+    "queens": (40.7282, -73.7949),
+    "queens blvd": (40.7282, -73.8820),
+    "long island city": (40.7447, -73.9485),
+    "lic plaza": (40.7505, -73.9372),
+    "astoria": (40.7644, -73.9235),
+    "flushing": (40.7674, -73.8331),
+    "manhattan": (40.7831, -73.9712),
+    "harlem": (40.8116, -73.9465),
+    "central park": (40.7851, -73.9683),
+    "bronx": (40.8448, -73.8648),
+    "staten island": (40.5795, -74.1502),
+    "greenwich village": (40.7336, -74.0027),
+    "east village": (40.7265, -73.9815),
+    "soho": (40.7233, -74.0030),
+    "tribeca": (40.7163, -74.0086),
+    "highway": (40.7680, -73.9980),
+    "fdr drive": (40.7308, -73.9734),
+    "riverside area": (40.7480, -74.0080),
+    "riverside": (40.7480, -74.0080),
+    "broadway": (40.7590, -73.9845),
+    "atlantic avenue": (40.6845, -73.9780),
+    "park avenue": (40.7587, -73.9738),
     "bus stand": (40.7570, -73.9900),
-    "Times Square": (40.7580, -73.9855),
-    "Queens Blvd": (40.7282, -73.8820),
-    "Brooklyn Bridge": (40.7061, -73.9969),
+    "market": (40.7520, -73.9770),
+    "subway": (40.7580, -73.9855),
+    "jfk": (40.6413, -73.7781),
+    "laguardia": (40.7769, -73.8740),
 }
 
 # Major NYC Boroughs and Sub-Areas for manual location entry
@@ -1134,8 +1167,27 @@ def render_citizen_portal() -> None:
                 parts = [selected_borough, selected_subarea]
                 if specific_details.strip():
                     parts.append(specific_details.strip())
-                st.session_state.locked_location = ", ".join(parts)
-                st.session_state.locked_gps_xy = "None"
+                loc_str = ", ".join(parts)
+                st.session_state.locked_location = loc_str
+
+                # Pre-resolve GPS coordinates from subarea, landmark, or borough
+                resolved_gps = "None"
+                search_scope = f"{selected_subarea} {selected_borough} {specific_details}".lower()
+                for landmark, (l_lat, l_lon) in NYC_COORDINATES.items():
+                    if landmark in search_scope:
+                        resolved_gps = f"{l_lat:.4f}, {l_lon:.4f}"
+                        break
+                if resolved_gps == "None":
+                    borough_defaults = {
+                        "Manhattan": "40.7831, -73.9712",
+                        "Brooklyn": "40.6782, -73.9442",
+                        "Queens": "40.7282, -73.7949",
+                        "Bronx": "40.8448, -73.8648",
+                        "Staten Island": "40.5795, -74.1502",
+                    }
+                    resolved_gps = borough_defaults.get(selected_borough, "40.7580, -73.9855")
+
+                st.session_state.locked_gps_xy = resolved_gps
                 st.session_state.location_locked = True
                 st.rerun()
 
@@ -1151,7 +1203,18 @@ def render_citizen_portal() -> None:
             if st.button("🛰️ Fetch Coordinates", type="primary", use_container_width=True, key="fetch_gps_btn"):
                 random_coord = random.choice(RANDOM_NYC_COORDINATES)
                 st.session_state.locked_gps_xy = random_coord
-                st.session_state.locked_location = "Auto-resolved via GPS"
+
+                matched_name = "Auto-resolved via GPS"
+                try:
+                    c_parts = [float(p.strip()) for p in random_coord.split(",")]
+                    for landmark, (l_lat, l_lon) in NYC_COORDINATES.items():
+                        if abs(c_parts[0] - l_lat) < 0.015 and abs(c_parts[1] - l_lon) < 0.015:
+                            matched_name = f"Auto-resolved via GPS ({landmark.title()})"
+                            break
+                except Exception:
+                    pass
+
+                st.session_state.locked_location = matched_name
                 st.session_state.location_locked = True
                 st.rerun()
 
@@ -1429,9 +1492,21 @@ def render_citizen_portal() -> None:
         if not user_message.strip():
             st.error("Please provide an emergency description or dictate using the microphone.")
         else:
+            lat_val = None
+            lon_val = None
+            if st.session_state.locked_gps_xy and st.session_state.locked_gps_xy != "None":
+                try:
+                    c_parts = [float(p.strip()) for p in st.session_state.locked_gps_xy.split(",")]
+                    if len(c_parts) == 2:
+                        lat_val, lon_val = c_parts[0], c_parts[1]
+                except Exception:
+                    pass
+
             payload = {
                 "gps_xy": st.session_state.locked_gps_xy,
                 "location": st.session_state.locked_location,
+                "latitude": lat_val,
+                "longitude": lon_val,
                 "text": user_message.strip(),
             }
 
@@ -1656,14 +1731,27 @@ def render_dispatcher_dashboard() -> None:
             lon_raw = rep.get("longitude")
             prio = safe_float(rep.get("priority"), 0.5)
 
+            clean_text = safe_str(rep.get("text")).replace("\n", " ").replace('"', "'")
+            rep_id = safe_str(rep.get("report_id"), "R000")
+            prio_pct = f"{int(round(prio * 100))}%"
+
             # Coordinate inference and fallback resolution
             lat = safe_float(lat_raw, default=0.0)
             lon = safe_float(lon_raw, default=0.0)
 
+            # Check if gps_xy string contains coordinates
+            if (lat == 0.0 or lon == 0.0) and rep.get("gps_xy"):
+                try:
+                    c_parts = [float(p.strip()) for p in str(rep.get("gps_xy")).split(",")]
+                    if len(c_parts) == 2:
+                        lat, lon = c_parts[0], c_parts[1]
+                except Exception:
+                    pass
+
             if lat == 0.0 or lon == 0.0:
                 matched = False
                 for landmark, coords in NYC_COORDINATES.items():
-                    if landmark.lower() in loc.lower():
+                    if landmark.lower() in loc.lower() or landmark.lower() in clean_text.lower():
                         lat, lon = coords
                         matched = True
                         break
@@ -1698,9 +1786,6 @@ def render_dispatcher_dashboard() -> None:
                 core_radius = 22
                 halo_radius = 50
 
-            clean_text = safe_str(rep.get("text")).replace("\n", " ").replace('"', "'")
-            rep_id = safe_str(rep.get("report_id"), "R000")
-            prio_pct = f"{int(round(prio * 100))}%"
 
             map_data.append({
                 "id": rep_id,
