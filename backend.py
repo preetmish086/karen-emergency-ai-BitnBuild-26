@@ -174,8 +174,9 @@ def load_initial_reports(include_slang: bool = False):
         with open(source_path, "r", encoding="utf-8") as f:
             raw_data = json.load(f)
             for item in raw_data:
-                # Calculate renewed priority dynamically if authentic emergency
-                if item.get("status") != "non_emergency" and item.get("incident_type") != "other":
+                if item.get("status") == "non_emergency" or item.get("incident_type") == "other":
+                    item["priority"] = 0.0
+                elif "priority" not in item:
                     item["priority"] = calculate_priority(
                         severity=item.get("severity", "medium"),
                         actionability=item.get("actionability", "medium"),

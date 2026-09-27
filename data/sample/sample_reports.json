@@ -7,7 +7,12 @@
     "severity": "critical",
     "actionability": "high",
     "credibility": 0.82,
-    "priority": 0.964
+    "priority": 0.94,
+    "latitude": 40.7527,
+    "longitude": -73.9772,
+    "gps_xy": "40.7527, -73.9772",
+    "status": "pending",
+    "dispatch_status": "pending"
   },
   {
     "report_id": "R002",
@@ -17,7 +22,12 @@
     "severity": "high",
     "actionability": "high",
     "credibility": 0.78,
-    "priority": 0.844
+    "priority": 0.81,
+    "latitude": 40.7516,
+    "longitude": -73.9755,
+    "gps_xy": "40.7516, -73.9755",
+    "status": "pending",
+    "dispatch_status": "pending"
   },
   {
     "report_id": "R003",
@@ -27,7 +37,12 @@
     "severity": "high",
     "actionability": "high",
     "credibility": 0.84,
-    "priority": 0.856
+    "priority": 0.86,
+    "latitude": 40.7680,
+    "longitude": -73.9980,
+    "gps_xy": "40.7680, -73.9980",
+    "status": "pending",
+    "dispatch_status": "pending"
   },
   {
     "report_id": "R004",
@@ -37,7 +52,12 @@
     "severity": "high",
     "actionability": "high",
     "credibility": 0.76,
-    "priority": 0.840
+    "priority": 0.82,
+    "latitude": 40.7480,
+    "longitude": -74.0080,
+    "gps_xy": "40.7480, -74.0080",
+    "status": "pending",
+    "dispatch_status": "pending"
   },
   {
     "report_id": "R005",
@@ -47,7 +67,12 @@
     "severity": "medium",
     "actionability": "medium",
     "credibility": 0.42,
-    "priority": 0.519
+    "priority": 0.48,
+    "latitude": 40.7128,
+    "longitude": -74.0060,
+    "gps_xy": "40.7128, -74.0060",
+    "status": "pending",
+    "dispatch_status": "pending"
   },
   {
     "report_id": "R006",
@@ -57,7 +82,12 @@
     "severity": "critical",
     "actionability": "high",
     "credibility": 0.91,
-    "priority": 0.982
+    "priority": 0.96,
+    "latitude": 40.7516,
+    "longitude": -73.9755,
+    "gps_xy": "40.7516, -73.9755",
+    "status": "pending",
+    "dispatch_status": "pending"
   },
   {
     "report_id": "R007",
@@ -67,7 +97,12 @@
     "severity": "medium",
     "actionability": "medium",
     "credibility": 0.51,
-    "priority": 0.537
+    "priority": 0.57,
+    "latitude": 40.7520,
+    "longitude": -73.9770,
+    "gps_xy": "40.7520, -73.9770",
+    "status": "pending",
+    "dispatch_status": "pending"
   },
   {
     "report_id": "R008",
@@ -77,6 +112,101 @@
     "severity": "critical",
     "actionability": "high",
     "credibility": 0.88,
-    "priority": 0.976
+    "priority": 0.95,
+    "latitude": 40.7570,
+    "longitude": -73.9900,
+    "gps_xy": "40.7570, -73.9900",
+    "status": "pending",
+    "dispatch_status": "pending"
+  },
+  {
+    "report_id": "R009",
+    "text": "the movie i watched last night was fire",
+    "incident_type": "other",
+    "location": "AMC Theater, Times Square",
+    "severity": "low",
+    "actionability": "low",
+    "credibility": 0.05,
+    "priority": 0.0,
+    "latitude": 40.7580,
+    "longitude": -73.9855,
+    "gps_xy": "40.7580, -73.9855",
+    "status": "non_emergency",
+    "dispatch_status": "dismissed"
+  },
+  {
+    "report_id": "R010",
+    "text": "i had to put the fire on the fire place to make the place warm",
+    "incident_type": "other",
+    "location": "Upper East Side, 72nd St",
+    "severity": "low",
+    "actionability": "low",
+    "credibility": 0.05,
+    "priority": 0.0,
+    "latitude": 40.7549,
+    "longitude": -73.9840,
+    "gps_xy": "40.7549, -73.9840",
+    "status": "non_emergency",
+    "dispatch_status": "dismissed"
+  },
+  {
+    "report_id": "R011",
+    "text": "i was playing in the park with my 12 year old neice",
+    "incident_type": "other",
+    "location": "Central Park, Great Lawn",
+    "severity": "low",
+    "actionability": "low",
+    "credibility": 0.05,
+    "priority": 0.0,
+    "latitude": 40.7851,
+    "longitude": -73.9683,
+    "gps_xy": "40.7851, -73.9683",
+    "status": "non_emergency",
+    "dispatch_status": "dismissed"
+  },
+  {
+    "report_id": "R012",
+    "text": "this burger is the bomb, best lunch ever",
+    "incident_type": "other",
+    "location": "Shake Shack, Madison Square Park",
+    "severity": "low",
+    "actionability": "low",
+    "credibility": 0.05,
+    "priority": 0.0,
+    "latitude": 40.7549,
+    "longitude": -73.9840,
+    "gps_xy": "40.7549, -73.9840",
+    "status": "non_emergency",
+    "dispatch_status": "dismissed"
+  },
+  {
+    "report_id": "R013",
+    "text": "my code crashed on production right after deployment",
+    "incident_type": "other",
+    "location": "Silicon Alley, Flatiron",
+    "severity": "low",
+    "actionability": "low",
+    "credibility": 0.05,
+    "priority": 0.0,
+    "latitude": 40.7549,
+    "longitude": -73.9840,
+    "gps_xy": "40.7549, -73.9840",
+    "status": "non_emergency",
+    "dispatch_status": "dismissed"
+  },
+  {
+    "report_id": "R014",
+    "text": "I am watching a movie about a massive fire in a warehouse where three people are trapped and injured. There is no actual emergency.",
+    "incident_type": "other",
+    "location": "Hell's Kitchen, Midtown",
+    "severity": "low",
+    "actionability": "low",
+    "credibility": 0.05,
+    "priority": 0.0,
+    "latitude": 40.7680,
+    "longitude": -73.9980,
+    "gps_xy": "40.7680, -73.9980",
+    "status": "non_emergency",
+    "dispatch_status": "dismissed"
   }
 ]

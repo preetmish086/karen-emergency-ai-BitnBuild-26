@@ -7,25 +7,12 @@
     "severity": "critical",
     "actionability": "high",
     "credibility": 0.82,
-    "priority": 0.964,
+    "priority": 0.94,
     "latitude": 40.7527,
     "longitude": -73.9772,
     "gps_xy": "40.7527, -73.9772",
     "status": "pending",
-    "dispatch_status": "pending",
-    "dispatched_unit": null,
-    "affected_count": null,
-    "injured_count": null,
-    "credibility_factors": {
-      "first_person_observation": 0.75,
-      "specificity": 0.85,
-      "coherence": 1.0,
-      "actionability": 0.95,
-      "casualty_reporting_signal": 0.5,
-      "location_density": 0.6,
-      "internal_consistency": 1.0,
-      "information_completeness": 0.7
-    }
+    "dispatch_status": "pending"
   },
   {
     "report_id": "R002",
@@ -35,25 +22,12 @@
     "severity": "high",
     "actionability": "high",
     "credibility": 0.78,
-    "priority": 0.8435,
+    "priority": 0.81,
     "latitude": 40.7516,
     "longitude": -73.9755,
     "gps_xy": "40.7516, -73.9755",
     "status": "pending",
-    "dispatch_status": "pending",
-    "dispatched_unit": null,
-    "affected_count": null,
-    "injured_count": null,
-    "credibility_factors": {
-      "first_person_observation": 0.75,
-      "specificity": 0.85,
-      "coherence": 1.0,
-      "actionability": 0.95,
-      "casualty_reporting_signal": 0.5,
-      "location_density": 0.6,
-      "internal_consistency": 1.0,
-      "information_completeness": 0.7
-    }
+    "dispatch_status": "pending"
   },
   {
     "report_id": "R003",
@@ -63,25 +37,12 @@
     "severity": "high",
     "actionability": "high",
     "credibility": 0.84,
-    "priority": 0.8555,
-    "latitude": 40.768,
-    "longitude": -73.998,
+    "priority": 0.86,
+    "latitude": 40.7680,
+    "longitude": -73.9980,
     "gps_xy": "40.7680, -73.9980",
     "status": "pending",
-    "dispatch_status": "pending",
-    "dispatched_unit": null,
-    "affected_count": null,
-    "injured_count": null,
-    "credibility_factors": {
-      "first_person_observation": 0.75,
-      "specificity": 0.85,
-      "coherence": 1.0,
-      "actionability": 0.95,
-      "casualty_reporting_signal": 0.5,
-      "location_density": 0.6,
-      "internal_consistency": 1.0,
-      "information_completeness": 0.7
-    }
+    "dispatch_status": "pending"
   },
   {
     "report_id": "R004",
@@ -91,25 +52,12 @@
     "severity": "high",
     "actionability": "high",
     "credibility": 0.76,
-    "priority": 0.8395,
-    "latitude": 40.748,
-    "longitude": -74.008,
+    "priority": 0.82,
+    "latitude": 40.7480,
+    "longitude": -74.0080,
     "gps_xy": "40.7480, -74.0080",
     "status": "pending",
-    "dispatch_status": "pending",
-    "dispatched_unit": null,
-    "affected_count": null,
-    "injured_count": null,
-    "credibility_factors": {
-      "first_person_observation": 0.75,
-      "specificity": 0.85,
-      "coherence": 1.0,
-      "actionability": 0.95,
-      "casualty_reporting_signal": 0.5,
-      "location_density": 0.6,
-      "internal_consistency": 1.0,
-      "information_completeness": 0.7
-    }
+    "dispatch_status": "pending"
   },
   {
     "report_id": "R005",
@@ -119,25 +67,12 @@
     "severity": "medium",
     "actionability": "medium",
     "credibility": 0.42,
-    "priority": 0.519,
+    "priority": 0.48,
     "latitude": 40.7128,
-    "longitude": -74.006,
+    "longitude": -74.0060,
     "gps_xy": "40.7128, -74.0060",
     "status": "pending",
-    "dispatch_status": "pending",
-    "dispatched_unit": null,
-    "affected_count": null,
-    "injured_count": null,
-    "credibility_factors": {
-      "first_person_observation": 0.5,
-      "specificity": 0.85,
-      "coherence": 1.0,
-      "actionability": 0.3,
-      "casualty_reporting_signal": 0.5,
-      "location_density": 0.6,
-      "internal_consistency": 1.0,
-      "information_completeness": 0.55
-    }
+    "dispatch_status": "pending"
   },
   {
     "report_id": "R006",
@@ -147,25 +82,12 @@
     "severity": "critical",
     "actionability": "high",
     "credibility": 0.91,
-    "priority": 0.982,
+    "priority": 0.96,
     "latitude": 40.7516,
     "longitude": -73.9755,
     "gps_xy": "40.7516, -73.9755",
     "status": "pending",
-    "dispatch_status": "pending",
-    "dispatched_unit": null,
-    "affected_count": null,
-    "injured_count": null,
-    "credibility_factors": {
-      "first_person_observation": 0.75,
-      "specificity": 0.85,
-      "coherence": 1.0,
-      "actionability": 0.95,
-      "casualty_reporting_signal": 0.5,
-      "location_density": 0.6,
-      "internal_consistency": 1.0,
-      "information_completeness": 0.7
-    }
+    "dispatch_status": "pending"
   },
   {
     "report_id": "R007",
@@ -175,25 +97,12 @@
     "severity": "medium",
     "actionability": "medium",
     "credibility": 0.51,
-    "priority": 0.537,
-    "latitude": 40.752,
-    "longitude": -73.977,
+    "priority": 0.57,
+    "latitude": 40.7520,
+    "longitude": -73.9770,
     "gps_xy": "40.7520, -73.9770",
     "status": "pending",
-    "dispatch_status": "pending",
-    "dispatched_unit": null,
-    "affected_count": null,
-    "injured_count": null,
-    "credibility_factors": {
-      "first_person_observation": 0.95,
-      "specificity": 0.85,
-      "coherence": 1.0,
-      "actionability": 0.95,
-      "casualty_reporting_signal": 0.5,
-      "location_density": 0.6,
-      "internal_consistency": 1.0,
-      "information_completeness": 0.7
-    }
+    "dispatch_status": "pending"
   },
   {
     "report_id": "R008",
@@ -203,25 +112,12 @@
     "severity": "critical",
     "actionability": "high",
     "credibility": 0.88,
-    "priority": 0.976,
-    "latitude": 40.757,
-    "longitude": -73.99,
+    "priority": 0.95,
+    "latitude": 40.7570,
+    "longitude": -73.9900,
     "gps_xy": "40.7570, -73.9900",
     "status": "pending",
-    "dispatch_status": "pending",
-    "dispatched_unit": null,
-    "affected_count": null,
-    "injured_count": null,
-    "credibility_factors": {
-      "first_person_observation": 0.75,
-      "specificity": 0.85,
-      "coherence": 1.0,
-      "actionability": 0.95,
-      "casualty_reporting_signal": 0.5,
-      "location_density": 0.6,
-      "internal_consistency": 1.0,
-      "information_completeness": 0.7
-    }
+    "dispatch_status": "pending"
   },
   {
     "report_id": "R009",
@@ -232,24 +128,11 @@
     "actionability": "low",
     "credibility": 0.05,
     "priority": 0.0,
-    "latitude": 40.758,
+    "latitude": 40.7580,
     "longitude": -73.9855,
     "gps_xy": "40.7580, -73.9855",
     "status": "non_emergency",
-    "dispatch_status": "dismissed",
-    "dispatched_unit": null,
-    "affected_count": null,
-    "injured_count": null,
-    "credibility_factors": {
-      "first_person_observation": 0.1,
-      "specificity": 0.1,
-      "coherence": 0.5,
-      "actionability": 0.0,
-      "casualty_reporting_signal": 0.0,
-      "location_density": 0.5,
-      "internal_consistency": 0.5,
-      "information_completeness": 0.55
-    }
+    "dispatch_status": "dismissed"
   },
   {
     "report_id": "R010",
@@ -261,23 +144,10 @@
     "credibility": 0.05,
     "priority": 0.0,
     "latitude": 40.7549,
-    "longitude": -73.984,
+    "longitude": -73.9840,
     "gps_xy": "40.7549, -73.9840",
     "status": "non_emergency",
-    "dispatch_status": "dismissed",
-    "dispatched_unit": null,
-    "affected_count": null,
-    "injured_count": null,
-    "credibility_factors": {
-      "first_person_observation": 0.1,
-      "specificity": 0.1,
-      "coherence": 0.5,
-      "actionability": 0.0,
-      "casualty_reporting_signal": 0.0,
-      "location_density": 0.5,
-      "internal_consistency": 0.5,
-      "information_completeness": 0.55
-    }
+    "dispatch_status": "dismissed"
   },
   {
     "report_id": "R011",
@@ -292,20 +162,7 @@
     "longitude": -73.9683,
     "gps_xy": "40.7851, -73.9683",
     "status": "non_emergency",
-    "dispatch_status": "dismissed",
-    "dispatched_unit": null,
-    "affected_count": null,
-    "injured_count": null,
-    "credibility_factors": {
-      "first_person_observation": 0.95,
-      "specificity": 1.0,
-      "coherence": 1.0,
-      "actionability": 0.3,
-      "casualty_reporting_signal": 0.5,
-      "location_density": 0.6,
-      "internal_consistency": 1.0,
-      "information_completeness": 0.55
-    }
+    "dispatch_status": "dismissed"
   },
   {
     "report_id": "R012",
@@ -317,23 +174,10 @@
     "credibility": 0.05,
     "priority": 0.0,
     "latitude": 40.7549,
-    "longitude": -73.984,
+    "longitude": -73.9840,
     "gps_xy": "40.7549, -73.9840",
     "status": "non_emergency",
-    "dispatch_status": "dismissed",
-    "dispatched_unit": null,
-    "affected_count": null,
-    "injured_count": null,
-    "credibility_factors": {
-      "first_person_observation": 0.1,
-      "specificity": 0.1,
-      "coherence": 0.5,
-      "actionability": 0.0,
-      "casualty_reporting_signal": 0.0,
-      "location_density": 0.5,
-      "internal_consistency": 0.5,
-      "information_completeness": 0.55
-    }
+    "dispatch_status": "dismissed"
   },
   {
     "report_id": "R013",
@@ -345,22 +189,24 @@
     "credibility": 0.05,
     "priority": 0.0,
     "latitude": 40.7549,
-    "longitude": -73.984,
+    "longitude": -73.9840,
     "gps_xy": "40.7549, -73.9840",
     "status": "non_emergency",
-    "dispatch_status": "dismissed",
-    "dispatched_unit": null,
-    "affected_count": null,
-    "injured_count": null,
-    "credibility_factors": {
-      "first_person_observation": 0.1,
-      "specificity": 0.1,
-      "coherence": 0.5,
-      "actionability": 0.0,
-      "casualty_reporting_signal": 0.0,
-      "location_density": 0.5,
-      "internal_consistency": 0.5,
-      "information_completeness": 0.55
-    }
+    "dispatch_status": "dismissed"
+  },
+  {
+    "report_id": "R014",
+    "text": "I am watching a movie about a massive fire in a warehouse where three people are trapped and injured. There is no actual emergency.",
+    "incident_type": "other",
+    "location": "Hell's Kitchen, Midtown",
+    "severity": "low",
+    "actionability": "low",
+    "credibility": 0.05,
+    "priority": 0.0,
+    "latitude": 40.7680,
+    "longitude": -73.9980,
+    "gps_xy": "40.7680, -73.9980",
+    "status": "non_emergency",
+    "dispatch_status": "dismissed"
   }
 ]

@@ -1917,11 +1917,16 @@ def render_dispatcher_dashboard() -> None:
                 halo_color = [245, 158, 11, 40]
                 core_radius = 30
                 halo_radius = 70
-            else:
+            elif prio > 0.0:
                 core_color = [0, 160, 255, 255]     # Cyan Blue
                 halo_color = [0, 160, 255, 30]
                 core_radius = 22
                 halo_radius = 50
+            else:
+                core_color = [148, 163, 184, 180]   # Slate Gray (Low Priority / Non-Emergency)
+                halo_color = [148, 163, 184, 25]
+                core_radius = 16
+                halo_radius = 35
 
 
             map_data.append({
@@ -2008,7 +2013,8 @@ def render_dispatcher_dashboard() -> None:
                 <div style="font-size: 12px; color: #94A3B8; margin-top: 6px; font-family: 'Inter', sans-serif;">
                     <span style="color: #FF4D4D; font-weight: 600;">🔴 Red Pip:</span> P1 Critical Hazard (&gt;85%) &nbsp;•&nbsp; 
                     <span style="color: #FBBF24; font-weight: 600;">🟡 Amber Pip:</span> Moderate Urgency &nbsp;•&nbsp; 
-                    <span style="color: #38BDF8; font-weight: 600;">🔵 Cyan Pip:</span> Routine Status &nbsp;•&nbsp; 
+                    <span style="color: #38BDF8; font-weight: 600;">🔵 Cyan Pip:</span> Routine Emergency &nbsp;•&nbsp; 
+                    <span style="color: #94A3B8; font-weight: 600;">⚪ Gray Pip:</span> Low Priority / Non-Emergency (0%) &nbsp;•&nbsp; 
                     <span style="color: #64748B;">Hover on any pin to inspect triage data</span>
                 </div>
                 """
@@ -2071,6 +2077,9 @@ def render_dispatcher_dashboard() -> None:
                         elif priority >= 0.60:
                             badge_style = "badge-warning"
                             prio_color = "#F59E0B"
+                        elif priority > 0.0:
+                            badge_style = "badge-routine"
+                            prio_color = "#38BDF8"
                         else:
                             badge_style = "badge-routine"
                             prio_color = "#94A3B8"
@@ -2135,6 +2144,15 @@ def render_dispatcher_dashboard() -> None:
                                     <div style="background: rgba(16, 185, 129, 0.12); border: 1px solid #10B981; border-radius: 6px; padding: 8px 12px; margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #34D399; display: flex; justify-content: space-between; align-items: center;">
                                         <span>✅ UNIT ON SCENE: <strong>{html.escape(dispatched_unit)}</strong></span>
                                         <span style="color: #A7F3D0; font-size: 11px; letter-spacing: 0.5px;">EN ROUTE</span>
+                                    </div>
+                                    """
+                                )
+                            elif status_raw.lower() in ["non_emergency", "dismissed"] or priority == 0.0:
+                                render_html(
+                                    f"""
+                                    <div style="background: rgba(148, 163, 184, 0.08); border: 1px solid rgba(148, 163, 184, 0.25); border-radius: 6px; padding: 8px 12px; margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #94A3B8; display: flex; justify-content: space-between; align-items: center;">
+                                        <span>🛡️ CLASSIFIED NON-EMERGENCY</span>
+                                        <span style="color: #64748B; font-size: 11px; font-weight: 700;">LOW PRIORITY • NO DISPATCH NEEDED</span>
                                     </div>
                                     """
                                 )

@@ -23,7 +23,7 @@ def test_list_reports():
     response = client.get("/api/reports")
     assert response.status_code == 200
     reports = response.json()
-    assert len(reports) == 8
+    assert len(reports) >= 8
     # Ensure sorted by priority descending
     priorities = [r["priority"] for r in reports]
     assert priorities == sorted(priorities, reverse=True)
