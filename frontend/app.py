@@ -1731,7 +1731,7 @@ def render_dispatcher_dashboard() -> None:
         """
     )
 
-    col_nav1, col_nav2, _ = st.columns([1.2, 1, 3])
+    col_nav1, col_nav2, col_nav3, col_nav4 = st.columns([1.2, 1, 2.0, 2.0])
     with col_nav1:
         if st.button("🏠 Return to Home", use_container_width=True, key="dash_home_btn"):
             st.session_state.page = "landing"
@@ -1741,6 +1741,46 @@ def render_dispatcher_dashboard() -> None:
             st.session_state.authenticated = False
             st.session_state.page = "landing"
             st.rerun()
+    with col_nav3:
+        if st.button("🔄 Re-evaluate & Update Urgency", use_container_width=True, key="dash_resync_btn", help="Re-runs all existing emergency reports through the renewed AI pipeline, updating urgency percentages and triage statuses."):
+            with st.spinner("Re-evaluating reports through renewed AI pipeline..."):
+                synced = False
+                try:
+                    r_sync = requests.post(f"{BACKEND_URL}/api/reports/reupload", timeout=5)
+                    if r_sync.status_code == 200:
+                        synced = True
+                except Exception:
+                    pass
+                if not synced:
+                    try:
+                        from backend import reingest_all_reports
+                        reingest_all_reports()
+                        synced = True
+                    except Exception:
+                        pass
+                if synced:
+                    st.toast("✅ All emergency reports re-evaluated with renewed AI engine!", icon="🕸️")
+                    st.rerun()
+    with col_nav4:
+        if st.button("⚡ Ingest Slang & Edge Cases", use_container_width=True, key="dash_edge_btn", help="Loads and evaluates the 5 colloquial & domestic fire test cases (e.g., fireplace, movie is fire, burger is the bomb)."):
+            with st.spinner("Ingesting slang & edge case messages..."):
+                synced = False
+                try:
+                    r_sync = requests.post(f"{BACKEND_URL}/api/reports/reupload?include_slang=true", timeout=5)
+                    if r_sync.status_code == 200:
+                        synced = True
+                except Exception:
+                    pass
+                if not synced:
+                    try:
+                        from backend import reingest_all_reports
+                        reingest_all_reports(include_slang=True)
+                        synced = True
+                    except Exception:
+                        pass
+                if synced:
+                    st.toast("✅ Ingested slang & edge cases! (Filtered to 0% urgency)", icon="🛡️")
+                    st.rerun()
 
     # Fetch Data from Backend with Robust Error Handling
     reports_list = []
@@ -1755,18 +1795,26 @@ def render_dispatcher_dashboard() -> None:
     except Exception as e:
         # Fall back to in-memory REPORTS_DB directly from backend.py
         try:
-            from backend import REPORTS_DB
-            reports_list = [rep.model_dump() for rep in REPORTS_DB]
+            from backend import REPORTS_DB, load_initial_reports
+            if not REPORTS_DB:
+                load_initial_reports()
+            reports_list = [
+                rep.model_dump() if hasattr(rep, "model_dump") else rep
+                for rep in REPORTS_DB.values()
+            ]
             backend_error = None
         except Exception:
             try:
                 import json
-                p_out = WORKSPACE_ROOT / "data" / "priority_output.json"
+                p_out = WORKSPACE_ROOT / "data" / "sample" / "sample_reports.json"
                 if p_out.exists():
-                    reports_list = json.loads(p_out.read_text())[:35]
+                    reports_list = json.loads(p_out.read_text())
                     backend_error = None
             except Exception:
                 backend_error = str(e)
+
+    if reports_list:
+        reports_list.sort(key=lambda r: safe_float(r.get("priority")), reverse=True)
 
     if backend_error:
         render_html(

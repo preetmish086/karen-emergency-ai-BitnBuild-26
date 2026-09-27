@@ -163,15 +163,19 @@ def infer_metadata_fallback(text: str) -> dict:
     return {"incident_type": inc, "severity": sev}
 
 
-def load_initial_reports():
-    """Seed in-memory database from sample reports if available."""
+def load_initial_reports(include_slang: bool = False):
+    """Seed in-memory database from sample reports, computing renewed dynamic priorities."""
     REPORTS_DB.clear()
-    if SAMPLE_DATA_PATH.exists():
-        with open(SAMPLE_DATA_PATH, "r", encoding="utf-8") as f:
+    source_path = WORKSPACE_ROOT / "data" / "sample" / ("sample_reports_with_slang.json" if include_slang else "sample_reports.json")
+    if not source_path.exists():
+        source_path = SAMPLE_DATA_PATH
+
+    if source_path.exists():
+        with open(source_path, "r", encoding="utf-8") as f:
             raw_data = json.load(f)
             for item in raw_data:
-                # Calculate priority if missing
-                if "priority" not in item:
+                # Calculate renewed priority dynamically if authentic emergency
+                if item.get("status") != "non_emergency" and item.get("incident_type") != "other":
                     item["priority"] = calculate_priority(
                         severity=item.get("severity", "medium"),
                         actionability=item.get("actionability", "medium"),
@@ -179,6 +183,32 @@ def load_initial_reports():
                     )
                 report = EmergencyReport(**item)
                 REPORTS_DB[report.report_id] = report
+
+
+def reingest_all_reports(include_slang: bool = False) -> List[EmergencyReport]:
+    """Re-runs all existing emergency reports through the renewed AI pipeline,
+    updating urgency percentages, credibility, severity, and dispatch statuses."""
+    source_path = WORKSPACE_ROOT / "data" / "sample" / ("sample_reports_with_slang.json" if include_slang else "sample_reports.json")
+    if not source_path.exists():
+        source_path = SAMPLE_DATA_PATH
+
+    with open(source_path, "r", encoding="utf-8") as f:
+        raw_data = json.load(f)
+
+    REPORTS_DB.clear()
+    updated = []
+    for item in raw_data:
+        p = IngestReportPayload(
+            report_id=item.get("report_id"),
+            text=item.get("text", ""),
+            location=item.get("location"),
+            severity=item.get("severity") if item.get("status") != "non_emergency" else None,
+            actionability=item.get("actionability") if item.get("status") != "non_emergency" else None,
+            credibility=item.get("credibility") if item.get("status") != "non_emergency" else None,
+        )
+        rep = ingest_report(p)
+        updated.append(rep)
+    return updated
 
 
 load_initial_reports()
@@ -414,10 +444,19 @@ def get_stats():
     }
 
 
+@app.post("/api/reports/reupload", response_model=List[EmergencyReport], tags=["System"])
+@app.post("/api/reports/resync", response_model=List[EmergencyReport], tags=["System"])
+def reupload_and_resync_reports(include_slang: bool = Query(False, description="Include slang and domestic fire demo cases")):
+    """Re-runs all existing emergency reports through the renewed AI pipeline,
+    updating urgency percentages, credibility, severity, and dispatch statuses."""
+    updated = reingest_all_reports(include_slang=include_slang)
+    return sorted(updated, key=lambda r: r.priority, reverse=True)
+
+
 @app.post("/api/reports/reset", tags=["System"])
-def reset_reports():
-    """Reset database to initial sample records."""
-    load_initial_reports()
+def reset_reports(include_slang: bool = Query(False)):
+    """Reset database to initial sample records with renewed urgency percentages."""
+    load_initial_reports(include_slang=include_slang)
     return {"status": "success", "count": len(REPORTS_DB)}
 
 

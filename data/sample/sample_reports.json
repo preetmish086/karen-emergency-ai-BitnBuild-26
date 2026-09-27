@@ -7,7 +7,7 @@
     "severity": "critical",
     "actionability": "high",
     "credibility": 0.82,
-    "priority": 0.94
+    "priority": 0.964
   },
   {
     "report_id": "R002",
@@ -17,7 +17,7 @@
     "severity": "high",
     "actionability": "high",
     "credibility": 0.78,
-    "priority": 0.81
+    "priority": 0.844
   },
   {
     "report_id": "R003",
@@ -27,7 +27,7 @@
     "severity": "high",
     "actionability": "high",
     "credibility": 0.84,
-    "priority": 0.86
+    "priority": 0.856
   },
   {
     "report_id": "R004",
@@ -37,7 +37,7 @@
     "severity": "high",
     "actionability": "high",
     "credibility": 0.76,
-    "priority": 0.82
+    "priority": 0.840
   },
   {
     "report_id": "R005",
@@ -47,7 +47,7 @@
     "severity": "medium",
     "actionability": "medium",
     "credibility": 0.42,
-    "priority": 0.48
+    "priority": 0.519
   },
   {
     "report_id": "R006",
@@ -57,7 +57,7 @@
     "severity": "critical",
     "actionability": "high",
     "credibility": 0.91,
-    "priority": 0.96
+    "priority": 0.982
   },
   {
     "report_id": "R007",
@@ -67,7 +67,7 @@
     "severity": "medium",
     "actionability": "medium",
     "credibility": 0.51,
-    "priority": 0.57
+    "priority": 0.537
   },
   {
     "report_id": "R008",
@@ -77,6 +77,6 @@
     "severity": "critical",
     "actionability": "high",
     "credibility": 0.88,
-    "priority": 0.95
+    "priority": 0.976
   }
 ]
