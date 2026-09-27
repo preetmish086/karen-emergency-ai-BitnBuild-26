@@ -170,8 +170,8 @@ class IncidentClassifier(BaseIncidentClassifier):
             predicted_label = classes[best_idx]
             max_prob = probs[best_idx]
 
-            if max_prob < 0.20:
-                return IncidentInfo(type=IncidentCategory.UNKNOWN, confidence=0.50)
+            if max_prob < 0.45:
+                return IncidentInfo(type=IncidentCategory.UNKNOWN, confidence=round(float(max_prob), 2))
 
             try:
                 category = IncidentCategory(predicted_label.lower())
